@@ -8,6 +8,8 @@ import {Layout} from "antd";
 import {Header} from "@/components/Header";
 import {Content} from "antd/lib/layout/layout";
 import {Footer} from "@/components/Footer";
+import {DragWatcher} from "@/components/DragWatcher";
+import {DragOverlay} from "@/components/DragOverlay";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,13 +28,13 @@ export default function RootLayout({
           <ThemeProvider>
             <Layout className={"!min-h-screen"}>
               <Header/>
-              <div className={"flex-1 flex flex-col"}>
-                {children}
-              </div>
+              {children}
               <Footer/>
             </Layout>
           </ThemeProvider>
         </AntdRegistry>
+        <DragWatcher/>
+        <DragOverlay/>
       </body>
     </html>
   );

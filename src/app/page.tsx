@@ -1,10 +1,12 @@
 import {Button, Flex} from "antd";
 import Image from "next/image";
 import {AntContent} from "@/components/AntContent";
+import {TransitionOnDrag} from "@/app/_components/TransitionOnDrag";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <AntContent className={"flex flex-col"}>
+    <AntContent className={"flex-1 flex flex-col"}>
       <Flex className={"flex-1"} justify={"center"} align={"center"} gap={64} vertical>
         <Flex align={"center"} gap={"middle"}>
           <Image src={"/icon.png"} alt={"logo"} width={64} height={64}/>
@@ -14,8 +16,11 @@ export default function Home() {
           <p>スライドを TextZip 形式に変換し、ImageSlide で読み込めるようにするためのツールです</p>
           <p>ログインすると、ファイルの管理や高可用サーバーの利用が可能になります</p>
         </div>
-        <Button>ファイルを追加</Button>
+        <Link href={"/pick"}>
+          <Button>ファイルを追加</Button>
+        </Link>
       </Flex>
+      <TransitionOnDrag/>
     </AntContent>
   );
 }
