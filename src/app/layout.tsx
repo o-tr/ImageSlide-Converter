@@ -7,6 +7,7 @@ import {Layout} from "antd";
 import {Header} from "@/components/Header";
 import {Footer} from "@/components/Footer";
 import dynamic from "next/dynamic";
+import {GooglePickerProvider} from "@/components/GooglePickerProvider";
 
 const PdfjsProvider = dynamic(() => import("@/components/PdfjsProvider").then((v)=>v.PdfjsProvider), { ssr: false });
 
@@ -32,6 +33,7 @@ export default function RootLayout({
             </Layout>
           </ThemeProvider>
           <PdfjsProvider/>
+          <GooglePickerProvider/>
         </AntdRegistry>
       </body>
     </html>
