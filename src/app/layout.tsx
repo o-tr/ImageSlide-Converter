@@ -8,6 +8,7 @@ import {Header} from "@/components/Header";
 import {Footer} from "@/components/Footer";
 import dynamic from "next/dynamic";
 import {GooglePickerProvider} from "@/components/GooglePickerProvider";
+import {SessionProvider} from "next-auth/react";
 
 const PdfjsProvider = dynamic(() => import("@/components/PdfjsProvider").then((v)=>v.PdfjsProvider), { ssr: false });
 
@@ -26,11 +27,13 @@ export default function RootLayout({
       <body>
         <AntdRegistry>
           <ThemeProvider>
-            <Layout className={"!min-h-screen h-screen"}>
-              <Header/>
-              {children}
-              <Footer/>
-            </Layout>
+            <SessionProvider>
+              <Layout className={"!min-h-screen h-screen"}>
+                <Header/>
+                {children}
+                <Footer/>
+              </Layout>
+            </SessionProvider>
           </ThemeProvider>
           <PdfjsProvider/>
           <GooglePickerProvider/>
