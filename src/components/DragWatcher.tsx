@@ -2,6 +2,8 @@
 import {FC, useEffect} from "react";
 import {useSetAtom} from "jotai";
 import {IsDragOverAtom, SelectedFilesAtom} from "@/atoms/file-drop";
+import {files2canvases} from "@/lib/file2canvas";
+import {canvas2selectedFile} from "@/lib/canvas2selected-files";
 
 export const DragWatcher: FC = () => {
   const setIsDragOver = useSetAtom(IsDragOverAtom);
@@ -15,11 +17,12 @@ export const DragWatcher: FC = () => {
       e.preventDefault();
       setIsDragOver(false);
     };
-    const onDrop = (e: DragEvent) => {
+    const onDrop = async(e: DragEvent) => {
       e.preventDefault()
       const transfer = e.dataTransfer;
       if (transfer && transfer.files) {
-        setSelectedFiles(pv=>[...pv,...Array.from(transfer.files)]);
+        const files = (await files2canvases(transfer.files)).map(({canvas, file})=>canvas2selectedFile(file,canvas));
+        setSelectedFiles(pv=>[...pv,...files]);
       }
       setIsDragOver(false);
     }
