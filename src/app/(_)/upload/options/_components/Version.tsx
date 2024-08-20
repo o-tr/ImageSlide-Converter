@@ -3,7 +3,7 @@ import {FC} from "react";
 import {Flex, Radio} from "antd";
 import Image from "next/image";
 import {useAtom} from "jotai";
-import {UsingVersionAtom} from "@/atoms/convert-options";
+import {UsingVersionAtom} from "@/atoms/convert";
 import {TargetVersions} from "@/const/convert";
 
 export const Version:FC = () => {

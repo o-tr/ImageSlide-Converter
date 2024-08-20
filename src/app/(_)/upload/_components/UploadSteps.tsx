@@ -9,6 +9,9 @@ const items: StepProps[] =[
     title: '設定',
   },
   {
+    title: '変換',
+  },
+  {
     title: 'アップロード',
   },
   {

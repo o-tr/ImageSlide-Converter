@@ -17,6 +17,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "antd": "^5.20.2",
     "jotai": "^2.9.3",
+    "jszip": "^3.10.1",
     "next": "14.2.5",
     "pdfjs-dist": "^4.5.136",
     "react": "^18",
