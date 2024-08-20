@@ -3,6 +3,7 @@ import Image from "next/image";
 import {AntContent} from "@/components/AntContent";
 import {TransitionOnDrag} from "@/app/_components/TransitionOnDrag";
 import Link from "next/link";
+import {DragWatcher} from "@/components/DragWatcher";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         </Link>
       </Flex>
       <TransitionOnDrag/>
+      <DragWatcher/>
     </AntContent>
   );
 }

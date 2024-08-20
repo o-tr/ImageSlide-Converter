@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import {ReactNode} from "react";
 import {AntdRegistry} from "@ant-design/nextjs-registry";
 import {ThemeProvider} from "@/components/ThemeProvider";
 import {Layout} from "antd";
 import {Header} from "@/components/Header";
-import {Content} from "antd/lib/layout/layout";
 import {Footer} from "@/components/Footer";
-import {DragWatcher} from "@/components/DragWatcher";
-import {DragOverlay} from "@/components/DragOverlay";
+import dynamic from "next/dynamic";
+
+const PdfjsProvider = dynamic(() => import("@/components/PdfjsProvider").then((v)=>v.PdfjsProvider), { ssr: false });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -32,9 +31,8 @@ export default function RootLayout({
               <Footer/>
             </Layout>
           </ThemeProvider>
+          <PdfjsProvider/>
         </AntdRegistry>
-        <DragWatcher/>
-        <DragOverlay/>
       </body>
     </html>
   );

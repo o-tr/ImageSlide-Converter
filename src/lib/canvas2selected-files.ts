@@ -1,10 +1,10 @@
 import {SelectedFile} from "@/_types/file-picker";
 
 export const canvas2selectedFile = (
-  file: File,
+  fileName: string,
   canvas: HTMLCanvasElement,
 ): SelectedFile => ({
   id: crypto.randomUUID(),
-  fileName: file.name,
-  canvas: canvas,
+  fileName,
+  canvas,
 });
