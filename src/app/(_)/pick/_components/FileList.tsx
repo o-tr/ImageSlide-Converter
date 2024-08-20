@@ -63,7 +63,7 @@ const Actions: FC<{value: SelectedFile}> = ({value}) => {
 const columns: TableColumnsType<SelectedFile> = [
   { key: 'sort', align: 'center', width: 80, render: () => <DragHandle /> },
   { title: 'Image', width: 128, render: (data) => <Preview canvas={data.canvas}/> },
-  { title: 'File Name', dataIndex: 'fileName' },
+  { title: "File name", key: "fileName", render: (data) => data.fileName },
   { title: 'Actions', width: 80, render: (value) => <Actions value={value}/>},
 ];
 
