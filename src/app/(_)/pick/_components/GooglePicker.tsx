@@ -16,6 +16,7 @@ export const GooglePicker = () => {
   const [token, setToken] = useAtom(GooglePickerTokenAtom);
   const isApiLoaded = useAtomValue(IsGooglePickerReadyAtom);
   const setFiles = useSetAtom(SelectedFilesAtom);
+  const [validating, setValidating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
   const showPicker = async(_token = token) => {
@@ -39,11 +40,13 @@ export const GooglePicker = () => {
       tokenClient.requestAccessToken({ prompt: "" });
       return;
     }
+    setValidating(true);
     const response = await fetch("https://www.googleapis.com/drive/v3/about?fields=user", {
       headers: {
         Authorization: `Bearer ${_token}`,
       },
     }).then((res) => res.json());
+    setValidating(false);
     if (response.user === undefined) {
       setToken(null);
       await showPicker(null);
@@ -95,7 +98,7 @@ export const GooglePicker = () => {
   }
   
   return <>
-    <Button disabled={!isApiLoaded} icon={isApiLoaded ? <TbBrandGoogleDrive />:
+    <Button disabled={!isApiLoaded && !validating} icon={(isApiLoaded && !validating) ? <TbBrandGoogleDrive />:
       <Spin indicator={<LoadingOutlined spin/>}/>} onClick={()=>showPicker()}>Add File From Google Drive</Button>
     {isLoading && <div className={"fixed top-0 left-0 w-full h-full z-50 grid place-items-center"}>
       <div className={"absolute left-0 top-0 w-full h-full bg-black bg-opacity-75 -z-0"}/>
