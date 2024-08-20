@@ -26,7 +26,7 @@ export default function RootLayout({
       <body>
         <AntdRegistry>
           <ThemeProvider>
-            <Layout className={"!min-h-screen"}>
+            <Layout className={"!min-h-screen h-screen"}>
               <Header/>
               {children}
               <Footer/>

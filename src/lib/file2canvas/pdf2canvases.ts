@@ -2,8 +2,13 @@ import {readFile} from "@/lib/readFile";
 import * as pdfjs from "pdfjs-dist";
 import {pdfPage2canvas} from "./pdfPage2canvas";
 
-export const pdf2canvases = async (file: File): Promise<HTMLCanvasElement[]> => {
-  const fileData = await readFile(file);
+export const pdf2canvases = async (file: File | Buffer): Promise<HTMLCanvasElement[]> => {
+  const fileData = await (async()=>{
+    if (file instanceof File) {
+      return await readFile(file);
+    }
+    return file;
+  })();
   
   const pdf = await pdfjs.getDocument({
     data: fileData,

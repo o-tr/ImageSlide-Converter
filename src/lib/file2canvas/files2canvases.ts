@@ -1,7 +1,7 @@
 import {file2canvas} from "./file2canvas";
 
 export const files2canvases = async (
-  files: FileList,
+  files: FileList | File[],
 ): Promise<{canvas: HTMLCanvasElement, fileName: string}[]> => {
   return (await Promise.all(Array.from(files).map<Promise<{canvas: HTMLCanvasElement, fileName: string}[]>>(async (file) => {
     try{

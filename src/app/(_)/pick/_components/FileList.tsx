@@ -1,5 +1,5 @@
 "use client";
-import {FC, useEffect, useRef, createContext, CSSProperties, useMemo, useContext} from "react";
+import {FC, useEffect, useRef, createContext, CSSProperties, useMemo, useContext, HTMLAttributes} from "react";
 import {arrayMove, SortableContext, verticalListSortingStrategy,useSortable} from "@dnd-kit/sortable";
 import {Table, TableColumnsType, Button, Flex} from "antd";
 import {DndContext, DragEndEvent} from "@dnd-kit/core";
@@ -62,7 +62,7 @@ const Actions: FC<{value: SelectedFile}> = ({value}) => {
 
 const columns: TableColumnsType<SelectedFile> = [
   { key: 'sort', align: 'center', width: 80, render: () => <DragHandle /> },
-  { title: 'Image', width: 128, render: (data) => <Preview canvas={data.canvas}/> },
+  { title: 'Image', width: 160, render: (data) => <Preview canvas={data.canvas}/> },
   { title: "File name", key: "fileName", render: (data) => data.fileName },
   { title: 'Actions', width: 80, render: (value) => <Actions value={value}/>},
 ];
@@ -81,17 +81,22 @@ export const FileList = () => {
   };
 
   if (files.length === 0) return <div className={"flex-1 grid place-items-center"}>
-    <Flex vertical>
+    <Flex vertical gap={"middle"}>
       <h2 className={"text-2xl"}>利用可能な形式</h2>
-      <p>ローカルファイル: PDF/画像</p>
-      <p>GoogleDrive: PDF/画像/GoogleSlides</p>
+      <div>
+        <p>ローカルファイル: PDF/画像</p>
+        <p>GoogleDrive: PDF/画像/GoogleSlides</p>
+      </div>
       <Controls/>
     </Flex>
   </div>;
-
+  
   return (
-    <>
-      <Controls/>
+    <Flex gap={"middle"} vertical className={"flex-1 h-full"}>
+      <Flex justify={"space-between"}>
+        <Controls/>
+        <Button type={"primary"}>Next</Button>
+      </Flex>
       <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
         <SortableContext items={files.map((i) => i.id)} strategy={verticalListSortingStrategy}>
           <Table
@@ -99,16 +104,16 @@ export const FileList = () => {
             components={{ body: { row: Row } }}
             columns={columns}
             dataSource={files}
-            className={"w-full"}
+            className={"w-full flex-1 overflow-y-scroll h-full"}
             pagination={false}
           />
         </SortableContext>
       </DndContext>
-    </>
+    </Flex>
   );
 }
 
-interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+interface RowProps extends HTMLAttributes<HTMLTableRowElement> {
   'data-row-key': string;
 }
 
