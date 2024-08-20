@@ -11,6 +11,7 @@ import { HolderOutlined } from '@ant-design/icons';
 import {MdDeleteOutline} from "react-icons/md";
 import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
 import {Controls} from "./Controls";
+import {Preview} from "./Preview";
 
 interface RowContextProps {
   setActivatorNodeRef?: (element: HTMLElement | null) => void;
@@ -34,18 +35,6 @@ const DragHandle: FC = () => {
       />
     </div>
   );
-};
-
-const Preview: FC<{ canvas: HTMLCanvasElement }> = ({ canvas }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  
-  useEffect(()=>{
-    canvas.classList.add("object-contain","max-h-32","max-w-32");
-    ref.current?.append(canvas);
-    return ()=>void ref.current?.removeChild(canvas);
-  },[]);
-  
-  return <div className={"w-128 text-center"} ref={ref}/>
 };
 
 const Actions: FC<{value: SelectedFile}> = ({value}) => {
@@ -92,23 +81,25 @@ export const FileList = () => {
   </div>;
   
   return (
-    <Flex gap={"middle"} vertical className={"flex-1 h-full"}>
+    <Flex gap={"middle"} vertical className={"flex-1 overflow-hidden"}>
       <Flex justify={"space-between"}>
         <Controls/>
         <Button type={"primary"}>Next</Button>
       </Flex>
-      <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-        <SortableContext items={files.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-          <Table
-            rowKey="id"
-            components={{ body: { row: Row } }}
-            columns={columns}
-            dataSource={files}
-            className={"w-full flex-1 overflow-y-scroll h-full"}
-            pagination={false}
-          />
-        </SortableContext>
-      </DndContext>
+      <div className={"flex-1 overflow-hidden"}>
+        <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+          <SortableContext items={files.map((i) => i.id)} strategy={verticalListSortingStrategy}>
+            <Table
+              rowKey="id"
+              components={{ body: { row: Row } }}
+              columns={columns}
+              dataSource={files}
+              className={"w-full flex-1 overflow-y-scroll h-full"}
+              pagination={false}
+            />
+          </SortableContext>
+        </DndContext>
+      </div>
     </Flex>
   );
 }

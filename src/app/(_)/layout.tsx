@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import {ReactNode} from "react";
 import {HeaderLogo} from "@/app/(_)/_components/HeaderLogo";
 import {AntContent} from "@/components/AntContent";
+import {Flex} from "antd";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,9 +17,9 @@ export default function RootLayout({
   return (
     <AntContent className={"flex flex-col"}>
       <HeaderLogo/>
-      <div className={"px-8 flex-1 flex flex-col overflow-y-scroll"}>
+      <Flex className={"px-8 flex-1 overflow-y-scroll"} vertical gap={"middle"}>
         {children}
-      </div>
+      </Flex>
     </AntContent>
   );
 }
