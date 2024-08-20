@@ -10,6 +10,7 @@ import {restrictToVerticalAxis} from "@dnd-kit/modifiers";
 import { HolderOutlined } from '@ant-design/icons';
 import {MdDeleteOutline} from "react-icons/md";
 import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
+import {Controls} from "@/app/(_)/pick/_components/Controls";
 
 interface RowContextProps {
   setActivatorNodeRef?: (element: HTMLElement | null) => void;
@@ -84,22 +85,26 @@ export const FileList = () => {
       <h2 className={"text-2xl"}>利用可能な形式</h2>
       <p>ローカルファイル: PDF/画像</p>
       <p>GoogleDrive: PDF/画像/GoogleSlides</p>
+      <Controls/>
     </Flex>
   </div>;
 
   return (
-    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-      <SortableContext items={files.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-        <Table
-          rowKey="id"
-          components={{ body: { row: Row } }}
-          columns={columns}
-          dataSource={files}
-          className={"w-full"}
-          pagination={false}
-        />
-      </SortableContext>
-    </DndContext>
+    <>
+      <Controls/>
+      <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+        <SortableContext items={files.map((i) => i.id)} strategy={verticalListSortingStrategy}>
+          <Table
+            rowKey="id"
+            components={{ body: { row: Row } }}
+            columns={columns}
+            dataSource={files}
+            className={"w-full"}
+            pagination={false}
+          />
+        </SortableContext>
+      </DndContext>
+    </>
   );
 }
 
