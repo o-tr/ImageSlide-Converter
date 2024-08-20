@@ -10,7 +10,7 @@ import {restrictToVerticalAxis} from "@dnd-kit/modifiers";
 import { HolderOutlined } from '@ant-design/icons';
 import {MdDeleteOutline} from "react-icons/md";
 import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
-import {Controls} from "@/app/(_)/pick/_components/Controls";
+import {Controls} from "./Controls";
 
 interface RowContextProps {
   setActivatorNodeRef?: (element: HTMLElement | null) => void;

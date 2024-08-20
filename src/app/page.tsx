@@ -17,9 +17,7 @@ export default function Home() {
           <p>スライドを TextZip 形式に変換し、ImageSlide で読み込めるようにするためのツールです</p>
           <p>ログインすると、ファイルの管理や高可用サーバーの利用が可能になります</p>
         </div>
-        <Link href={"/pick"}>
-          <Button>ファイルを追加</Button>
-        </Link>
+        <Button href={"/upload/pick"}>ファイルを追加</Button>
       </Flex>
       <TransitionOnDrag/>
       <DragWatcher/>
