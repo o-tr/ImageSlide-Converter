@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {ComponentProps, FC} from "react";
 import {StepProps, Steps} from "antd";
 
 const items: StepProps[] =[
@@ -16,12 +16,8 @@ const items: StepProps[] =[
   },
 ]
 
-type UploadStepsProps = {
-  current: number;
-}
-
-export const UploadSteps:FC<UploadStepsProps> = ({current}) => {
+export const UploadSteps:FC<ComponentProps<typeof Steps>> = (props) => {
   return (
-    <Steps direction={"horizontal"} current={current} items={items}/>
+    <Steps direction={"horizontal"} {...props} items={items}/>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import {FC, useEffect, useRef, createContext, CSSProperties, useMemo, useContext, HTMLAttributes} from "react";
+import {FC, createContext, CSSProperties, useMemo, useContext, HTMLAttributes} from "react";
 import {arrayMove, SortableContext, verticalListSortingStrategy,useSortable} from "@dnd-kit/sortable";
 import {Table, TableColumnsType, Button, Flex} from "antd";
 import {DndContext, DragEndEvent} from "@dnd-kit/core";
@@ -12,6 +12,7 @@ import {MdDeleteOutline} from "react-icons/md";
 import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
 import {Controls} from "./Controls";
 import {Preview} from "./Preview";
+import Link from "next/link";
 
 interface RowContextProps {
   setActivatorNodeRef?: (element: HTMLElement | null) => void;
@@ -84,7 +85,7 @@ export const FileList = () => {
     <Flex gap={"middle"} vertical className={"flex-1 overflow-hidden"}>
       <Flex justify={"space-between"}>
         <Controls/>
-        <Button type={"primary"}>Next</Button>
+        <Link href={"./options"}><Button type={"primary"}>Next</Button></Link>
       </Flex>
       <div className={"flex-1 overflow-hidden"}>
         <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
