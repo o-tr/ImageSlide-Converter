@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <AntContent className={"flex flex-col"}>
       <HeaderLogo/>
-      <div className={"px-8 flex-1"}>
+      <div className={"px-8 flex-1 flex flex-col"}>
         {children}
       </div>
     </AntContent>

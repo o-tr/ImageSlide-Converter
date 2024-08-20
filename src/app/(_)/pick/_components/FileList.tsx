@@ -1,7 +1,7 @@
 "use client";
 import {FC, useEffect, useRef, createContext, CSSProperties, useMemo, useContext} from "react";
 import {arrayMove, SortableContext, verticalListSortingStrategy,useSortable} from "@dnd-kit/sortable";
-import { Table, TableColumnsType, Button} from "antd";
+import {Table, TableColumnsType, Button, Flex} from "antd";
 import {DndContext, DragEndEvent} from "@dnd-kit/core";
 import {SelectedFile} from "@/_types/file-picker";
 import {useAtom} from "jotai";
@@ -9,6 +9,7 @@ import {SelectedFilesAtom} from "@/atoms/file-drop";
 import {restrictToVerticalAxis} from "@dnd-kit/modifiers";
 import { HolderOutlined } from '@ant-design/icons';
 import {MdDeleteOutline} from "react-icons/md";
+import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
 
 interface RowContextProps {
   setActivatorNodeRef?: (element: HTMLElement | null) => void;
@@ -40,17 +41,29 @@ const Preview: FC<{ canvas: HTMLCanvasElement }> = ({ canvas }) => {
   useEffect(()=>{
     canvas.classList.add("object-contain","max-h-32","max-w-32");
     ref.current?.append(canvas);
-    return ()=>ref.current?.removeChild(canvas);
+    return ()=>void ref.current?.removeChild(canvas);
   },[]);
   
   return <div className={"w-128 text-center"} ref={ref}/>
 };
 
+const Actions: FC<{value: SelectedFile}> = ({value}) => {
+  const [, setFiles] = useAtom(SelectedFilesAtom);
+
+  const onDelete=()=>{
+    setFiles((prevState) => prevState.filter((item) => item.id !== value.id));
+  }
+
+  return (
+    <Button type="text" icon={<MdDeleteOutline />} onClick={onDelete}/>
+  );
+}
+
 const columns: TableColumnsType<SelectedFile> = [
   { key: 'sort', align: 'center', width: 80, render: () => <DragHandle /> },
   { title: 'Image', width: 128, render: (data) => <Preview canvas={data.canvas}/> },
   { title: 'File Name', dataIndex: 'fileName' },
-  { title: 'Actions', width: 80, render: () => <Button type="text" icon={<MdDeleteOutline />}/> },
+  { title: 'Actions', width: 80, render: (value) => <Actions value={value}/>},
 ];
 
 export const FileList = () => {
@@ -65,7 +78,15 @@ export const FileList = () => {
       });
     }
   };
-  
+
+  if (files.length === 0) return <div className={"flex-1 grid place-items-center"}>
+    <Flex vertical>
+      <h2 className={"text-2xl"}>利用可能な形式</h2>
+      <p>ローカルファイル: PDF/画像</p>
+      <p>GoogleDrive: PDF/画像/GoogleSlides</p>
+    </Flex>
+  </div>;
+
   return (
     <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
       <SortableContext items={files.map((i) => i.id)} strategy={verticalListSortingStrategy}>

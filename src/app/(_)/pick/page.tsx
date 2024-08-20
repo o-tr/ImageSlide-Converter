@@ -5,9 +5,7 @@ export default function Page() {
   
   return (
     <>
-      <Flex>
-        <FileList/>
-      </Flex>
+      <FileList/>
       <DragWatcher/>
     </>
   );
