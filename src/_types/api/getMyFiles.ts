@@ -14,12 +14,7 @@ export const getMyFilesResponseSchema = z.union([
   z.object({
     status: z.literal("success"),
     data: z.object({
-      files: z.array(z.object({
-        name: z.string(),
-        fileId: z.string(),
-        count: z.number(),
-        createdAt: z.string(),
-      })),
+      files: z.array(fileSchema),
     })
   }),
   APIErrorResponseSchema

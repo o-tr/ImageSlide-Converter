@@ -23,13 +23,14 @@ export const FileList:FC = () => {
   },[]);
   
   useEffect(()=>{
-    void loadFiles().catch(()=>{
+    void loadFiles().catch((e)=>{
       void signIn("discord", {callbackUrl: "/my/files"});
     });
   },[]);
   
   const columns: TableColumnsType<FileItem> = useMemo(()=>([
     { title: "File Name", dataIndex: "name", key: "name" },
+    { title: "URLs", dataIndex: "count", key: "count" },
     { title: "Created At", dataIndex: "createdAt", key: "createdAt" },
     { title: "Actions", key: "actions", render: (file: FileItem) => <Flex gap={"middle"}>
         <Button icon={<MdOutlineOpenInNew/>} target={"_blank"} href={`/convert/completed/${file.fileId}/${file.count}`}>開く</Button>
