@@ -5,6 +5,7 @@ import {getMyFiles} from "@/lib/service/getMyFiles";
 import {Button, Flex, Table, TableColumnsType} from "antd";
 import {MdDeleteOutline, MdOutlineOpenInNew} from "react-icons/md";
 import {deleteRegisteredFile} from "@/lib/service/deleteRegisteredFile";
+import {signIn} from "next-auth/react";
 
 export const FileList:FC = () => {
   const [files, setFiles] = useState<FileItem[]>([]);
@@ -22,7 +23,9 @@ export const FileList:FC = () => {
   }
   
   useEffect(()=>{
-    void loadFiles();
+    void loadFiles().catch(()=>{
+      void signIn("discord", {callbackUrl: "/my/files"});
+    });
   },[]);
   
   const columns: TableColumnsType<FileItem> = useMemo(()=>([
@@ -44,6 +47,7 @@ export const FileList:FC = () => {
         dataSource={files}
         rowKey="fileId"
         columns={columns}
+        pagination={false}
       />
     </div>
   )
