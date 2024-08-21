@@ -28,7 +28,7 @@ export const Convert: FC = () => {
           case "auto":
             return {format: bestFormat.label, files: _files};
           case "auto-one-file": {
-            const scale = Math.max(FileSizeLimit / bestFormat.fileSize, 1);
+            const scale = Math.floor(Math.min(((FileSizeLimit - 1024*1024) / bestFormat.fileSize), 1) * 100) / 100;
             return {format: bestFormat.label, files: resizeFiles(_files, scale)};
           }
           default:

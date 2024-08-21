@@ -10,7 +10,7 @@ export const TransitionOnDrag:FC = () => {
 
   useEffect(()=>{
     if (isDragOver) {
-      void router.push("/upload/pick");
+      void router.push("/convert/pick");
     }
   },[isDragOver]);
 

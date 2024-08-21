@@ -1,7 +1,69 @@
-import {FC, useEffect} from "react";
+"use client";
+import {FC, useEffect, useRef, useState} from "react";
 import {useAtomValue} from "jotai";
 import {ResultAtom} from "@/atoms/convert";
+import {getNormalFileId} from "@/lib/service/getNormalFileId";
+import {getNormalPreSignedPut} from "@/lib/service/getNormalPreSignedPut";
+import axios, {AxiosProgressEvent} from "axios";
+import {useRouter} from "next/navigation";
+import {Flex, Progress} from "antd";
+import {Preparing} from "./Preparing";
+import {Completed} from "./Completed";
 
 export const Upload:FC = () => {
-  return <></>;
+  const result = useAtomValue(ResultAtom);
+  const [progress, setProgress] = useState<{[fileName: string]:number}>({});
+  const router = useRouter();
+  const initRef = useRef(false);
+  useEffect(()=>{
+    if (initRef.current) return;
+    initRef.current = true;
+    void (async()=>{
+      const data = result.map<{fileSize: number, file:File}>((input) => {
+        const file = new File([input], "file.txt");
+        return {fileSize: input.length, file};
+      });
+      const fileId = await getNormalFileId();
+      const contentLengths = data.map((input) => input.fileSize);
+      const preSignedPut = await getNormalPreSignedPut(fileId, contentLengths);
+      await Promise.all(preSignedPut.map(async(val)=>{
+        const {file} = data[val.index];
+        const onProgress = (progressEvent: AxiosProgressEvent) => {
+          setProgress((pv)=>({
+            ...pv,
+            [`${fileId}_${val.index}`]: progressEvent.loaded / (progressEvent.total ?? 1)
+          }));
+        }
+        await axios.put(val.url, file, {
+          onUploadProgress: onProgress
+        });
+      }));
+      setTimeout(()=>{
+        router.push(`/convert/completed/${fileId}/${data.length}`);
+      },100)
+    })();
+  },[result])
+  
+  if (Object.keys(progress).length === 0) {
+    return (<Preparing/>)
+  }
+  if (Object.entries(progress).reduce((acc, [_, value]) => acc + value, 0) === result.length) {
+    return (
+      <Completed/>
+    )
+  }
+  
+  return <div className={"flex-1 grid place-items-center"}>
+    <Flex vertical gap={"large"}>
+      {Object.entries(progress).map(([key, value]) => (
+        <Flex key={key} gap={"middle"}>
+          <div className={"w-32"}>
+            <Progress percent={Math.floor(value * 100)}/>
+          </div>
+          <span className={"text-nowrap"}>{key}</span>
+        </Flex>
+        ))}
+    </Flex>
+  </div>
+;
 }

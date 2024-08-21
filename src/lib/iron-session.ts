@@ -1,4 +1,5 @@
 import {getIronSession, SessionOptions} from 'iron-session'
+import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 
 export const sessionOptions: SessionOptions = {
   password: process.env.IRON_SESSION_PASSWORD??"",
@@ -12,6 +13,6 @@ type Session = {
   fileId: string[],
 }
 
-export const getSession = async (req: Request, res: Response) => {
-  return getIronSession<Session>(req, res, sessionOptions)
+export const getSession = async (cookies: ReadonlyRequestCookies) => {
+  return getIronSession<Session>(cookies, sessionOptions)
 }
