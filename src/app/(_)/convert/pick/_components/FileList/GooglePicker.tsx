@@ -11,6 +11,7 @@ import {AntContent} from "@/components/AntContent";
 import {files2canvases} from "@/lib/file2canvas";
 import {canvas2selectedFile} from "@/lib/canvas2selected-files";
 import {LoadingOutlined} from "@ant-design/icons";
+import {GOOGLE_API_KEY, GOOGLE_CLIENT_ID} from "@/const/env";
 
 export const GooglePicker = () => {
   const [token, setToken] = useAtom(GooglePickerTokenAtom);
@@ -22,7 +23,7 @@ export const GooglePicker = () => {
   const showPicker = async(_token = token) => {
     if (!_token) {
       const tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+        client_id: GOOGLE_CLIENT_ID,
         scope: "https://www.googleapis.com/auth/drive.file",
         callback: "",
       });
@@ -61,7 +62,7 @@ export const GooglePicker = () => {
       .setSelectableMimeTypes(
         "application/vnd.google-apps.presentation,application/pdf,image/png,image/jpeg,image/jpg",
       )
-      .setDeveloperKey(process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? "")
+      .setDeveloperKey(GOOGLE_API_KEY)
       .setCallback(async(data: { action: string; docs: any[] }) => {
         if (data.action !== "picked") return;
         const file = data.docs[0];
@@ -92,7 +93,7 @@ export const GooglePicker = () => {
         }
         setIsLoading(false);
       })
-      .setAppId(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "")
+      .setAppId(GOOGLE_CLIENT_ID)
       .build();
     picker.setVisible(true);
   }

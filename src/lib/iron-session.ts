@@ -1,9 +1,10 @@
 import {getIronSession, SessionOptions} from 'iron-session'
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
+import {IRON_SESSION_COOKIE_NAME, IRON_SESSION_PASSWORD} from "@/const/env";
 
 export const sessionOptions: SessionOptions = {
-  password: process.env.IRON_SESSION_PASSWORD??"",
-  cookieName: process.env.IRON_SESSION_COOKIE_NAME??"",
+  password: IRON_SESSION_PASSWORD,
+  cookieName: IRON_SESSION_COOKIE_NAME,
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production',
   },

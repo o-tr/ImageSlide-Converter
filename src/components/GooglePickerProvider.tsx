@@ -3,6 +3,7 @@ import {FC, useEffect, useState} from "react";
 import Script from "next/script";
 import {useSetAtom} from "jotai";
 import {IsGooglePickerReadyAtom} from "@/atoms/google-picker";
+import {GOOGLE_API_KEY} from "@/const/env";
 
 declare global {
   namespace google {
@@ -32,7 +33,7 @@ export const GooglePickerProvider: FC = () => {
     });
     gapi.load("client", async () => {
       await gapi.client.init({
-        apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+        apiKey: GOOGLE_API_KEY,
         discoveryDocs: DISCOVERY_DOC,
       });
       setInitCount((pv) => pv + 1);

@@ -6,7 +6,7 @@ import {getNormalFileId} from "@/lib/service/getNormalFileId";
 import {getNormalPreSignedPut} from "@/lib/service/getNormalPreSignedPut";
 import axios, {AxiosProgressEvent} from "axios";
 import {useRouter} from "next/navigation";
-import {Flex, Progress} from "antd";
+import {Flex, List, Progress, Skeleton, Spin} from "antd";
 import {Preparing} from "./Preparing";
 import {Completed} from "./Completed";
 
@@ -54,16 +54,18 @@ export const Upload:FC = () => {
   }
   
   return <div className={"flex-1 grid place-items-center"}>
-    <Flex vertical gap={"large"}>
-      {Object.entries(progress).map(([key, value]) => (
-        <Flex key={key} gap={"middle"}>
-          <div className={"w-32"}>
-            <Progress percent={Math.floor(value * 100)}/>
-          </div>
-          <span className={"text-nowrap"}>{key}</span>
-        </Flex>
-        ))}
-    </Flex>
+    <List
+      itemLayout="horizontal"
+      dataSource={Object.entries(progress)}
+      renderItem={(item) => (
+        <List.Item>
+          <Flex gap={"middle"} align={"center"}>
+            <Spin percent={Math.floor(item[1]*100)} size={"large"}/>
+            <div>{item[0]}</div>
+          </Flex>
+        </List.Item>
+      )}
+    />
   </div>
 ;
 }

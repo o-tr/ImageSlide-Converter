@@ -5,10 +5,11 @@ import {s3NormalClient} from "@/lib/s3/normal";
 import {z} from "zod";
 import { getSession } from "@/lib/iron-session";
 import {cookies} from "next/headers";
+import {S3_NORMAL_BUCKET, S3_NORMAL_PUBLIC_BASE_URL} from "@/const/env";
 
 const generatePreSignedPutUrl = async (fileName: string, contentLength: number): Promise<string> => {
   const command = new PutObjectCommand({
-    Bucket: process.env.S3_NORMAL_BUCKET ?? "",
+    Bucket: S3_NORMAL_BUCKET,
     Key: fileName,
     ContentLength: contentLength,
   });
@@ -45,7 +46,7 @@ export const POST = async (request: Request) => {
     fileId: fileId,
     index: val.index,
     url: await generatePreSignedPutUrl(`${fileId}_${val.index}`, val.contentLength),
-    publicUrl: `${process.env.S3_NORMAL_PUBLIC_BASE_URL}/${fileId}_${val.index}`,
+    publicUrl: `${S3_NORMAL_PUBLIC_BASE_URL}/${fileId}_${val.index}`,
   })));
   
   return NextResponse.json({
