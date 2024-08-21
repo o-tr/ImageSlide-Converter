@@ -13,6 +13,7 @@ export const FileList:FC = () => {
   const loadFiles = async()=>{
     const files = await getMyFiles();
     setFiles(files);
+    setLoading(false)
   }
   
   const deleteFile = async(fileId: string)=>{
@@ -21,7 +22,7 @@ export const FileList:FC = () => {
   }
   
   useEffect(()=>{
-    void loadFiles().then(()=>setLoading(false));
+    void loadFiles();
   },[]);
   
   const columns: TableColumnsType<FileItem> = useMemo(()=>([
@@ -29,7 +30,10 @@ export const FileList:FC = () => {
     { title: "Created At", dataIndex: "createdAt", key: "createdAt" },
     { title: "Actions", key: "actions", render: (file: FileItem) => <Flex gap={"middle"}>
         <Button icon={<MdOutlineOpenInNew/>} target={"_blank"} href={`/convert/completed/${file.fileId}/${file.count}`}>開く</Button>
-        <Button icon={<MdDeleteOutline/>} onClick={()=>void deleteFile(file.fileId)}>削除</Button>
+        <Button icon={<MdDeleteOutline/>} onClick={()=> {
+          setLoading(true)
+          void deleteFile(file.fileId)
+        }}>削除</Button>
       </Flex> },
   ]),[]);
   
