@@ -1,6 +1,6 @@
 "use client";
 import {FC, useEffect, useRef, useState} from "react";
-import {useAtomValue, useSetAtom} from "jotai";
+import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {ResultAtom} from "@/atoms/convert";
 import {getNormalFileId} from "@/lib/service/getNormalFileId";
 import {getNormalPreSignedPut} from "@/lib/service/getNormalPreSignedPut";
@@ -16,7 +16,7 @@ import {postRegisterFile} from "@/lib/service/postRegisterFile";
 export const Upload:FC = () => {
   const result = useAtomValue(ResultAtom);
   const [progress, setProgress] = useState<{[fileName: string]:number}>({});
-  const setFiles = useSetAtom(SelectedFilesAtom);
+  const [files, setFiles] = useAtom(SelectedFilesAtom);
   const router = useRouter();
   const session = useSession();
   const initRef = useRef(false);
@@ -49,7 +49,7 @@ export const Upload:FC = () => {
         });
       }));
       if (session.data) {
-        await postRegisterFile(fileId, "test", data.length);
+        await postRegisterFile(fileId, files[0].fileName, data.length);
       }
       setTimeout(()=>{
         router.push(`/convert/completed/${fileId}/${data.length}`);
