@@ -5,7 +5,9 @@ import {Flex} from "antd";
 import {Reset} from "./_components/Reset";
 import {UploadSteps} from "@/app/(_)/convert/_components/UploadSteps";
 
-export default function Page({params}: {params: {fileId: string, size: string}}) {
+type Props = Readonly<{ params: { fileId: string, size: string } }>
+
+export default function Page({params}: Props) {
   const urls = useMemo(()=>{
     const result: string[] = [];
     for (let i = 0; i < parseInt(params.size); i++) {
