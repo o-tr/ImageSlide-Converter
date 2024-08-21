@@ -1,4 +1,4 @@
-import {FC, useMemo} from "react";
+import {FC, useEffect, useMemo} from "react";
 import {useAtom, useAtomValue} from "jotai";
 import {ConvertFormatAtom, UsingVersionAtom} from "@/atoms/convert";
 import {Flex, Radio, Tooltip} from "antd";
@@ -19,6 +19,13 @@ export const Format:FC = () => {
     return availableFormats.toSorted((a, b) => b.priority - a.priority )[0];
   },[availableFormats]);
   
+  const oneFileOptionEnabled = bestFormat.fileSize > FileSizeLimit;
+  
+  useEffect(()=>{
+    if (oneFileOptionEnabled)return;
+    if (format === "auto-one-file") setFormat("auto");
+  },[format,oneFileOptionEnabled]);
+  
   return (
     <Flex vertical gap={"middle"}>
       <h2 className={"text-xl"}>フォーマットを選択してください</h2>
@@ -29,7 +36,7 @@ export const Format:FC = () => {
             <p>{toLabel(bestFormat.fileSize)}</p>
           </Flex>
         </Radio.Button>
-        {bestFormat.fileSize > FileSizeLimit &&
+        {oneFileOptionEnabled &&
           <Tooltip placement="top" title={`画像サイズを${Math.floor(FileSizeLimit * 100 / bestFormat.fileSize)}% に縮小することによって容量を圧縮します`} arrow={true}>
             <Radio.Button className={"w-[256px] !h-[76px]"} value={"auto-one-file"}>
               <Flex vertical className={"p-2 text-center h-full"} align={"center"}>
