@@ -12,7 +12,7 @@ export const TransitionOnDrag:FC = () => {
     if (isDragOver) {
       void router.push("/convert/pick");
     }
-  },[isDragOver]);
+  },[isDragOver,router]);
 
   return <></>;
 }

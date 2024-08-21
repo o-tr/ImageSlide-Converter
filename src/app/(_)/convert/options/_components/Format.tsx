@@ -24,7 +24,7 @@ export const Format:FC = () => {
   useEffect(()=>{
     if (oneFileOptionEnabled)return;
     if (format === "auto-one-file") setFormat("auto");
-  },[format,oneFileOptionEnabled]);
+  },[format,oneFileOptionEnabled,setFormat]);
   
   return (
     <Flex vertical gap={"middle"}>

@@ -37,7 +37,7 @@ export const DragWatcher: FC = () => {
       document.removeEventListener("dragleave", onDragLeave);
       document.removeEventListener("drop",onDrop);
     }
-  },[]);
+  },[setIsDragOver,setSelectedFiles]);
 
   if (!isDragOver) return <></>;
   return (

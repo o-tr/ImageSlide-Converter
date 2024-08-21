@@ -17,10 +17,10 @@ export const FileList:FC = () => {
     setLoading(false)
   }
   
-  const deleteFile = async(fileId: string)=>{
+  const deleteFile = useMemo(()=>async(fileId: string)=>{
     await deleteRegisteredFile(fileId);
     await loadFiles();
-  }
+  },[]);
   
   useEffect(()=>{
     void loadFiles().catch(()=>{
@@ -38,7 +38,7 @@ export const FileList:FC = () => {
           void deleteFile(file.fileId)
         }}>削除</Button>
       </Flex> },
-  ]),[]);
+  ]),[deleteFile]);
   
   return(
     <div>

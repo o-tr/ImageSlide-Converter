@@ -47,7 +47,7 @@ export const GooglePickerProvider: FC = () => {
   useEffect(() => {
     if (initCount !== 3) return;
     setIsGooglePickerReady(true);
-  }, [initCount]);
+  }, [initCount, setIsGooglePickerReady]);
 
   return (
     <>

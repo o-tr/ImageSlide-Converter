@@ -11,6 +11,6 @@ export const Redirect = () => {
     }else if(searchParams.get("error")){
       router.replace("/");
     }
-  },[searchParams])
+  },[searchParams,router])
   return <></>;
 }

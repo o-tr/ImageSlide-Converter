@@ -10,15 +10,14 @@ import {Flex, List, Spin} from "antd";
 import {Preparing} from "./Preparing";
 import {Completed} from "./Completed";
 import {SelectedFilesAtom} from "@/atoms/file-drop";
-import {useSession} from "next-auth/react";
 import {postRegisterFile} from "@/lib/service/postRegisterFile";
 
 export const Upload:FC = () => {
   const result = useAtomValue(ResultAtom);
   const [progress, setProgress] = useState<{[fileName: string]:number}>({});
+
   const [files, setFiles] = useAtom(SelectedFilesAtom);
   const router = useRouter();
-  const session = useSession();
   const initRef = useRef(false);
   useEffect(()=>{
     setFiles([]);
@@ -54,7 +53,7 @@ export const Upload:FC = () => {
         router.push(`/convert/completed/${fileId}/${data.length}`);
       },100)
     })();
-  },[result])
+  },[result,files,router,setFiles])
   
   if (Object.keys(progress).length === 0) {
     return (<Preparing/>)

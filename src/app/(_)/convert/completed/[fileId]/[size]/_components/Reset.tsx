@@ -11,6 +11,6 @@ export const Reset: FC = () => {
   useEffect(()=>{
     setResult([]);
     setFiles([]);
-  },[]);
+  },[setResult,setFiles]);
   return <></>;
 }

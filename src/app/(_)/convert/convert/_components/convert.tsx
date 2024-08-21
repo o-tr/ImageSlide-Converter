@@ -1,5 +1,5 @@
 "use client";
-import {FC, useEffect, useMemo} from "react";
+import {FC, useEffect, useMemo, useRef} from "react";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {ConvertFormatAtom, ResultAtom, UsingVersionAtom} from "@/atoms/convert";
 import {SelectedFilesAtom} from "@/atoms/file-drop";
@@ -15,17 +15,22 @@ export const Convert: FC = () => {
   const _format = useAtomValue(ConvertFormatAtom);
   const _files = useAtomValue(SelectedFilesAtom);
   const setResults = useSetAtom(ResultAtom);
-  const availableFormats = useMemo(()=>getAvailableFormats(version,_files),[version]);
+  const availableFormats = useMemo(()=>getAvailableFormats(version,_files),[version,_files]);
   const router = useRouter();
   
   const bestFormat = useMemo(()=> {
     return availableFormats.toSorted((a, b) => b.priority - a.priority )[0];
   },[availableFormats]);
+
+  const initRef = useRef(false);
+
   useEffect(() => {
     if (_files.length < 1) {
       router.push("./pick");
       return;
     }
+    if (initRef.current) return;
+    initRef.current = true;
     setTimeout((async () => {
       const {format, files} = ((): {format: TTextureFormat, files: SelectedFile[]} => {
         switch (_format) {
@@ -43,7 +48,7 @@ export const Convert: FC = () => {
       setResults(result);
       router.push("./upload");
     }),100);
-  }, [version,_format,_files]);
+  }, [version,_format,_files,bestFormat,router,setResults]);
   return <></>;
 }
 

@@ -5,9 +5,10 @@ export const Preview: FC<{ canvas: HTMLCanvasElement }> = ({ canvas }) => {
   
   useEffect(()=>{
     canvas.classList.add("object-contain","max-h-32","max-w-32");
-    ref.current?.append(canvas);
-    return ()=>void ref.current?.removeChild(canvas);
-  },[]);
+    const element = ref.current;
+    element?.append(canvas);
+    return ()=>void element?.removeChild(canvas);
+  },[canvas]);
   
   return <div className={"w-128 text-center"} ref={ref}/>
 };
