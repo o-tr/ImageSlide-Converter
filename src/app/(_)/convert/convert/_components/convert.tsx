@@ -1,6 +1,6 @@
 "use client";
 import {FC, useEffect, useMemo} from "react";
-import {useAtomValue, useSetAtom} from "jotai";
+import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {ConvertFormatAtom, ResultAtom, UsingVersionAtom} from "@/atoms/convert";
 import {SelectedFilesAtom} from "@/atoms/file-drop";
 import {convert2textZip} from "@/lib/text-zip";
@@ -13,7 +13,7 @@ import {useRouter} from "next/navigation";
 export const Convert: FC = () => {
   const version = useAtomValue(UsingVersionAtom);
   const _format = useAtomValue(ConvertFormatAtom);
-  const _files = useAtomValue(SelectedFilesAtom);
+  const [_files, setFiles] = useAtom(SelectedFilesAtom);
   const setResults = useSetAtom(ResultAtom);
   const availableFormats = useMemo(()=>getAvailableFormats(version,_files),[version]);
   const router = useRouter();
@@ -22,6 +22,10 @@ export const Convert: FC = () => {
     return availableFormats.toSorted((a, b) => b.priority - a.priority )[0];
   },[availableFormats]);
   useEffect(() => {
+    if (_files.length < 1) {
+      router.push("./pick");
+      return;
+    }
     setTimeout((async () => {
       const {format, files} = ((): {format: TTextureFormat, files: SelectedFile[]} => {
         switch (_format) {
@@ -37,6 +41,7 @@ export const Convert: FC = () => {
       })();
       const result = await convert2textZip(files, version, format);
       setResults(result);
+      setFiles([]);
       router.push("./upload");
     }),100);
   }, [version,_format,_files]);

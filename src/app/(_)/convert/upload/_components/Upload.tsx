@@ -1,22 +1,26 @@
 "use client";
 import {FC, useEffect, useRef, useState} from "react";
-import {useAtomValue} from "jotai";
+import {useAtom} from "jotai";
 import {ResultAtom} from "@/atoms/convert";
 import {getNormalFileId} from "@/lib/service/getNormalFileId";
 import {getNormalPreSignedPut} from "@/lib/service/getNormalPreSignedPut";
 import axios, {AxiosProgressEvent} from "axios";
 import {useRouter} from "next/navigation";
-import {Flex, List, Progress, Skeleton, Spin} from "antd";
+import {Flex, List, Spin} from "antd";
 import {Preparing} from "./Preparing";
 import {Completed} from "./Completed";
 
 export const Upload:FC = () => {
-  const result = useAtomValue(ResultAtom);
+  const [result,setResult] = useAtom(ResultAtom);
   const [progress, setProgress] = useState<{[fileName: string]:number}>({});
   const router = useRouter();
   const initRef = useRef(false);
   useEffect(()=>{
     if (initRef.current) return;
+    if (result.length === 0) {
+      router.push("./pick");
+      return;
+    }
     initRef.current = true;
     void (async()=>{
       const data = result.map<{fileSize: number, file:File}>((input) => {
@@ -38,6 +42,7 @@ export const Upload:FC = () => {
           onUploadProgress: onProgress
         });
       }));
+      setResult([]);
       setTimeout(()=>{
         router.push(`/convert/completed/${fileId}/${data.length}`);
       },100)
