@@ -5,13 +5,13 @@ import {NextResponse} from "next/server";
 
 export const DELETE = async(request:Request, { params: {fileId} }: { params: { fileId: string }},) => {
   const _auth = await auth();
-  if (!_auth?.user) return {status: "error", error: "Unauthorized"};
+  if (!_auth?.user) return NextResponse.json({status: "error", error: "Unauthorized"});
   const {email, name, id} = _auth.user;
-  if (!email || !name || !id) return {status: "error", error: "Unauthorized"};
+  if (!email || !name || !id) return NextResponse.json({status: "error", error: "Unauthorized"});
   const user = await getUser({email, discordId: id, name});
-  if (!user) return {status: "error", error: "Internal Server Error"};
+  if (!user) return NextResponse.json({status: "error", error: "Unauthorized"});
   const file = user.files.find((file) => file.fileId === fileId);
-  if (!file) return {status: "error", error: "file not found"};
+  if (!file) return NextResponse.json({status: "error", error: "File not found"});
   await prisma.file.delete({
     where: {
       id: file.id,
