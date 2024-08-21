@@ -1,4 +1,4 @@
-import {authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes} from "@/routes"
+import {authRoutes, DEFAULT_LOGIN_REDIRECT, restrictedRoutes} from "@/routes"
 import {NextAuthConfig} from "next-auth";
 
 export const authConfig = {
@@ -11,7 +11,7 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-      const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+      const isPublicRoute = !restrictedRoutes.some((route) => nextUrl.pathname == route || nextUrl.pathname.startsWith(`${route}/`));
 
       if (isAuthRoute) {
         if (isLoggedIn) {
