@@ -13,6 +13,8 @@ RUN pnpm install --frozen-lockfile
 COPY ./ ./
 RUN pnpm prisma generate
 
+RUN chmod +x ./init.sh
+
 # Run phase
 FROM node:$NODE_VERSION AS runner
 
