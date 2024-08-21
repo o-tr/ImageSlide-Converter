@@ -13,7 +13,8 @@ const generatePreSignedPutUrl = async (fileName: string, contentLength: number):
     Bucket: S3_NORMAL_BUCKET,
     Key: fileName,
     ContentLength: contentLength,
-    Tagging: "registered=false"
+    Tagging: "registered=false",
+    ContentType: "text/plain",
   });
   return await getSignedUrl(s3NormalClient, command, { expiresIn: 3600 });
 }

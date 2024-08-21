@@ -43,6 +43,9 @@ export const Upload:FC = () => {
           }));
         }
         await axios.put(val.url, file, {
+          headers: {
+            "Content-Type": "text/plain",
+          },
           onUploadProgress: onProgress
         });
       }));
