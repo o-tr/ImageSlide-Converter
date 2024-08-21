@@ -1,6 +1,7 @@
 import {FormatItemType} from "@/_types/text-zip/formats";
 
-export const FileSizeLimit = 90 * 1000 * 1000;
+export const FileSizeLimit = 95 * 1024 * 1024;
+export const ActualFileSizeLimit = 100 * 1024 * 1024;
 
 export const TargetVersions: {
   label: string;

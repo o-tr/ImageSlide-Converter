@@ -6,6 +6,7 @@ import {z} from "zod";
 import { getSession } from "@/lib/iron-session";
 import {cookies} from "next/headers";
 import {S3_NORMAL_BUCKET, S3_NORMAL_PUBLIC_BASE_URL} from "@/const/env";
+import {ActualFileSizeLimit} from "@/const/convert";
 
 const generatePreSignedPutUrl = async (fileName: string, contentLength: number): Promise<string> => {
   const command = new PutObjectCommand({
@@ -41,6 +42,13 @@ export const POST = async (request: Request) => {
     }, {status: 400});
   }
   const {fileId, data} = body.data;
+
+  if (data.some(val=>val.contentLength > ActualFileSizeLimit)){
+    return NextResponse.json({
+      status: "error",
+      error: "Invalid request"
+    }, {status: 400});
+  }
   
   const result = await Promise.all(data.map(async(val)=>({
     fileId: fileId,
