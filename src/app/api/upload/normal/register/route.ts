@@ -2,11 +2,11 @@ import {getSession} from "@/lib/iron-session";
 import {cookies} from "next/headers";
 import {NextResponse} from "next/server";
 import { z } from "zod";
-import {auth} from "@/auth";
-import {getUser} from "@/lib/prisma/getUser";
 import {prisma} from "@/lib/prisma";
 import {S3_NORMAL_BUCKET} from "@/const/env";
 import {getAuthorizedUser} from "@/utils/getAuthorizedUser";
+import {s3NormalClient} from "@/lib/s3/normal";
+import {PutObjectTaggingCommand} from "@aws-sdk/client-s3";
 
 const RequestSchema = z.object({
   name: z.string(),
@@ -45,7 +45,23 @@ export const POST = async(request: Request) => {
         } : undefined
       }
     });
-    
+
+    await Promise.all(Array.from({length: data.count}).map(async(_,index)=>{
+      const fileName = `${data.fileId}_${index}`;
+      await s3NormalClient.send(new PutObjectTaggingCommand({
+        Bucket: S3_NORMAL_BUCKET,
+        Key: fileName,
+        Tagging: {
+          TagSet: [
+            {
+              Key: "registered",
+              Value: "true"
+            }
+          ]
+        }
+      }))
+    }))
+
     return NextResponse.json({
       status: "success",
     });
