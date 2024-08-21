@@ -48,9 +48,8 @@ export const Upload:FC = () => {
           onUploadProgress: onProgress
         });
       }));
-      if (session.data) {
-        await postRegisterFile(fileId, files[0].fileName, data.length);
-      }
+      await postRegisterFile(fileId, files[0].fileName, data.length);
+
       setTimeout(()=>{
         router.push(`/convert/completed/${fileId}/${data.length}`);
       },100)
