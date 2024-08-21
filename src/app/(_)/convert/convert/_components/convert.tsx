@@ -37,7 +37,7 @@ export const Convert: FC = () => {
       })();
       const result = await convert2textZip(files, version, format);
       setResults(result);
-      router.push("/upload/upload");
+      router.push("./upload");
     }),100);
   }, [version,_format,_files]);
   return <></>;

@@ -1,11 +1,11 @@
 "use client";
-import {UploadSteps} from "@/app/(_)/upload/_components/UploadSteps";
+import {UploadSteps} from "@/app/(_)/convert/_components/UploadSteps";
 import {Button, Flex} from "antd";
 import Link from "next/link";
 import {Version} from "./_components/Version";
 import {useAtomValue} from "jotai";
 import {UsingVersionAtom} from "@/atoms/convert";
-import {Format} from "@/app/(_)/upload/options/_components/Format";
+import {Format} from "@/app/(_)/convert/options/_components/Format";
 
 
 

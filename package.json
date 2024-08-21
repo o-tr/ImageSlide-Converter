@@ -16,6 +16,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "antd": "^5.20.2",
+    "iron-session": "^8.0.3",
     "jotai": "^2.9.3",
     "jszip": "^3.10.1",
     "next": "14.2.5",
@@ -23,7 +24,8 @@
     "pdfjs-dist": "^4.5.136",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.3.0"
+    "react-icons": "^5.3.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",

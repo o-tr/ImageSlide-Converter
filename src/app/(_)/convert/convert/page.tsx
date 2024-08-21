@@ -1,4 +1,4 @@
-import {UploadSteps} from "@/app/(_)/upload/_components/UploadSteps";
+import {UploadSteps} from "@/app/(_)/convert/_components/UploadSteps";
 import { Flex, Spin} from "antd";
 import {Convert} from "./_components/convert";
 
