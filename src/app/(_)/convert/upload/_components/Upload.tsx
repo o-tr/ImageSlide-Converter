@@ -16,11 +16,10 @@ export const Upload:FC = () => {
   const result = useAtomValue(ResultAtom);
   const [progress, setProgress] = useState<{[fileName: string]:number}>({});
 
-  const [files, setFiles] = useAtom(SelectedFilesAtom);
+  const files = useAtomValue(SelectedFilesAtom);
   const router = useRouter();
   const initRef = useRef(false);
   useEffect(()=>{
-    setFiles([]);
     if (initRef.current) return;
     if (result.length === 0) {
       router.push("./pick");
@@ -53,7 +52,7 @@ export const Upload:FC = () => {
         router.push(`/convert/completed/${fileId}/${data.length}`);
       },100)
     })();
-  },[result,files,router,setFiles])
+  },[result,files])
   
   if (Object.keys(progress).length === 0) {
     return (<Preparing/>)
