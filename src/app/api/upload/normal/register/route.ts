@@ -56,6 +56,10 @@ export const POST = async(request: Request) => {
             {
               Key: "registered",
               Value: "true"
+            },
+            {
+              Key: "guest",
+              Value: user ? "false" : "true"
             }
           ]
         }
