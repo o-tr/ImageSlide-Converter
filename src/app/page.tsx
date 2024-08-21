@@ -14,7 +14,8 @@ export default function Home() {
         </Flex>
         <div className={"px-24"}>
           <p>スライドを TextZip 形式に変換し、ImageSlide で読み込めるようにするためのツールです</p>
-          <p>ログインすると、ファイルの管理や高可用サーバーの利用が可能になります</p>
+          <p>ログインすると、ファイルの管理や高可用サーバーの利用(準備中)が可能になります</p>
+          <p>ファイル保持期間はゲストが7日間、ユーザーが30日間です</p>
         </div>
         <Button href={"/convert/pick"}>ファイルを追加</Button>
       </Flex>
