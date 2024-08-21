@@ -13,7 +13,7 @@ import {useRouter} from "next/navigation";
 export const Convert: FC = () => {
   const version = useAtomValue(UsingVersionAtom);
   const _format = useAtomValue(ConvertFormatAtom);
-  const [_files, setFiles] = useAtom(SelectedFilesAtom);
+  const _files = useAtomValue(SelectedFilesAtom);
   const setResults = useSetAtom(ResultAtom);
   const availableFormats = useMemo(()=>getAvailableFormats(version,_files),[version]);
   const router = useRouter();
@@ -41,7 +41,6 @@ export const Convert: FC = () => {
       })();
       const result = await convert2textZip(files, version, format);
       setResults(result);
-      setFiles([]);
       router.push("./upload");
     }),100);
   }, [version,_format,_files]);
