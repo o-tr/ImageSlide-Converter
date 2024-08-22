@@ -2,7 +2,6 @@
 import { Button, Dropdown, MenuProps } from "antd";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export const ManageUser = () => {

@@ -1,6 +1,6 @@
 "use client";
 import { FC, useEffect, useRef, useState } from "react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { ResultAtom } from "@/atoms/convert";
 import { getNormalFileId } from "@/lib/service/getNormalFileId";
 import { getNormalPreSignedPut } from "@/lib/service/getNormalPreSignedPut";

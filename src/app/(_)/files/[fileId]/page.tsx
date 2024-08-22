@@ -1,5 +1,6 @@
 import { URLDisplay } from "@/app/(_)/files/[fileId]/_components/URLDisplay";
 import { Flex } from "antd";
+import { Reset } from "@/app/(_)/files/[fileId]/_components/Reset";
 
 type Props = Readonly<{ params: { fileId: string } }>;
 
@@ -9,6 +10,7 @@ export default function Page({ params }: Props) {
       <Flex vertical gap={"middle"} className={"w-3/4"}>
         <URLDisplay fileId={params.fileId} />
       </Flex>
+      <Reset />
     </div>
   );
 }

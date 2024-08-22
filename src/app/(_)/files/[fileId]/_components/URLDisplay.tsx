@@ -4,9 +4,7 @@ import { Button, Flex, Input, Result, Spin } from "antd";
 import Compact from "antd/es/space/Compact";
 import { TbCheck, TbCopy } from "react-icons/tb";
 import { getFile } from "@/lib/service/getFile";
-import { FileItem } from "@/_types/api/getMyFiles";
 import { S3_HA_PUBLIC_BASE_URL, S3_NORMAL_PUBLIC_BASE_URL } from "@/const/env";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 
 export const URLDisplay: FC<{ fileId: string }> = ({ fileId }) => {

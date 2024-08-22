@@ -2,7 +2,7 @@ import { FC } from "react";
 import { FileItem } from "@/_types/api/getMyFiles";
 import { PatchRequest } from "@/app/api/my/files/[fileId]/route";
 import { Button, Flex, Tooltip } from "antd";
-import { MdDeleteOutline, MdOutlineOpenInNew } from "react-icons/md";
+import { MdOutlineOpenInNew } from "react-icons/md";
 import { RenameButton } from "./RenameButton";
 import { DeleteButton } from "@/app/(_)/my/files/_components/DeleteButton";
 
