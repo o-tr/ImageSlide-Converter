@@ -4,6 +4,7 @@ import {PatchRequest} from "@/app/api/my/files/[fileId]/route";
 import {Button, Flex, Tooltip} from "antd";
 import {MdDeleteOutline, MdOutlineOpenInNew} from "react-icons/md";
 import {RenameButton} from "./RenameButton";
+import {DeleteButton} from "@/app/(_)/my/files/_components/DeleteButton";
 
 export const Actions:FC<{
   file: FileItem
@@ -16,11 +17,7 @@ export const Actions:FC<{
       <Tooltip placement={"top"} title={"開く"}>
         <Button icon={<MdOutlineOpenInNew/>} target={"_blank"} href={`/files/${file.fileId}`}/>
       </Tooltip>
-      <Tooltip placement={"top"} title={"削除"}>
-        <Button icon={<MdDeleteOutline/>} onClick={()=> {
-          void deleteFile(file.fileId)
-        }}/>
-      </Tooltip>
+      <DeleteButton onDelete={()=>deleteFile(file.fileId)}/>
     </Flex>
   )
 }
