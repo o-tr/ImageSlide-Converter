@@ -5,6 +5,7 @@ export const fileSchema = z.object({
   name: z.string(),
   fileId: z.string(),
   count: z.number(),
+  ha: z.boolean(),
   createdAt: z.string(),
 });
 

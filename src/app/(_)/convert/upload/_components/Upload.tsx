@@ -49,10 +49,10 @@ export const Upload:FC = () => {
           onUploadProgress: onProgress
         });
       }));
-      await postRegisterFile(fileId, files[0].fileName, data.length);
+      await postRegisterFile(fileId, files[0].fileName, data.length, data.reduce((acc, {fileSize}) => acc + fileSize, 0));
 
       setTimeout(()=>{
-        router.push(`/convert/completed/${fileId}/${data.length}`);
+        router.push(`/convert/completed/normal/${fileId}/${data.length}`);
       },100)
     })();
   },[result,files])

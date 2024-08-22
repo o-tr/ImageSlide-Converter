@@ -28,6 +28,7 @@ model file {
   name      String
   bucket    String
   fileId    String   @unique
+  totalSize Int      @default(0)
   count     Int
   ha        Boolean  @default(false)
   createdAt DateTime @default(now())

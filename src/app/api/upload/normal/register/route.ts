@@ -11,6 +11,7 @@ import {PutObjectTaggingCommand} from "@aws-sdk/client-s3";
 const RequestSchema = z.object({
   name: z.string(),
   fileId: z.string(),
+  totalSize: z.number(),
   count: z.number()
 });
 
@@ -37,6 +38,7 @@ export const POST = async(request: Request) => {
         name: data.name,
         bucket: S3_NORMAL_BUCKET,
         fileId: data.fileId,
+        totalSize: data.totalSize,
         count: data.count,
         user: user ? {
           connect: {

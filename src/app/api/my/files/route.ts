@@ -8,7 +8,8 @@ export const GET = async () => {
     fileId: file.fileId,
     name: file.name,
     count: file.count,
-    createdAt: file.createdAt
+    ha: file.ha,
+    createdAt: file.updatedAt,
   }));
   
   return NextResponse.json({status: "success", data: {
