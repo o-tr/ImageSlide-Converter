@@ -1,5 +1,9 @@
-import {S3Client} from "@aws-sdk/client-s3";
-import {S3_NORMAL_ACCESS_KEY, S3_NORMAL_ENDPOINT, S3_NORMAL_SECRET_KEY} from "@/const/env";
+import { S3Client } from "@aws-sdk/client-s3";
+import {
+  S3_NORMAL_ACCESS_KEY,
+  S3_NORMAL_ENDPOINT,
+  S3_NORMAL_SECRET_KEY,
+} from "@/const/env";
 
 export const s3NormalClient = new S3Client({
   region: "auto",

@@ -1,5 +1,5 @@
-import {z} from "zod";
-import {APIErrorResponseSchema} from "@/_types/api/error";
+import { z } from "zod";
+import { APIErrorResponseSchema } from "@/_types/api/error";
 
 export const getNormalFileIdResponseSchema = z.union([
   z.object({
@@ -9,4 +9,4 @@ export const getNormalFileIdResponseSchema = z.union([
     }),
   }),
   APIErrorResponseSchema,
-])
+]);

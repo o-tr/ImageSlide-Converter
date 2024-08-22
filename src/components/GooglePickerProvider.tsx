@@ -1,9 +1,9 @@
 "use client";
-import {FC, useEffect, useState} from "react";
+import { FC, useEffect, useState } from "react";
 import Script from "next/script";
-import {useSetAtom} from "jotai";
-import {IsGooglePickerReadyAtom} from "@/atoms/google-picker";
-import {GOOGLE_API_KEY} from "@/const/env";
+import { useSetAtom } from "jotai";
+import { IsGooglePickerReadyAtom } from "@/atoms/google-picker";
+import { GOOGLE_API_KEY } from "@/const/env";
 
 declare global {
   namespace google {
@@ -54,5 +54,5 @@ export const GooglePickerProvider: FC = () => {
       <Script src="https://apis.google.com/js/api.js" onLoad={onApiLoad} />
       <Script src="https://accounts.google.com/gsi/client" onLoad={onGisLoad} />
     </>
-  )
-}
+  );
+};

@@ -1,5 +1,5 @@
-import {z} from "zod";
-import {APIErrorResponseSchema} from "@/_types/api/error";
+import { z } from "zod";
+import { APIErrorResponseSchema } from "@/_types/api/error";
 
 export const fileSchema = z.object({
   name: z.string(),
@@ -17,7 +17,7 @@ export const getMyFilesResponseSchema = z.union([
     status: z.literal("success"),
     data: z.object({
       files: z.array(fileSchema),
-    })
+    }),
   }),
-  APIErrorResponseSchema
+  APIErrorResponseSchema,
 ]);

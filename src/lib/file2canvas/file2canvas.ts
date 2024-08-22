@@ -1,9 +1,9 @@
-import {img2canvas} from "./img2canvas";
-import {pdf2canvases} from "@/lib/file2canvas/pdf2canvases";
+import { img2canvas } from "./img2canvas";
+import { pdf2canvases } from "@/lib/file2canvas/pdf2canvases";
 
 export const file2canvas = async (
   file: File,
-): Promise<HTMLCanvasElement|HTMLCanvasElement[]> => {
+): Promise<HTMLCanvasElement | HTMLCanvasElement[]> => {
   if (file.type.startsWith("image/")) {
     return await img2canvas(file, false);
   }

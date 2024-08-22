@@ -1,7 +1,7 @@
 "use client";
 import * as pdfjs from "pdfjs-dist";
 
-if (typeof Promise.withResolvers === 'undefined') {
+if (typeof Promise.withResolvers === "undefined") {
   if (window)
     // @ts-expect-error This does not exist outside of polyfill which this is doing
     window.Promise.withResolvers = function () {
@@ -12,7 +12,7 @@ if (typeof Promise.withResolvers === 'undefined') {
       });
       return { promise, resolve, reject };
     };
-  if (globalThis){
+  if (globalThis) {
     // @ts-expect-error This does not exist outside of polyfill which this is doing
     globalThis.Promise.withResolvers = function () {
       let resolve, reject;
@@ -21,7 +21,7 @@ if (typeof Promise.withResolvers === 'undefined') {
         reject = rej;
       });
       return { promise, resolve, reject };
-    }
+    };
   }
   if (global) {
     // @ts-expect-error This does not exist outside of polyfill which this is doing
@@ -32,13 +32,12 @@ if (typeof Promise.withResolvers === 'undefined') {
         reject = rej;
       });
       return { promise, resolve, reject };
-    }
+    };
   }
 }
 
-
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-export const PdfjsProvider = () =>{
+export const PdfjsProvider = () => {
   return <></>;
-}
+};

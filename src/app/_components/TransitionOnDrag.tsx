@@ -1,18 +1,18 @@
 "use client";
-import {FC, useEffect} from "react";
-import {useAtomValue} from "jotai";
+import { FC, useEffect } from "react";
+import { useAtomValue } from "jotai";
 import { IsDragOverAtom } from "@/atoms/file-drop";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export const TransitionOnDrag:FC = () => {
+export const TransitionOnDrag: FC = () => {
   const isDragOver = useAtomValue(IsDragOverAtom);
   const router = useRouter();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (isDragOver) {
       void router.push("/convert/pick");
     }
-  },[isDragOver,router]);
+  }, [isDragOver, router]);
 
   return <></>;
-}
+};

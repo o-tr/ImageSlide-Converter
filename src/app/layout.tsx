@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {ReactNode} from "react";
-import {AntdRegistry} from "@ant-design/nextjs-registry";
-import {ThemeProvider} from "@/components/ThemeProvider";
-import {Layout} from "antd";
-import {Header} from "@/components/Header";
-import {Footer} from "@/components/Footer";
+import { ReactNode } from "react";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Layout } from "antd";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import dynamic from "next/dynamic";
-import {GooglePickerProvider} from "@/components/GooglePickerProvider";
-import {SessionProvider} from "next-auth/react";
+import { GooglePickerProvider } from "@/components/GooglePickerProvider";
+import { SessionProvider } from "next-auth/react";
 
-const PdfjsProvider = dynamic(() => import("@/components/PdfjsProvider").then((v)=>v.PdfjsProvider), { ssr: false });
+const PdfjsProvider = dynamic(
+  () => import("@/components/PdfjsProvider").then((v) => v.PdfjsProvider),
+  { ssr: false },
+);
 
 export const metadata: Metadata = {
   title: "ImageSlide Converter",
@@ -29,17 +32,16 @@ export default function RootLayout({
           <ThemeProvider>
             <SessionProvider>
               <Layout className={"!min-h-screen h-screen"}>
-                <Header/>
+                <Header />
                 {children}
-                <Footer/>
+                <Footer />
               </Layout>
             </SessionProvider>
           </ThemeProvider>
-          <PdfjsProvider/>
-          <GooglePickerProvider/>
+          <PdfjsProvider />
+          <GooglePickerProvider />
         </AntdRegistry>
       </body>
     </html>
   );
 }
-

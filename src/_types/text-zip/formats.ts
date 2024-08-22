@@ -6,4 +6,4 @@ export type FormatItemType = {
   label: TTextureFormat;
   bytePerPixel: number;
   priority: number;
-}
+};

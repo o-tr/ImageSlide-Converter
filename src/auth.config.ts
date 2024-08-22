@@ -1,5 +1,5 @@
-import {authRoutes, DEFAULT_LOGIN_REDIRECT, restrictedRoutes} from "@/routes"
-import {NextAuthConfig} from "next-auth";
+import { authRoutes, DEFAULT_LOGIN_REDIRECT, restrictedRoutes } from "@/routes";
+import { NextAuthConfig } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
@@ -9,7 +9,7 @@ declare module "next-auth" {
 
 export const authConfig = {
   pages: {
-    signIn: '/login',
+    signIn: "/login",
     error: "/",
     newUser: "/mypage",
   },
@@ -17,7 +17,10 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-      const isPublicRoute = !restrictedRoutes.some((route) => nextUrl.pathname == route || nextUrl.pathname.startsWith(`${route}/`));
+      const isPublicRoute = !restrictedRoutes.some(
+        (route) =>
+          nextUrl.pathname == route || nextUrl.pathname.startsWith(`${route}/`),
+      );
 
       if (isAuthRoute) {
         if (isLoggedIn) {
@@ -34,18 +37,17 @@ export const authConfig = {
       return true;
     },
     session({ session, user, token }) {
-      session.user.id = token.id as string
-      return session
+      session.user.id = token.id as string;
+      return session;
     },
-    jwt({ token, trigger, session, account}) {
-      if(account){
-        token.id = account.providerAccountId
+    jwt({ token, trigger, session, account }) {
+      if (account) {
+        token.id = account.providerAccountId;
       }
-      
-      if(trigger === "update") token.name = session.name;
+
+      if (trigger === "update") token.name = session.name;
       return token;
     },
-    
   },
-  providers: []
+  providers: [],
 } satisfies NextAuthConfig;
