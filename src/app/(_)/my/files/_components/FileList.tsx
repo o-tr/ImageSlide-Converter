@@ -33,10 +33,11 @@ export const FileList:FC = () => {
   
   const columns: TableColumnsType<FileItem> = useMemo(()=>([
     { title: "File Name", dataIndex: "name", key: "name" },
-    { title: "URLs", dataIndex: "count", key: "count" },
-    { title: "Server", dataIndex: "ha", key: "ha", render: (ha: boolean) => ha ? "HA" : "Normal" },
-    { title: "Created At", dataIndex: "createdAt", key: "createdAt" },
-    { title: "Actions", key: "actions", render: (file: FileItem) => <Flex gap={"middle"}>
+    { title: "URLs", dataIndex: "count", key: "count", width: 25, },
+    { title: "Server", dataIndex: "server", key: "server", width: 25, },
+    { title: "Created At", dataIndex: "createdAt", key: "createdAt", width: 200, },
+    { title: "Expire At", dataIndex: "expireAt", key: "expireAt", width: 200, },
+    { title: "Actions", key: "actions", width: 100, render: (file: FileItem) => <Flex gap={"middle"}>
         <Button
           icon={<MdOutlineDriveFileMove />}
           onClick={async ()=> {
@@ -47,9 +48,9 @@ export const FileList:FC = () => {
             })
             await loadFiles()
           }}
-          disabled={file.ha}
+          disabled={file.server === "HA"}
         >高可用性サーバへ移行</Button>
-        <Button icon={<MdOutlineOpenInNew/>} target={"_blank"} href={`/convert/completed/${file.ha ? "ha" : "normal"}/${file.fileId}/${file.count}`}>開く</Button>
+        <Button icon={<MdOutlineOpenInNew/>} target={"_blank"} href={`/convert/completed/${file.server}/${file.fileId}/${file.count}`}>開く</Button>
         <Button icon={<MdDeleteOutline/>} onClick={()=> {
           setLoading(true)
           void deleteFile(file.fileId)

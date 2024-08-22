@@ -9,7 +9,7 @@ type Props = Readonly<{ params: { fileId: string, size: string, server: string }
 
 export default function Page({params}: Props) {
   const urls = useMemo(()=>{
-    const ha = params.server === "ha";
+    const ha = params.server.toLowerCase() === "ha";
     const baseUrl = ha ? S3_HA_PUBLIC_BASE_URL : S3_NORMAL_PUBLIC_BASE_URL;
     const result: string[] = [];
     for (let i = 0; i < parseInt(params.size); i++) {

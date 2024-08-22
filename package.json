@@ -18,6 +18,7 @@
     "@dnd-kit/modifiers": "^7.0.0",
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
+    "@formkit/tempo": "^0.1.2",
     "@prisma/client": "5.18.0",
     "antd": "^5.20.2",
     "axios": "^1.7.4",

@@ -5,8 +5,9 @@ export const fileSchema = z.object({
   name: z.string(),
   fileId: z.string(),
   count: z.number(),
-  ha: z.boolean(),
+  server: z.union([z.literal("HA"), z.literal("Normal")]),
   createdAt: z.string(),
+  expireAt: z.string(),
 });
 
 export type FileItem = z.infer<typeof fileSchema>;
