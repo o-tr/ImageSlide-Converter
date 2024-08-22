@@ -48,7 +48,7 @@ export const FileList:FC = () => {
             await loadFiles()
           }}
           disabled={file.ha}
-        >Migrate To HA</Button>
+        >高可用性サーバへ移行</Button>
         <Button icon={<MdOutlineOpenInNew/>} target={"_blank"} href={`/convert/completed/${file.ha ? "ha" : "normal"}/${file.fileId}/${file.count}`}>開く</Button>
         <Button icon={<MdDeleteOutline/>} onClick={()=> {
           setLoading(true)
