@@ -11,7 +11,7 @@ export const GET = async () => {
     count: file.count,
     server: file.ha ? "HA" : "Normal",
     createdAt: format(new Date(file.createdAt), "YYYY/MM/DD HH:mm:ss", "en"),
-    expireAt: format(addDay(new Date(file.createdAt),file.ha ? 7 : 30).toISOString(), "YYYY/MM/DD HH:mm:ss", "en"),
+    expireAt: format(addDay(new Date(file.createdAt),file.ha ? 7 : 30), "YYYY/MM/DD HH:mm:ss", "en"),
   }));
   
   return NextResponse.json({status: "success", data: {
