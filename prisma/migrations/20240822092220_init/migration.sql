@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `file` ADD COLUMN `ha` BOOLEAN NOT NULL DEFAULT false;

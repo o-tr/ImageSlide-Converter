@@ -1,17 +1,19 @@
 import {useMemo} from "react";
-import {URLDisplay} from "@/app/(_)/convert/completed/[fileId]/[size]/_components/URLDisplay";
-import {S3_NORMAL_PUBLIC_BASE_URL} from "@/const/env";
+import {URLDisplay} from "./_components/URLDisplay";
+import {S3_HA_PUBLIC_BASE_URL, S3_NORMAL_PUBLIC_BASE_URL} from "@/const/env";
 import {Flex} from "antd";
 import {Reset} from "./_components/Reset";
 import {UploadSteps} from "@/app/(_)/convert/_components/UploadSteps";
 
-type Props = Readonly<{ params: { fileId: string, size: string } }>
+type Props = Readonly<{ params: { fileId: string, size: string, server: string } }>
 
 export default function Page({params}: Props) {
   const urls = useMemo(()=>{
+    const ha = params.server === "ha";
+    const baseUrl = ha ? S3_HA_PUBLIC_BASE_URL : S3_NORMAL_PUBLIC_BASE_URL;
     const result: string[] = [];
     for (let i = 0; i < parseInt(params.size); i++) {
-      result.push(`${S3_NORMAL_PUBLIC_BASE_URL}/${params.fileId}_${i}`);
+      result.push(`${baseUrl}/${params.fileId}_${i}`);
     }
     return result;
   },[params]);

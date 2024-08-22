@@ -29,6 +29,7 @@ model file {
   bucket    String
   fileId    String   @unique
   count     Int
+  ha        Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    Int?
