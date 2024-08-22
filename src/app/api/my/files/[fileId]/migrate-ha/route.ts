@@ -42,6 +42,7 @@ export const POST = async (request: Request, { params: {fileId} }: { params: { f
     data:{
       bucket: S3_HA_BUCKET,
       ha: true,
+      createdAt: new Date(),
     }
   })
   

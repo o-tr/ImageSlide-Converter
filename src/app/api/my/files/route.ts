@@ -10,8 +10,8 @@ export const GET = async () => {
     name: file.name,
     count: file.count,
     server: file.ha ? "HA" : "Normal",
-    createdAt: format(new Date(file.updatedAt), "YYYY/MM/DD HH:mm:ss", "en"),
-    expireAt: format(addDay(new Date(file.updatedAt),file.ha ? 7 : 30).toISOString(), "YYYY/MM/DD HH:mm:ss", "en"),
+    createdAt: format(new Date(file.createdAt), "YYYY/MM/DD HH:mm:ss", "en"),
+    expireAt: format(addDay(new Date(file.createdAt),file.ha ? 7 : 30).toISOString(), "YYYY/MM/DD HH:mm:ss", "en"),
   }));
   
   return NextResponse.json({status: "success", data: {
