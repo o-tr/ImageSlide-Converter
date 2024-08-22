@@ -63,7 +63,7 @@ export const FileList:FC = () => {
     { title: "Created At", dataIndex: "createdAt", key: "createdAt", width: 200, },
     { title: "Expire At", dataIndex: "expireAt", key: "expireAt", width: 200, },
     { title: "Actions", key: "actions", width: 175, render: (file) => <Actions file={file} deleteFile={deleteFile} updateFile={updateFile}/>},
-  ]),[]);
+  ]),[deleteFile,updateFile]);
   
   return(
     <div>

@@ -55,7 +55,7 @@ export const Upload:FC = () => {
         router.push(`/convert/completed/normal/${fileId}/${data.length}`);
       },100)
     })();
-  },[result,files])
+  },[result,files,router])
   
   if (Object.keys(progress).length === 0) {
     return (<Preparing/>)

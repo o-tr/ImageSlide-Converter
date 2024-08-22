@@ -27,7 +27,7 @@ export const URLDisplay:FC<{fileId: string}> = ({fileId}) => {
         setNotFound(true);
       }
     })();
-  }, []);
+  }, [fileId]);
 
   if (notFound) {
     return (
