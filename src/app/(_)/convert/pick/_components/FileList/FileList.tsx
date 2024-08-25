@@ -5,7 +5,8 @@ import {
   CSSProperties,
   useMemo,
   useContext,
-  HTMLAttributes, ChangeEvent,
+  HTMLAttributes,
+  ChangeEvent,
 } from "react";
 import {
   arrayMove,
@@ -16,7 +17,7 @@ import {
 import { Table, TableColumnsType, Button, Flex } from "antd";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { SelectedFile } from "@/_types/file-picker";
-import {useAtom, useSetAtom} from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { HolderOutlined } from "@ant-design/icons";
@@ -62,17 +63,19 @@ const Actions: FC<{ value: SelectedFile }> = ({ value }) => {
 const NoteEditor: FC<{ value: SelectedFile }> = ({ value }) => {
   const setFiles = useSetAtom(SelectedFilesAtom);
 
-  const onChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-    setFiles((prevState) => prevState.map((item) => {
-      if (item.id === value.id) {
-        return {...item, note: e.target.value};
-      }
-      return item;
-    }));
-  }
+  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setFiles((prevState) =>
+      prevState.map((item) => {
+        if (item.id === value.id) {
+          return { ...item, note: e.target.value };
+        }
+        return item;
+      }),
+    );
+  };
 
   return <TextArea value={value.note} onChange={onChange} />;
-}
+};
 
 const columns: TableColumnsType<SelectedFile> = [
   { key: "sort", align: "center", width: 80, render: () => <DragHandle /> },
@@ -82,7 +85,7 @@ const columns: TableColumnsType<SelectedFile> = [
     render: (data) => <Preview canvas={data.canvas} />,
   },
   { title: "File name", key: "fileName", render: (data) => data.fileName },
-  { title: "Speaker Note", render: (data) => <NoteEditor value={data}/> },
+  { title: "Speaker Note", render: (data) => <NoteEditor value={data} /> },
   { title: "Actions", width: 80, render: (value) => <Actions value={value} /> },
 ];
 
