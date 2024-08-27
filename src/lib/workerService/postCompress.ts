@@ -1,0 +1,29 @@
+import {WorkerMessage, WorkerResponse} from "@/_types/worker";
+import {TTextureFormat} from "@/_types/text-zip/formats";
+import {SelectedFile} from "@/_types/file-picker";
+
+const worker = new Worker(new URL("../../worker/compress.ts",import.meta.url));
+
+export const postCompress = (
+  files: SelectedFile[],
+  format: TTextureFormat,
+  version: number,
+  scale: number
+): Promise<string[]> => {
+  const message: WorkerMessage = {
+    type: "compress",
+    data: {
+      format,
+      version,
+      scale,
+      files: files.map((file) => ({...file, bitmap: file.canvas.transferToImageBitmap(), canvas: undefined}))
+    }
+  };
+  return new Promise<string[]>((resolve) => {
+    worker.addEventListener("message", (event:MessageEvent<WorkerResponse>) => {
+      if (event.data.type !== "compress") return;
+      resolve(event.data.data);
+    });
+    worker.postMessage(message, message.data.files.map((file) => file.bitmap));
+  });
+}

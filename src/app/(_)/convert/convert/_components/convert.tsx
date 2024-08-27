@@ -13,6 +13,8 @@ import { FileSizeLimit } from "@/const/convert";
 import { TTextureFormat } from "@/_types/text-zip/formats";
 import { SelectedFile } from "@/_types/file-picker";
 import { useRouter } from "next/navigation";
+import {RootURL} from "@/const/path";
+import {postCompress} from "@/lib/workerService/postCompress";
 
 export const Convert: FC = () => {
   const version = useAtomValue(UsingVersionAtom);
@@ -38,59 +40,12 @@ export const Convert: FC = () => {
     }
     if (initRef.current) return;
     initRef.current = true;
-    setTimeout(async () => {
-      const { format, files } = ((): {
-        format: TTextureFormat;
-        files: SelectedFile[];
-      } => {
-        switch (_format) {
-          case "auto":
-            return { format: bestFormat.label, files: _files };
-          case "auto-one-file": {
-            const scale =
-              Math.floor(
-                Math.min(
-                  (FileSizeLimit - 1024 * 1024) / bestFormat.fileSize,
-                  1,
-                ) * 100,
-              ) / 100;
-            return {
-              format: bestFormat.label,
-              files: resizeFiles(_files, scale),
-            };
-          }
-          default:
-            return { format: _format as TTextureFormat, files: _files };
-        }
-      })();
-      const result = await convert2textZip(files, version, format);
-      setResults(result);
-      router.push("./upload");
-    }, 100);
+    postCompress(_files, bestFormat.label as TTextureFormat, version, 1).then(
+      (result) => {
+        setResults(result);
+        router.push("./upload");
+      },
+    );
   }, [version, _format, _files, bestFormat, router, setResults]);
   return <></>;
-};
-
-const resizeFiles = (files: SelectedFile[], scale: number) => {
-  return files.map((file) => {
-    const canvas = file.canvas;
-    const newCanvas = new OffscreenCanvas(canvas.width * scale, canvas.height * scale);
-    newCanvas
-      .getContext("2d")
-      ?.drawImage(
-        canvas,
-        0,
-        0,
-        canvas.width,
-        canvas.height,
-        0,
-        0,
-        newCanvas.width,
-        newCanvas.height,
-      );
-    return {
-      ...file,
-      canvas: newCanvas,
-    };
-  });
 };
