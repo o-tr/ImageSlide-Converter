@@ -3,7 +3,7 @@ import { pdf2canvases } from "@/lib/file2canvas/pdf2canvases";
 
 export const file2canvas = async (
   file: File,
-): Promise<HTMLCanvasElement | HTMLCanvasElement[]> => {
+): Promise<OffscreenCanvas | OffscreenCanvas[]> => {
   if (file.type.startsWith("image/")) {
     return await img2canvas(file, false);
   }

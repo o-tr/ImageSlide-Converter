@@ -3,7 +3,7 @@ import { canvas2rgba32 } from "./canvas2rgba32";
 import { TTextureFormat } from "@/_types/text-zip/formats";
 
 export const canvas2rawImage = (
-  canvas: HTMLCanvasElement,
+  canvas: OffscreenCanvas,
   format: TTextureFormat = "RGBA32",
 ): Buffer => {
   switch (format) {

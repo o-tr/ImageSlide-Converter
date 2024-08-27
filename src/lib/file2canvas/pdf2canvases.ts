@@ -4,7 +4,7 @@ import { pdfPage2canvas } from "./pdfPage2canvas";
 
 export const pdf2canvases = async (
   file: File | Buffer,
-): Promise<HTMLCanvasElement[]> => {
+): Promise<OffscreenCanvas[]> => {
   const fileData = await (async () => {
     if (file instanceof File) {
       return await readFile(file);

@@ -1,14 +1,20 @@
-import { FC, useEffect, useRef } from "react";
+import {FC, useEffect, useRef, useState} from "react";
+import {Spin} from "antd";
 
-export const Preview: FC<{ canvas: HTMLCanvasElement }> = ({ canvas }) => {
-  const ref = useRef<HTMLDivElement>(null);
+export const Preview: FC<{ canvas: OffscreenCanvas }> = ({ canvas }) => {
+  const [url, setUrl] = useState<string>();
 
   useEffect(() => {
-    canvas.classList.add("object-contain", "max-h-32", "max-w-32");
-    const element = ref.current;
-    element?.append(canvas);
-    return () => void element?.removeChild(canvas);
+    canvas.convertToBlob().then((blob) => {
+      setUrl(URL.createObjectURL(blob));
+    });
   }, [canvas]);
 
-  return <div className={"w-128 text-center"} ref={ref} />;
+  return (
+    <div className={"w-128 text-center"}>
+      {url ? (
+        <img className={"object-contain max-h-32 max-w-32"} src={url}/>
+      ) : (<Spin/>)}
+    </div>
+  );
 };

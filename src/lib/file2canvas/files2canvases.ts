@@ -2,11 +2,11 @@ import { file2canvas } from "./file2canvas";
 
 export const files2canvases = async (
   files: FileList | File[],
-): Promise<{ canvas: HTMLCanvasElement; fileName: string }[]> => {
+): Promise<{ canvas: OffscreenCanvas; fileName: string }[]> => {
   return (
     await Promise.all(
       Array.from(files).map<
-        Promise<{ canvas: HTMLCanvasElement; fileName: string }[]>
+        Promise<{ canvas: OffscreenCanvas; fileName: string }[]>
       >(async (file) => {
         try {
           const canvases = await file2canvas(file);

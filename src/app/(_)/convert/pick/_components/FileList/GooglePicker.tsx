@@ -149,7 +149,7 @@ export const GooglePicker = () => {
 const slide2canvas = async (
   slideId: string,
 ): Promise<{
-  slides: { note: string; canvas: HTMLCanvasElement }[];
+  slides: { note: string; canvas: OffscreenCanvas }[];
   title: string;
 }> => {
   const response: GetSlideResponse = await gapi.client.slides.presentations.get(
@@ -164,7 +164,7 @@ const slide2canvas = async (
       .map<
         Promise<{
           note: string;
-          canvas: HTMLCanvasElement;
+          canvas: OffscreenCanvas;
         }>
       >(async (slide) => {
         const note = slide.slideProperties.notesPage.pageElements
@@ -185,16 +185,14 @@ const slide2canvas = async (
             presentationId: slideId,
             pageObjectId: slide.objectId,
           });
-        return new Promise<{ note: string; canvas: HTMLCanvasElement }>(
+        return new Promise<{ note: string; canvas: OffscreenCanvas }>(
           (resolve) => {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
             const img = new Image();
             img.crossOrigin = "anonymous";
             img.src = thumbnail.result.contentUrl;
             img.onload = () => {
-              canvas.width = img.width;
-              canvas.height = img.height;
+              const canvas = new OffscreenCanvas(img.width,img.height);
+              const ctx = canvas.getContext("2d");
               ctx?.drawImage(img, 0, 0);
               resolve({
                 canvas,

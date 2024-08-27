@@ -1,11 +1,8 @@
-export const img2canvas = async (
+export const img2canvas = (
   file: File,
   resize = true,
-): Promise<HTMLCanvasElement> => {
-  return new Promise<HTMLCanvasElement>((resolve) => {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    if (!context) return;
+): Promise<OffscreenCanvas> => {
+  return new Promise<OffscreenCanvas>((resolve) => {
     const img = new Image();
     img.src = URL.createObjectURL(file);
     img.onload = () => {
@@ -18,6 +15,9 @@ export const img2canvas = async (
         }
         return { width: img.width, height: img.height };
       })();
+      const canvas = new OffscreenCanvas(width, height);
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Canvas not found");
       canvas.width = width;
       canvas.height = height;
       context.drawImage(img, 0, 0, width, height);

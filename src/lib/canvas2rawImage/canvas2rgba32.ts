@@ -1,4 +1,4 @@
-export const canvas2rgba32 = (canvas: HTMLCanvasElement): number[] => {
+export const canvas2rgba32 = (canvas: OffscreenCanvas): number[] => {
   const context = canvas.getContext("2d");
   if (!context) throw new Error("Canvas not found");
   const data = context.getImageData(
