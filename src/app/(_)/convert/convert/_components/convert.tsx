@@ -74,9 +74,7 @@ export const Convert: FC = () => {
 const resizeFiles = (files: SelectedFile[], scale: number) => {
   return files.map((file) => {
     const canvas = file.canvas;
-    const newCanvas = document.createElement("canvas");
-    newCanvas.width = canvas.width * scale;
-    newCanvas.height = canvas.height * scale;
+    const newCanvas = new OffscreenCanvas(canvas.width * scale, canvas.height * scale);
     newCanvas
       .getContext("2d")
       ?.drawImage(
