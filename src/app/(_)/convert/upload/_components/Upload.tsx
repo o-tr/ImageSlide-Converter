@@ -60,7 +60,7 @@ export const Upload: FC = () => {
       );
 
       setTimeout(() => {
-        router.push(`/convert/completed/normal/${fileId}/${data.length}`);
+        router.push(`/files/${fileId}`);
       }, 100);
     })();
   }, [result, files, router]);
