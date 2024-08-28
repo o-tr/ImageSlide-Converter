@@ -1,5 +1,5 @@
-import {FC, useEffect, useRef, useState} from "react";
-import {Spin} from "antd";
+import { FC, useEffect, useRef, useState } from "react";
+import { Spin } from "antd";
 
 export const Preview: FC<{ canvas: OffscreenCanvas }> = ({ canvas }) => {
   const [url, setUrl] = useState<string>();
@@ -13,8 +13,10 @@ export const Preview: FC<{ canvas: OffscreenCanvas }> = ({ canvas }) => {
   return (
     <div className={"w-128 text-center"}>
       {url ? (
-        <img className={"object-contain max-h-32 max-w-32"} src={url}/>
-      ) : (<Spin/>)}
+        <img className={"object-contain max-h-32 max-w-32"} src={url} />
+      ) : (
+        <Spin />
+      )}
     </div>
   );
 };

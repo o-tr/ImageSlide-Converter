@@ -13,8 +13,8 @@ import { FileSizeLimit } from "@/const/convert";
 import { TTextureFormat } from "@/_types/text-zip/formats";
 import { SelectedFile } from "@/_types/file-picker";
 import { useRouter } from "next/navigation";
-import {RootURL} from "@/const/path";
-import {postCompress} from "@/lib/workerService/postCompress";
+import { RootURL } from "@/const/path";
+import { postCompress } from "@/lib/workerService/postCompress";
 
 export const Convert: FC = () => {
   const version = useAtomValue(UsingVersionAtom);

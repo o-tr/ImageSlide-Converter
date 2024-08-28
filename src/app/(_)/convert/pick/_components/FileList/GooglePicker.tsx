@@ -191,7 +191,7 @@ const slide2canvas = async (
             img.crossOrigin = "anonymous";
             img.src = thumbnail.result.contentUrl;
             img.onload = () => {
-              const canvas = new OffscreenCanvas(img.width,img.height);
+              const canvas = new OffscreenCanvas(img.width, img.height);
               const ctx = canvas.getContext("2d");
               ctx?.drawImage(img, 0, 0);
               resolve({
