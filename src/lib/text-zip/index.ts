@@ -8,8 +8,8 @@ export const convert2textZip = async (
   version: number,
   format: TTextureFormat,
 ): Promise<string[]> => {
-  if (version === 1) {
-    return await convert2v1(files, format);
+  if (version === 0) {
+    return await convert2v0(files);
   }
-  return await convert2v0(files);
+  return await convert2v1(files, format);
 };

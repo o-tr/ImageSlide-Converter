@@ -7,14 +7,11 @@ import {
   UsingVersionAtom,
 } from "@/atoms/convert";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { convert2textZip } from "@/lib/text-zip";
 import { getAvailableFormats } from "@/utils/getAvailableFormats";
-import { FileSizeLimit } from "@/const/convert";
 import { TTextureFormat } from "@/_types/text-zip/formats";
-import { SelectedFile } from "@/_types/file-picker";
 import { useRouter } from "next/navigation";
-import { RootURL } from "@/const/path";
 import { postCompress } from "@/lib/workerService/postCompress";
+import {FileSizeLimit} from "@/const/convert";
 
 export const Convert: FC = () => {
   const version = useAtomValue(UsingVersionAtom);
@@ -40,7 +37,21 @@ export const Convert: FC = () => {
     }
     if (initRef.current) return;
     initRef.current = true;
-    postCompress(_files, bestFormat.label as TTextureFormat, version, 1).then(
+    const {format,scale} = (() => {
+      if (_format === "auto") return {format: bestFormat.label, scale: 1};
+      if (_format === "auto-one-file") {
+        const scale =
+          Math.floor(
+            Math.min(
+              (FileSizeLimit - 1024 * 1024) / bestFormat.fileSize,
+              1,
+            ) * 100,
+          ) / 100;
+        return {format: bestFormat.label, scale};
+      }
+      return {format: _format, scale: 1};
+    })();
+    postCompress(_files, format as TTextureFormat, version, scale).then(
       (result) => {
         setResults(result);
         router.push("./upload");

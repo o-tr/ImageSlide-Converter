@@ -12,10 +12,10 @@ export const Version: FC = () => {
     <Flex vertical gap={"middle"}>
       <h2 className={"text-xl"}>使用している環境を選択してください</h2>
       <Radio.Group onChange={(e) => setVersion(e.target.value)} value={version}>
-        {TargetVersions.map((v, i) => (
+        {TargetVersions.map((v) => (
           <Radio.Button
             key={v.label}
-            value={i}
+            value={v.value}
             className={"w-[256px] !h-[256px]"}
           >
             <Flex vertical className={"p-2 text-center"}>
