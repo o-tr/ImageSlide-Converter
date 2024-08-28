@@ -3,7 +3,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { ConvertFormatAtom, UsingVersionAtom } from "@/atoms/convert";
 import { Flex, Radio, Tooltip } from "antd";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { FileSizeLimit, TargetVersions } from "@/const/convert";
+import { FileSizeLimit } from "@/const/convert";
 import { estimateFileSize } from "@/utils/estimateFileSize";
 import { FormatItemType } from "@/_types/text-zip/formats";
 import { getAvailableFormats } from "@/utils/getAvailableFormats";
