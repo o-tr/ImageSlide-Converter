@@ -31,6 +31,8 @@ model file {
   totalSize Int      @default(0)
   count     Int
   ha        Boolean  @default(false)
+  version   Int      @default(0)
+  format    String   @default("RGBA32")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    Int?
