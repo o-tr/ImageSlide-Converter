@@ -53,6 +53,8 @@ export const GET = async (
         name: file.name,
         count: file.count,
         server: file.ha ? "HA" : "Normal",
+        format: file.format,
+        version: file.version,
         createdAt: format(
           new Date(file.createdAt),
           "YYYY/MM/DD HH:mm:ss",

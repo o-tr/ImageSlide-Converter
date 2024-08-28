@@ -6,6 +6,8 @@ export const fileSchema = z.object({
   fileId: z.string(),
   count: z.number(),
   server: z.union([z.literal("HA"), z.literal("Normal")]),
+  format: z.string(),
+  version: z.number(),
   createdAt: z.string(),
   expireAt: z.string(),
 });

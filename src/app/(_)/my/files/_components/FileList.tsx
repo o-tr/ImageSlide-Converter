@@ -73,6 +73,8 @@ export const FileList: FC = () => {
           </Flex>
         ),
       },
+      { title: "Format", dataIndex: "format", key: "format", width: 100 },
+      { title: "Version", dataIndex: "version", key: "version", width: 100 },
       {
         title: "Created At",
         dataIndex: "createdAt",
