@@ -2,7 +2,7 @@ import { WorkerMessage, WorkerResponse } from "@/_types/worker";
 import { TTextureFormat } from "@/_types/text-zip/formats";
 import { SelectedFile } from "@/_types/file-picker";
 
-const worker = new Worker(new URL("../../worker/compress.ts", import.meta.url));
+const worker = (typeof window !== 'undefined' ? new Worker(new URL("../../worker/compress.ts", import.meta.url)) : undefined) as Worker;
 
 export const postCompress = (
   files: SelectedFile[],
