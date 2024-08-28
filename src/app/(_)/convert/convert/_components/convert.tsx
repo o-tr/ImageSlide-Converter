@@ -51,7 +51,11 @@ export const Convert: FC = () => {
     })();
     postCompress(_files, format as TTextureFormat, version, scale).then(
       (result) => {
-        setResults(result);
+        setResults({
+          data: result,
+          format,
+          version,
+        });
         router.push("./upload");
       },
     );

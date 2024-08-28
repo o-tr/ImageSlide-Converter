@@ -22,7 +22,7 @@ export const Format: FC = () => {
     return availableFormats.toSorted((a, b) => b.priority - a.priority)[0];
   }, [availableFormats]);
 
-  const oneFileOptionEnabled = bestFormat.fileSize > FileSizeLimit;
+  const oneFileOptionEnabled = bestFormat?.fileSize > FileSizeLimit;
 
   useEffect(() => {
     if (oneFileOptionEnabled) return;
@@ -33,12 +33,14 @@ export const Format: FC = () => {
     <Flex vertical gap={"middle"}>
       <h2 className={"text-xl"}>フォーマットを選択してください</h2>
       <Radio.Group onChange={(e) => setFormat(e.target.value)} value={format}>
-        <Radio.Button className={"w-[256px] !h-[76px]"} value={"auto"}>
-          <Flex vertical className={"p-2 text-center h-full"} align={"center"}>
-            <p>自動 ({bestFormat.label})</p>
-            <p>{toLabel(bestFormat.fileSize)}</p>
-          </Flex>
-        </Radio.Button>
+        {bestFormat && (
+          <Radio.Button className={"w-[256px] !h-[76px]"} value={"auto"}>
+            <Flex vertical className={"p-2 text-center h-full"} align={"center"}>
+              <p>自動 ({bestFormat.label})</p>
+              <p>{toLabel(bestFormat.fileSize)}</p>
+            </Flex>
+          </Radio.Button>
+        )}
         {oneFileOptionEnabled && (
           <Tooltip
             placement="top"

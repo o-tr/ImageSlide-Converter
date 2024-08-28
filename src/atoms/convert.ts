@@ -7,4 +7,8 @@ export const ConvertFormatAtom = atomWithStorage<string>(
   "auto",
 );
 
-export const ResultAtom = atom<string[]>([]);
+export const ResultAtom = atom<{
+  data: string[],
+  format: string,
+  version: number,
+}>();

@@ -6,10 +6,14 @@ export const postRegisterFile = async (
   fileName: string,
   count: number,
   totalSize: number,
+  format: string,
+  version: number,
 ) => {
   const _data = await axios.post("/api/upload/normal/register", {
     name: fileName,
     fileId: fileId,
+    format: format,
+    version: version,
     count: count,
     totalSize: totalSize,
   });

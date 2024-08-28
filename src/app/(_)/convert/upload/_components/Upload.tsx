@@ -21,13 +21,13 @@ export const Upload: FC = () => {
   const initRef = useRef(false);
   useEffect(() => {
     if (initRef.current) return;
-    if (result.length === 0) {
+    if (!result || result.data.length === 0) {
       router.push("./pick");
       return;
     }
     initRef.current = true;
     void (async () => {
-      const data = result.map<{ fileSize: number; file: File }>((input) => {
+      const data = result.data.map<{ fileSize: number; file: File }>((input) => {
         const file = new File([input], "file.txt");
         return { fileSize: input.length, file };
       });
@@ -57,6 +57,8 @@ export const Upload: FC = () => {
         files[0].fileName,
         data.length,
         data.reduce((acc, { fileSize }) => acc + fileSize, 0),
+        result.format,
+        result.version,
       );
 
       setTimeout(() => {
@@ -70,7 +72,7 @@ export const Upload: FC = () => {
   }
   if (
     Object.entries(progress).reduce((acc, [_, value]) => acc + value, 0) ===
-    result.length
+    result?.data.length
   ) {
     return <Completed />;
   }
