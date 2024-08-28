@@ -9,7 +9,7 @@ export const Reset: FC = () => {
   const setFiles = useSetAtom(SelectedFilesAtom);
 
   useEffect(() => {
-    setResult([]);
+    setResult(undefined);
     setFiles([]);
   }, [setResult, setFiles]);
   return <></>;
