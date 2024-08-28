@@ -1,7 +1,13 @@
-declare class BasisEncoder{
+declare class BasisEncoder {
   constructor();
   encode: (image: Uint8Array) => number;
-  setSliceSourceImage: (slice_index: number, image: Uint8Array, width: number, height: number, isPng: boolean) => boolean;
+  setSliceSourceImage: (
+    slice_index: number,
+    image: Uint8Array,
+    width: number,
+    height: number,
+    isPng: boolean,
+  ) => boolean;
   setUASTC: (uastc: boolean) => void;
   setYFlip: (yFlip: boolean) => void;
   setDebug: (debug: boolean) => void;
@@ -14,7 +20,7 @@ declare class BasisEncoder{
   setMaxSelectorClusters: (max_selector_clusters: number) => void;
   setQualityLevel: (quality_level: number) => void;
   setCompressionLevel: (compression_level: number) => void;
-  setNormalMap: ()=>void;
+  setNormalMap: () => void;
   setSelectorRDOThresh: (selector_rdo_thresh: number) => void;
   setEndpointRDOThresh: (endpoint_rdo_thresh: number) => void;
   setCreateKTX2File: (create_ktx2_file: boolean) => void;
@@ -34,8 +40,12 @@ declare class BasisEncoder{
   setRDOUASTC: (rdo_uastc: boolean) => void;
   setRDOUASTCQualityScalar: (rdo_uastc_quality_scalar: number) => void;
   setRDOUASTCDictSize: (rdo_uastc_dict_size: number) => void;
-  setRDOUASTCMaxAllowedRMSIncreaseRatio: (rdo_uastc_max_allowed_rms_increase_ratio: number) => void;
-  setRDOUASTCSkipBlockRMSThresh: (rdo_uastc_skip_block_rms_thresh: number) => void;
+  setRDOUASTCMaxAllowedRMSIncreaseRatio: (
+    rdo_uastc_max_allowed_rms_increase_ratio: number,
+  ) => void;
+  setRDOUASTCSkipBlockRMSThresh: (
+    rdo_uastc_skip_block_rms_thresh: number,
+  ) => void;
   setNoSelectorRDO: (no_selector_rdo: boolean) => void;
   setNoEndpointRDO: (no_endpoint_rdo: boolean) => void;
   setComputeStats: (compute_stats: boolean) => void;
@@ -43,7 +53,7 @@ declare class BasisEncoder{
   delete: () => void;
 }
 
-declare class BasisFile{
+declare class BasisFile {
   constructor(data: Uint8Array);
   close: () => void;
   getHasAlpha: () => boolean;
@@ -52,21 +62,35 @@ declare class BasisFile{
   getNumLevels: (image_index: number) => number;
   getImageWidth: (image_index: number, level_index: number) => number;
   getImageHeight: (image_index: number, level_index: number) => number;
-  getImageTranscodedSizeInBytes: (image_index: number, level_index: number, format: number) => number;
+  getImageTranscodedSizeInBytes: (
+    image_index: number,
+    level_index: number,
+    format: number,
+  ) => number;
   startTranscoding: () => number;
-  transcodeImage: (dst: Uint8Array, image_index: number, level_index: number, format: number, unused: number, getAlphaForOpaqueFormats: number) => number;
+  transcodeImage: (
+    dst: Uint8Array,
+    image_index: number,
+    level_index: number,
+    format: number,
+    unused: number,
+    getAlphaForOpaqueFormats: number,
+  ) => number;
   getFileDesc: () => BasisFileDesc;
   getImageDesc: (image_index: number) => BasisImageDesc;
-  getImageLevelDesc: (image_index: number, level_index: number) => BasisImageLevelDesc;
+  getImageLevelDesc: (
+    image_index: number,
+    level_index: number,
+  ) => BasisImageLevelDesc;
   delete: () => void;
 }
 
-declare class BasisFileDesc{
+declare class BasisFileDesc {
   version: number;
   usPerFrame: number;
   totalImages: number;
-  userdata0 : number;
-  userdata1 : number;
+  userdata0: number;
+  userdata1: number;
   texFormat: number;
   yFlipped: boolean;
   hasAlphaSlices: boolean;
@@ -80,7 +104,7 @@ declare class BasisFileDesc{
   tablesLen: number;
 }
 
-declare class BasisImageDesc{
+declare class BasisImageDesc {
   origWidth: number;
   origHeight: number;
   numBlocksX: number;
@@ -90,7 +114,7 @@ declare class BasisImageDesc{
   iframeFlag: boolean;
 }
 
-declare class BasisImageLevelDesc{
+declare class BasisImageLevelDesc {
   rgbFileOfs: number;
   rgbFileLen: number;
   alphaFileOfs: number;

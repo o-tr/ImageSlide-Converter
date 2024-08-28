@@ -1,6 +1,6 @@
 import { WorkerMessage, WorkerResponse } from "@/_types/worker";
 import { convert2textZip } from "@/lib/text-zip";
-import {initPromise} from "@/lib/basis";
+import { initPromise } from "@/lib/basis";
 
 const worker = self as unknown as Worker;
 worker.addEventListener(
@@ -10,10 +10,10 @@ worker.addEventListener(
     await initPromise;
     const { files: _files, format, version, scale } = event.data.data;
     const files = _files.map((file) => {
-      if (["DXT1"].includes(format)){
-        const _width = Math.ceil(file.bitmap.width * scale / 4) * 4;
-        const _height = Math.ceil(file.bitmap.height * scale / 4) * 4;
-        if (_width === file.bitmap.width && _height === file.bitmap.height){
+      if (["DXT1"].includes(format)) {
+        const _width = Math.ceil((file.bitmap.width * scale) / 4) * 4;
+        const _height = Math.ceil((file.bitmap.height * scale) / 4) * 4;
+        if (_width === file.bitmap.width && _height === file.bitmap.height) {
           const canvas = new OffscreenCanvas(
             file.bitmap.width,
             file.bitmap.height,
@@ -25,7 +25,7 @@ worker.addEventListener(
         canvas
           .getContext("2d")
           ?.drawImage(file.bitmap, 0, 0, canvas.width, canvas.height);
-        return { ...file, canvas};
+        return { ...file, canvas };
       }
       if (scale === 1) {
         const canvas = new OffscreenCanvas(

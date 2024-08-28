@@ -13,7 +13,7 @@ export const Preview: FC<{ canvas: OffscreenCanvas }> = ({ canvas }) => {
   return (
     <div className={"w-128 text-center"}>
       {url ? (
-        <img className={"object-contain max-h-32 max-w-32"} src={url} />
+        <img className={"object-contain max-h-32 max-w-32"} src={url} alt={"preview"} />
       ) : (
         <Spin />
       )}

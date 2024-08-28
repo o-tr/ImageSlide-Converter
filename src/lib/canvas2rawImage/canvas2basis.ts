@@ -1,5 +1,5 @@
-import {BasisEncoder, initializeBasis} from "@/lib/basis";
-import {canvas2rgba32} from "@/lib/canvas2rawImage/canvas2rgba32";
+import { BasisEncoder, initializeBasis } from "@/lib/basis";
+import { canvas2rgba32 } from "@/lib/canvas2rawImage/canvas2rgba32";
 
 export const canvas2basis = (canvas: OffscreenCanvas): Uint8Array => {
   const data = new Uint8Array(canvas2rgba32(canvas));

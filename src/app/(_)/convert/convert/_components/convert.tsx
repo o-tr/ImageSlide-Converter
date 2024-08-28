@@ -11,7 +11,7 @@ import { getAvailableFormats } from "@/utils/getAvailableFormats";
 import { TTextureFormat } from "@/_types/text-zip/formats";
 import { useRouter } from "next/navigation";
 import { postCompress } from "@/lib/workerService/postCompress";
-import {FileSizeLimit} from "@/const/convert";
+import { FileSizeLimit } from "@/const/convert";
 
 export const Convert: FC = () => {
   const version = useAtomValue(UsingVersionAtom);
@@ -37,19 +37,17 @@ export const Convert: FC = () => {
     }
     if (initRef.current) return;
     initRef.current = true;
-    const {format,scale} = (() => {
-      if (_format === "auto") return {format: bestFormat.label, scale: 1};
+    const { format, scale } = (() => {
+      if (_format === "auto") return { format: bestFormat.label, scale: 1 };
       if (_format === "auto-one-file") {
         const scale =
           Math.floor(
-            Math.min(
-              (FileSizeLimit - 1024 * 1024) / bestFormat.fileSize,
-              1,
-            ) * 100,
+            Math.min((FileSizeLimit - 1024 * 1024) / bestFormat.fileSize, 1) *
+              100,
           ) / 100;
-        return {format: bestFormat.label, scale};
+        return { format: bestFormat.label, scale };
       }
-      return {format: _format, scale: 1};
+      return { format: _format, scale: 1 };
     })();
     postCompress(_files, format as TTextureFormat, version, scale).then(
       (result) => {

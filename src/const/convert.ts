@@ -1,4 +1,4 @@
-import {FormatItemType, TTextureFormat} from "@/_types/text-zip/formats";
+import { FormatItemType, TTextureFormat } from "@/_types/text-zip/formats";
 
 export const FileSizeLimit = 95 * 1024 * 1024;
 export const ActualFileSizeLimit = 100 * 1024 * 1024;
@@ -20,7 +20,7 @@ export const TargetVersions: {
     image: "/image-slide/v0.1.x.png",
     value: 1,
     formats: ["RGBA32", "RGB24", "DXT1"],
-  }
+  },
 ];
 
 export const TargetFormats: FormatItemType[] = [
@@ -38,5 +38,5 @@ export const TargetFormats: FormatItemType[] = [
     label: "DXT1",
     bytePerPixel: 0.5,
     priority: 1,
-  }
+  },
 ];

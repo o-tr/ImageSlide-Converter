@@ -1,4 +1,4 @@
-export const TextureFormat = ["RGB24", "RGBA32","DXT1"] as const;
+export const TextureFormat = ["RGB24", "RGBA32", "DXT1"] as const;
 
 export type TTextureFormat = (typeof TextureFormat)[number];
 
