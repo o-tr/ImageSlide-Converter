@@ -1,12 +1,12 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import {Alert, Button, Flex, Input, Result, Spin} from "antd";
+import { Alert, Button, Flex, Input, Result, Spin } from "antd";
 import Compact from "antd/es/space/Compact";
 import { TbCheck, TbCopy } from "react-icons/tb";
 import { getFile } from "@/lib/service/getFile";
 import { S3_HA_PUBLIC_BASE_URL, S3_NORMAL_PUBLIC_BASE_URL } from "@/const/env";
 import Link from "next/link";
-import {FileItem} from "@/_types/api/getMyFiles";
+import { FileItem } from "@/_types/api/getMyFiles";
 
 export const URLDisplay: FC<{ fileId: string }> = ({ fileId }) => {
   const [urls, setUrls] = useState<string[] | undefined>(undefined);
@@ -59,10 +59,22 @@ export const URLDisplay: FC<{ fileId: string }> = ({ fileId }) => {
       </Flex>
       <Flex vertical align={"start"} gap={"middle"}>
         {file?.format === "DXT1" && (
-          <Alert message={"ImageSlide v0.2.x未満及び、Questではこのスライドを読み込むことができません"} type="info" showIcon />
+          <Alert
+            message={
+              "ImageSlide v0.2.x未満及び、Questではこのスライドを読み込むことができません"
+            }
+            type="info"
+            showIcon
+          />
         )}
         {file?.version === 1 && file?.format !== "DXT1" && (
-          <Alert message={"ImageSlide v0.1.x未満ではこのスライドを読み込むことができません"} type="info" showIcon />
+          <Alert
+            message={
+              "ImageSlide v0.1.x未満ではこのスライドを読み込むことができません"
+            }
+            type="info"
+            showIcon
+          />
         )}
       </Flex>
       <div>

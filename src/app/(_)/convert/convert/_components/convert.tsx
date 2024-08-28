@@ -11,16 +11,21 @@ import { getAvailableFormats } from "@/utils/getAvailableFormats";
 import { TTextureFormat } from "@/_types/text-zip/formats";
 import { useRouter } from "next/navigation";
 import { postCompress } from "@/lib/workerService/postCompress";
-import { FileSizeLimit } from "@/const/convert";
+import { FileSizeLimit, TargetVersions } from "@/const/convert";
 
 export const Convert: FC = () => {
-  const version = useAtomValue(UsingVersionAtom);
+  const imageSlideVersion = useAtomValue(UsingVersionAtom);
   const _format = useAtomValue(ConvertFormatAtom);
   const _files = useAtomValue(SelectedFilesAtom);
   const setResults = useSetAtom(ResultAtom);
+  const version = useMemo(() => {
+    return (
+      TargetVersions.find((v) => v.label === imageSlideVersion)?.value ?? 0
+    );
+  }, [imageSlideVersion]);
   const availableFormats = useMemo(
-    () => getAvailableFormats(version, _files),
-    [version, _files],
+    () => getAvailableFormats(imageSlideVersion, _files),
+    [imageSlideVersion, _files],
   );
   const router = useRouter();
 

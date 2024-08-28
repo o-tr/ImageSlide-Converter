@@ -27,10 +27,12 @@ export const Upload: FC = () => {
     }
     initRef.current = true;
     void (async () => {
-      const data = result.data.map<{ fileSize: number; file: File }>((input) => {
-        const file = new File([input], "file.txt");
-        return { fileSize: input.length, file };
-      });
+      const data = result.data.map<{ fileSize: number; file: File }>(
+        (input) => {
+          const file = new File([input], "file.txt");
+          return { fileSize: input.length, file };
+        },
+      );
       const fileId = await getNormalFileId();
       const contentLengths = data.map((input) => input.fileSize);
       const preSignedPut = await getNormalPreSignedPut(fileId, contentLengths);

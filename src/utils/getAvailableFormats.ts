@@ -2,8 +2,8 @@ import { TargetFormats, TargetVersions } from "@/const/convert";
 import { estimateFileSize } from "@/utils/estimateFileSize";
 import { SelectedFile } from "@/_types/file-picker";
 
-export const getAvailableFormats = (version: number, files: SelectedFile[]) => {
-  const supported = TargetVersions[version]?.formats;
+export const getAvailableFormats = (version: string, files: SelectedFile[]) => {
+  const supported = TargetVersions.find((v) => v.label === version)?.formats;
   if (!supported) {
     return [];
   }

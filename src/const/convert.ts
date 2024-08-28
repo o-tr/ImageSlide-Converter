@@ -19,6 +19,12 @@ export const TargetVersions: {
     label: "v0.1.x",
     image: "/image-slide/v0.1.x.png",
     value: 1,
+    formats: ["RGBA32", "RGB24"],
+  },
+  {
+    label: "v0.2.x",
+    image: "/image-slide/v0.1.x.png",
+    value: 1,
     formats: ["RGBA32", "RGB24", "DXT1"],
   },
 ];

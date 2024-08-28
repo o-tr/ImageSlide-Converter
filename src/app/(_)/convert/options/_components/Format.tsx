@@ -3,19 +3,19 @@ import { useAtom, useAtomValue } from "jotai";
 import { ConvertFormatAtom, UsingVersionAtom } from "@/atoms/convert";
 import { Flex, Radio, Tooltip } from "antd";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { FileSizeLimit } from "@/const/convert";
+import { FileSizeLimit, TargetVersions } from "@/const/convert";
 import { estimateFileSize } from "@/utils/estimateFileSize";
 import { FormatItemType } from "@/_types/text-zip/formats";
 import { getAvailableFormats } from "@/utils/getAvailableFormats";
 
 export const Format: FC = () => {
   const [format, setFormat] = useAtom(ConvertFormatAtom);
-  const version = useAtomValue(UsingVersionAtom);
+  const imageSlideVersion = useAtomValue(UsingVersionAtom);
   const files = useAtomValue(SelectedFilesAtom);
 
   const availableFormats = useMemo(
-    () => getAvailableFormats(version, files),
-    [files, version],
+    () => getAvailableFormats(imageSlideVersion, files),
+    [files, imageSlideVersion],
   );
 
   const bestFormat = useMemo(() => {
@@ -35,7 +35,11 @@ export const Format: FC = () => {
       <Radio.Group onChange={(e) => setFormat(e.target.value)} value={format}>
         {bestFormat && (
           <Radio.Button className={"w-[256px] !h-[76px]"} value={"auto"}>
-            <Flex vertical className={"p-2 text-center h-full"} align={"center"}>
+            <Flex
+              vertical
+              className={"p-2 text-center h-full"}
+              align={"center"}
+            >
               <p>自動 ({bestFormat.label})</p>
               <p>{toLabel(bestFormat.fileSize)}</p>
             </Flex>

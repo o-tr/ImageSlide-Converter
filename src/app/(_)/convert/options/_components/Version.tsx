@@ -15,7 +15,7 @@ export const Version: FC = () => {
         {TargetVersions.map((v) => (
           <Radio.Button
             key={v.label}
-            value={v.value}
+            value={v.label}
             className={"w-[256px] !h-[256px]"}
           >
             <Flex vertical className={"p-2 text-center"}>
