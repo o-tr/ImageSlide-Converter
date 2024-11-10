@@ -10,45 +10,50 @@
     "format": "prettier --write ./src"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.4.0",
+    "@ant-design/icons": "^5.5.1",
     "@ant-design/nextjs-registry": "^1.0.1",
-    "@aws-sdk/client-s3": "^3.635.0",
-    "@aws-sdk/lib-storage": "^3.635.0",
-    "@aws-sdk/s3-request-presigner": "^3.635.0",
+    "@aws-sdk/client-s3": "^3.688.0",
+    "@aws-sdk/lib-storage": "^3.688.0",
+    "@aws-sdk/s3-request-presigner": "^3.688.0",
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/modifiers": "^7.0.0",
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@formkit/tempo": "^0.1.2",
     "@prisma/client": "5.18.0",
-    "antd": "^5.20.2",
-    "axios": "^1.7.4",
+    "antd": "^5.21.6",
+    "axios": "^1.7.7",
     "iron-session": "^8.0.3",
-    "jotai": "^2.9.3",
+    "jotai": "^2.10.1",
     "jszip": "^3.10.1",
-    "next": "14.2.5",
-    "next-auth": "^5.0.0-beta.20",
-    "pdfjs-dist": "^4.5.136",
+    "next": "^14.2.17",
+    "next-auth": "5.0.0-beta.25",
+    "pdfjs-dist": "^4.8.69",
     "prettier": "^3.3.3",
-    "prisma": "^5.18.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "prisma": "^5.22.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
     "sharp": "^0.33.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/node": "^20.17.6",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "@types/react-google-picker": "^0.1.4",
-    "eslint": "^8",
+    "eslint": "^8.57.1",
     "eslint-config-next": "14.2.5",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
   },
   "engines": {
     "node": ">=22.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "cookie@<0.7.0": ">=0.7.0"
+    }
   }
 }
