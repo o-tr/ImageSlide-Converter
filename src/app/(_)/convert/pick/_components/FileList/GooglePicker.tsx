@@ -69,8 +69,8 @@ export const GooglePicker = () => {
         "application/vnd.google-apps.presentation,application/pdf,image/png,image/jpeg,image/jpg",
       )
       .setDeveloperKey(GOOGLE_API_KEY)
-      .setCallback(async (data: { action: string; docs: any[] }) => {
-        if (data.action !== "picked") return;
+      .setCallback(async (data: { action: string; docs?: any[] }) => {
+        if (data.action !== "picked" || !data.docs) return;
         const file = data.docs[0];
         setIsLoading(true);
         if (file.mimeType === "application/pdf") {
