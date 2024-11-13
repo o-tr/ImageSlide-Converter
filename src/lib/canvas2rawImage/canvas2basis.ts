@@ -11,7 +11,8 @@ export const canvas2basis = (canvas: OffscreenCanvas): Uint8Array => {
   basisEncoder.setComputeStats(false);
   basisEncoder.setPerceptual(true);
   basisEncoder.setMipSRGB(true);
-  basisEncoder.setQualityLevel(10);
+  basisEncoder.setQualityLevel(255);
+  basisEncoder.setCompressionLevel(0);
   basisEncoder.setUASTC(false);
   basisEncoder.setMipGen(false);
   const num_output_bytes = basisEncoder.encode(tmpOutput);
