@@ -27,7 +27,7 @@
     "jotai": "^2.10.1",
     "jszip": "^3.10.1",
     "next": "^14.2.17",
-    "next-auth": "5.0.0-beta.25",
+    "next-auth": "5.0.0-beta.20",
     "pdfjs-dist": "^4.8.69",
     "prettier": "^3.3.3",
     "prisma": "^5.22.0",
