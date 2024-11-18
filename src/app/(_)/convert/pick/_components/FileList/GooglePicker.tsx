@@ -1,20 +1,17 @@
-import { Button, Flex, Spin } from "antd";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { TbBrandGoogleDrive } from "react-icons/tb";
-import {
-  GooglePickerTokenAtom,
-  IsGooglePickerReadyAtom,
-} from "@/atoms/google-picker";
-import { useState } from "react";
-import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { pdf2canvases } from "@/lib/file2canvas/pdf2canvases";
-import { GetSlideResponse } from "@/_types/google-slides-api";
-import { fetchFileBuffer } from "@/lib/gapi/fetchFile";
-import { AntContent } from "@/components/AntContent";
-import { files2canvases } from "@/lib/file2canvas";
-import { canvas2selectedFile } from "@/lib/canvas2selected-files";
-import { LoadingOutlined } from "@ant-design/icons";
-import { GOOGLE_API_KEY, GOOGLE_CLIENT_ID } from "@/const/env";
+import {Button, Flex, Spin} from "antd";
+import {useAtom, useAtomValue, useSetAtom} from "jotai";
+import {TbBrandGoogleDrive} from "react-icons/tb";
+import {GooglePickerTokenAtom, IsGooglePickerReadyAtom,} from "@/atoms/google-picker";
+import {useState} from "react";
+import {SelectedFilesAtom} from "@/atoms/file-drop";
+import {pdf2canvases} from "@/lib/file2canvas/pdf2canvases";
+import {GetSlideResponse} from "@/_types/google-slides-api";
+import {fetchFileBuffer} from "@/lib/gapi/fetchFile";
+import {AntContent} from "@/components/AntContent";
+import {files2canvases} from "@/lib/file2canvas";
+import {canvas2selectedFile} from "@/lib/canvas2selected-files";
+import {LoadingOutlined} from "@ant-design/icons";
+import {GOOGLE_API_KEY, GOOGLE_CLIENT_ID} from "@/const/env";
 
 export const GooglePicker = () => {
   const [token, setToken] = useAtom(GooglePickerTokenAtom);
@@ -152,22 +149,25 @@ const slide2canvas = async (
   slides: { note: string; canvas: OffscreenCanvas }[];
   title: string;
 }> => {
+  const pdfFile = await gapi.client.drive.files.export({
+    fileId: slideId,
+    mimeType: "application/pdf",
+  }) as {body: string};
+
+  const uint8Array = new Uint8Array(pdfFile.body.split('').map(char => char.charCodeAt(0)));
+  const pdfBlob = new Blob([uint8Array], { type: 'application/pdf' });
+  const buffer = await pdfBlob.arrayBuffer();
+  const canvases = await pdf2canvases(buffer);
+
   const response: GetSlideResponse = await gapi.client.slides.presentations.get(
     {
       presentationId: slideId,
     },
   );
-
-  const slides = await Promise.all(
-    response.result.slides
+  const slides = response.result.slides
       .filter((slide) => !slide.slideProperties.isSkipped)
-      .map<
-        Promise<{
-          note: string;
-          canvas: OffscreenCanvas;
-        }>
-      >(async (slide) => {
-        const note = slide.slideProperties.notesPage.pageElements
+      .map<string>((slide) => {
+        return slide.slideProperties.notesPage.pageElements
           .filter((element) => element.shape.shapeType === "TEXT_BOX")
           .map((element) => {
             if (
@@ -180,28 +180,12 @@ const slide2canvas = async (
               .join("");
           })
           .join("\n");
-        const thumbnail =
-          await gapi.client.slides.presentations.pages.getThumbnail({
-            presentationId: slideId,
-            pageObjectId: slide.objectId,
-          });
-        return new Promise<{ note: string; canvas: OffscreenCanvas }>(
-          (resolve) => {
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.src = thumbnail.result.contentUrl;
-            img.onload = () => {
-              const canvas = new OffscreenCanvas(img.width, img.height);
-              const ctx = canvas.getContext("2d");
-              ctx?.drawImage(img, 0, 0);
-              resolve({
-                canvas,
-                note,
-              });
-            };
-          },
-        );
-      }),
-  );
-  return { slides, title: response.result.title };
+      });
+
+  const result = slides.map((note, index) => ({
+    note,
+    canvas: canvases[index],
+  }));
+
+  return { slides: result, title: response.result.title };
 };
