@@ -11,8 +11,9 @@ worker.addEventListener(
     const { files: _files, format, version, scale } = event.data.data;
     const files = _files.map((file) => {
       if (["DXT1"].includes(format)) {
-        const _width = Math.ceil((file.bitmap.width * scale) / 4) * 4;
-        const _height = Math.ceil((file.bitmap.height * scale) / 4) * 4;
+        // そのままだとノイズが目立つので2倍に拡大してから圧縮
+        const _width = Math.ceil((file.bitmap.width * scale * 2) / 4) * 4;
+        const _height = Math.ceil((file.bitmap.height * scale * 2) / 4) * 4;
         if (_width === file.bitmap.width && _height === file.bitmap.height) {
           const canvas = new OffscreenCanvas(
             file.bitmap.width,

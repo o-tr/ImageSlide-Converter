@@ -42,7 +42,7 @@ export const TargetFormats: FormatItemType[] = [
   },
   {
     label: "DXT1",
-    bytePerPixel: 0.5,
+    bytePerPixel: 1,
     priority: 1,
   },
 ];
