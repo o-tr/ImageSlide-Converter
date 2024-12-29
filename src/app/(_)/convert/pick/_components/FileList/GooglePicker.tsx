@@ -11,7 +11,8 @@ import {AntContent} from "@/components/AntContent";
 import {files2canvases} from "@/lib/file2canvas";
 import {canvas2selectedFile} from "@/lib/canvas2selected-files";
 import {LoadingOutlined} from "@ant-design/icons";
-import {GOOGLE_API_KEY, GOOGLE_CLIENT_ID} from "@/const/env";
+import {requestTokenPromise} from "@/lib/google/requestToken";
+import {showFilePicker} from "@/lib/google/showFilePicker";
 
 export const GooglePicker = () => {
   const [token, setToken] = useAtom(GooglePickerTokenAtom);
@@ -20,27 +21,18 @@ export const GooglePicker = () => {
   const [validating, setValidating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const showPicker = async (_token = token) => {
-    if (!_token) {
-      const tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: GOOGLE_CLIENT_ID,
-        scope: "https://www.googleapis.com/auth/drive.file",
-        callback: "",
-      });
-
-      tokenClient.callback = async (response: {
-        error?: string;
-        access_token: string;
-      }) => {
-        if (response.error !== undefined) {
-          throw response;
-        }
-        setToken(response.access_token);
-        await showPicker(response.access_token);
-      };
-      tokenClient.requestAccessToken({ prompt: "" });
-      return;
-    }
+  const showPicker = async (__token = token) => {
+    const _token = __token ?? await (async()=>{
+      try {
+        const token = await requestTokenPromise();
+        setToken(token);
+        return token;
+      }catch (e) {
+        console.error(e);
+        return
+      }
+    })();
+    if (!_token) return;
     setValidating(true);
     const response = await fetch(
       "https://www.googleapis.com/drive/v3/about?fields=user",
@@ -56,54 +48,43 @@ export const GooglePicker = () => {
       await showPicker(null);
       return;
     }
-    const picker = new google.picker.PickerBuilder()
-      .addView(google.picker.ViewId.DOCS)
-      .addView(google.picker.ViewId.DOCS_IMAGES)
-      .setLocale("ja")
-      .setTitle("Select a slide")
-      .setOAuthToken(_token)
-      .setSelectableMimeTypes(
-        "application/vnd.google-apps.presentation,application/pdf,image/png,image/jpeg,image/jpg",
-      )
-      .setDeveloperKey(GOOGLE_API_KEY)
-      .setCallback(async (data: { action: string; docs?: any[] }) => {
-        if (data.action !== "picked" || !data.docs) return;
-        const file = data.docs[0];
-        setIsLoading(true);
-        if (file.mimeType === "application/pdf") {
-          const canvases = await pdf2canvases(await fetchFileBuffer(file.id));
-          const files = canvases.map((canvas, index) => ({
-            id: `${index}-${crypto.randomUUID()}`,
-            fileName: `${file.name}-${index + 1}`,
-            canvas: canvas,
-          }));
-          setFiles((pv) => [...pv, ...files]);
-        }
-        if (file.mimeType === "application/vnd.google-apps.presentation") {
-          const { slides, title } = await slide2canvas(file.id);
-          const files = slides.map((slide, index) => ({
-            id: `${index}-${crypto.randomUUID()}`,
-            fileName: `${title}-${index + 1}`,
-            ...slide,
-          }));
-          setFiles((pv) => [...pv, ...files]);
-        }
-        if (file.mimeType.startsWith("image/")) {
-          const buffer = await fetchFileBuffer(file.id);
-          const fileObject = new File([buffer], file.name, {
-            type: file.mimeType,
-          });
-          const canvas = (await files2canvases([fileObject])).map(
-            ({ canvas, fileName }) => canvas2selectedFile(fileName, canvas),
-          );
-          setFiles((pv) => [...pv, ...canvas]);
-        }
-        setIsLoading(false);
-      })
-      .setAppId(GOOGLE_CLIENT_ID)
-      .build();
-    picker.setVisible(true);
+    void showFilePicker(_token,onFilePicked);
   };
+
+  const onFilePicked = async (data: { action: string; docs?: any[] }) => {
+    if (data.action !== "picked" || !data.docs) return;
+    const file = data.docs[0];
+    setIsLoading(true);
+    if (file.mimeType === "application/pdf") {
+      const canvases = await pdf2canvases(await fetchFileBuffer(file.id));
+      const files = canvases.map((canvas, index) => ({
+        id: `${index}-${crypto.randomUUID()}`,
+        fileName: `${file.name}-${index + 1}`,
+        canvas: canvas,
+      }));
+      setFiles((pv) => [...pv, ...files]);
+    }
+    if (file.mimeType === "application/vnd.google-apps.presentation") {
+      const { slides, title } = await slide2canvas(file.id);
+      const files = slides.map((slide, index) => ({
+        id: `${index}-${crypto.randomUUID()}`,
+        fileName: `${title}-${index + 1}`,
+        ...slide,
+      }));
+      setFiles((pv) => [...pv, ...files]);
+    }
+    if (file.mimeType.startsWith("image/")) {
+      const buffer = await fetchFileBuffer(file.id);
+      const fileObject = new File([buffer], file.name, {
+        type: file.mimeType,
+      });
+      const canvas = (await files2canvases([fileObject])).map(
+        ({ canvas, fileName }) => canvas2selectedFile(fileName, canvas),
+      );
+      setFiles((pv) => [...pv, ...canvas]);
+    }
+    setIsLoading(false);
+  }
 
   return (
     <>
