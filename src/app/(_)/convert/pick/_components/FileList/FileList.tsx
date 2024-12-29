@@ -1,6 +1,7 @@
 "use client";
 import type { SelectedFile } from "@/_types/file-picker";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
+import { threads } from "@/lib/worker/threads";
 import { HolderOutlined } from "@ant-design/icons";
 import { DndContext, type DragEndEvent } from "@dnd-kit/core";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
@@ -93,6 +94,7 @@ const columns: TableColumnsType<SelectedFile> = [
 export const FileList = () => {
 	const [files, setFiles] = useAtom(SelectedFilesAtom);
 
+	console.log(threads);
 	const onDragEnd = ({ active, over }: DragEndEvent) => {
 		if (active.id !== over?.id) {
 			setFiles((prevState) => {
