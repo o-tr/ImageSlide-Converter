@@ -1,6 +1,6 @@
 export type SelectedFile = {
-  id: string;
-  fileName: string;
-  note?: string;
-  canvas: OffscreenCanvas;
+	id: string;
+	fileName: string;
+	note?: string;
+	canvas: OffscreenCanvas;
 };

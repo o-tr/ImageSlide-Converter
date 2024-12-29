@@ -5,15 +5,15 @@ import { ThemeIsDarkAtom } from "@/atoms/theme";
 import { useAtomValue } from "jotai";
 
 export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const isDarkMode = useAtomValue(ThemeIsDarkAtom);
-  const { defaultAlgorithm, darkAlgorithm } = theme;
-  return (
-    <ConfigProvider
-      theme={{
-        algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
-      }}
-    >
-      {children}
-    </ConfigProvider>
-  );
+	const isDarkMode = useAtomValue(ThemeIsDarkAtom);
+	const { defaultAlgorithm, darkAlgorithm } = theme;
+	return (
+		<ConfigProvider
+			theme={{
+				algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
+			}}
+		>
+			{children}
+		</ConfigProvider>
+	);
 };

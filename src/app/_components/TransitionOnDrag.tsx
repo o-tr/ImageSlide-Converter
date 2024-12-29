@@ -5,14 +5,14 @@ import { IsDragOverAtom } from "@/atoms/file-drop";
 import { useRouter } from "next/navigation";
 
 export const TransitionOnDrag: FC = () => {
-  const isDragOver = useAtomValue(IsDragOverAtom);
-  const router = useRouter();
+	const isDragOver = useAtomValue(IsDragOverAtom);
+	const router = useRouter();
 
-  useEffect(() => {
-    if (isDragOver) {
-      void router.push("/convert/pick");
-    }
-  }, [isDragOver, router]);
+	useEffect(() => {
+		if (isDragOver) {
+			void router.push("/convert/pick");
+		}
+	}, [isDragOver, router]);
 
-  return <></>;
+	return <></>;
 };

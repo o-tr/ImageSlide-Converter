@@ -3,11 +3,11 @@ import { TransitionOnDrag } from "@/app/_components/TransitionOnDrag";
 import { DragWatcher } from "@/components/DragWatcher";
 
 export default function Page() {
-  return (
-    <>
-      <FileList />
-      <DragWatcher />
-      <TransitionOnDrag />
-    </>
-  );
+	return (
+		<>
+			<FileList />
+			<DragWatcher />
+			<TransitionOnDrag />
+		</>
+	);
 }

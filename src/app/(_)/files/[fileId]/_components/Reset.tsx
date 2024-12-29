@@ -5,12 +5,12 @@ import { ResultAtom } from "@/atoms/convert";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
 
 export const Reset: FC = () => {
-  const setResult = useSetAtom(ResultAtom);
-  const setFiles = useSetAtom(SelectedFilesAtom);
+	const setResult = useSetAtom(ResultAtom);
+	const setFiles = useSetAtom(SelectedFilesAtom);
 
-  useEffect(() => {
-    setResult(undefined);
-    setFiles([]);
-  }, [setResult, setFiles]);
-  return <></>;
+	useEffect(() => {
+		setResult(undefined);
+		setFiles([]);
+	}, [setResult, setFiles]);
+	return <></>;
 };
