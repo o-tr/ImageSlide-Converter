@@ -1,6 +1,6 @@
-import { WorkerMessage, WorkerResponse } from "@/_types/worker";
-import { TTextureFormat } from "@/_types/text-zip/formats";
-import { SelectedFile } from "@/_types/file-picker";
+import type { SelectedFile } from "@/_types/file-picker";
+import type { TTextureFormat } from "@/_types/text-zip/formats";
+import type { WorkerMessage, WorkerResponse } from "@/_types/worker";
 
 const worker = (
 	typeof window !== "undefined"

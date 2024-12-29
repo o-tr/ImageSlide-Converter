@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ReactNode } from "react";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { Layout } from "antd";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import dynamic from "next/dynamic";
 import { GooglePickerProvider } from "@/components/GooglePickerProvider";
+import { Header } from "@/components/Header";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Layout } from "antd";
 import { SessionProvider } from "next-auth/react";
+import dynamic from "next/dynamic";
+import type { ReactNode } from "react";
 
 const PdfjsProvider = dynamic(
 	() => import("@/components/PdfjsProvider").then((v) => v.PdfjsProvider),

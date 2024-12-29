@@ -1,7 +1,7 @@
 "use client";
-import { ComponentProps, FC } from "react";
-import { Content } from "antd/lib/layout/layout";
 import { theme } from "antd";
+import { Content } from "antd/lib/layout/layout";
+import type { ComponentProps, FC } from "react";
 
 export const AntContent: FC<ComponentProps<typeof Content>> = (props) => {
 	const {

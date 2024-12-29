@@ -1,10 +1,10 @@
-import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
-import { s3NormalClient } from "@/lib/s3/normal";
-import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { S3_HA_BUCKET, S3_NORMAL_BUCKET } from "@/const/env";
-import { getAuthorizedUser } from "@/utils/getAuthorizedUser";
+import { prisma } from "@/lib/prisma";
 import { s3HAClient } from "@/lib/s3/ha";
+import { s3NormalClient } from "@/lib/s3/normal";
+import { getAuthorizedUser } from "@/utils/getAuthorizedUser";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export const DELETE = async (

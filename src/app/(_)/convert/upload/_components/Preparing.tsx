@@ -1,5 +1,5 @@
-import { FC } from "react";
 import { Flex, Spin } from "antd";
+import type { FC } from "react";
 
 export const Preparing: FC = () => (
 	<div className={"flex-1 grid place-items-center"}>

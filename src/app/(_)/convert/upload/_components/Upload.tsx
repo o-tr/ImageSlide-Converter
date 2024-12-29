@@ -1,16 +1,16 @@
 "use client";
-import { FC, useEffect, useRef, useState } from "react";
-import { useAtomValue } from "jotai";
 import { ResultAtom } from "@/atoms/convert";
+import { SelectedFilesAtom } from "@/atoms/file-drop";
 import { getNormalFileId } from "@/lib/service/getNormalFileId";
 import { getNormalPreSignedPut } from "@/lib/service/getNormalPreSignedPut";
-import axios, { AxiosProgressEvent } from "axios";
-import { useRouter } from "next/navigation";
-import { Flex, List, Spin } from "antd";
-import { Preparing } from "./Preparing";
-import { Completed } from "./Completed";
-import { SelectedFilesAtom } from "@/atoms/file-drop";
 import { postRegisterFile } from "@/lib/service/postRegisterFile";
+import { Flex, List, Spin } from "antd";
+import axios, { type AxiosProgressEvent } from "axios";
+import { useAtomValue } from "jotai";
+import { useRouter } from "next/navigation";
+import { type FC, useEffect, useRef, useState } from "react";
+import { Completed } from "./Completed";
+import { Preparing } from "./Preparing";
 
 export const Upload: FC = () => {
 	const result = useAtomValue(ResultAtom);

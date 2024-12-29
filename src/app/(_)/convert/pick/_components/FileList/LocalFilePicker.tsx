@@ -1,10 +1,10 @@
-import { Button } from "antd";
-import { TfiHarddrive } from "react-icons/tfi";
-import { ChangeEvent, useRef } from "react";
-import { files2canvases } from "@/lib/file2canvas";
-import { useSetAtom } from "jotai";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
 import { canvas2selectedFile } from "@/lib/canvas2selected-files";
+import { files2canvases } from "@/lib/file2canvas";
+import { Button } from "antd";
+import { useSetAtom } from "jotai";
+import { type ChangeEvent, useRef } from "react";
+import { TfiHarddrive } from "react-icons/tfi";
 
 export const LocalFilePicker = () => {
 	const inputRef = useRef<HTMLInputElement>(null);

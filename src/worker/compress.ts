@@ -1,6 +1,6 @@
-import { WorkerMessage, WorkerResponse } from "@/_types/worker";
-import { convert2textZip } from "@/lib/text-zip";
+import type { WorkerMessage, WorkerResponse } from "@/_types/worker";
 import { initPromise } from "@/lib/basis";
+import { convert2textZip } from "@/lib/text-zip";
 
 const worker = self as unknown as Worker;
 worker.addEventListener(
@@ -53,5 +53,3 @@ worker.addEventListener(
 		worker.postMessage(message);
 	},
 );
-
-export {};

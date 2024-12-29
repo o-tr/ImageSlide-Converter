@@ -9,9 +9,9 @@
 		"lint": "biome lint ./src",
 		"format": "biome format ./src",
 		"check": "biome check ./src",
-		"lint:fix": "biome lint --apply ./src",
+		"lint:fix": "biome lint --write --unsafe ./src",
 		"format:fix": "biome format ./src --write",
-		"check:fix": "biome check --apply ./src"
+		"check:fix": "biome check --write ./src"
 	},
 	"dependencies": {
 		"@ant-design/icons": "^5.5.1",

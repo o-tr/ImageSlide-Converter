@@ -1,8 +1,9 @@
+import type { GoogleFilePickerCallbackData } from "@/_types/lib/google/filePicker";
 import { GOOGLE_API_KEY, GOOGLE_CLIENT_ID } from "@/const/env";
 
 export const showFilePicker = async (
 	token: string,
-	callback: (data: { action: string; docs?: any[] }) => void,
+	callback: (data: GoogleFilePickerCallbackData) => void,
 ) => {
 	const picker = new google.picker.PickerBuilder()
 		.addView(google.picker.ViewId.DOCS)

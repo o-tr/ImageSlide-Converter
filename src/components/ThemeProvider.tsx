@@ -1,8 +1,8 @@
 "use client";
-import { FC, ReactNode } from "react";
-import { ConfigProvider, theme } from "antd";
 import { ThemeIsDarkAtom } from "@/atoms/theme";
+import { ConfigProvider, theme } from "antd";
 import { useAtomValue } from "jotai";
+import type { FC, ReactNode } from "react";
 
 export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const isDarkMode = useAtomValue(ThemeIsDarkAtom);

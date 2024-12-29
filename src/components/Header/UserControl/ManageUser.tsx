@@ -1,6 +1,6 @@
 "use client";
-import { Button, Dropdown, MenuProps } from "antd";
-import { useSession, signOut } from "next-auth/react";
+import { Button, Dropdown, type MenuProps } from "antd";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 

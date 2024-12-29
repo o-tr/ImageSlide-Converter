@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
 import { Button, Modal, Tooltip } from "antd";
+import { type FC, useState } from "react";
 import { BiSolidCloudUpload } from "react-icons/bi";
 
 type Props = {

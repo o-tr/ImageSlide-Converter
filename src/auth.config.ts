@@ -1,5 +1,5 @@
-import { authRoutes, DEFAULT_LOGIN_REDIRECT, restrictedRoutes } from "@/routes";
-import { NextAuthConfig } from "next-auth";
+import { DEFAULT_LOGIN_REDIRECT, authRoutes, restrictedRoutes } from "@/routes";
+import type { NextAuthConfig } from "next-auth";
 
 declare module "next-auth" {
 	interface Session {
@@ -19,7 +19,8 @@ export const authConfig = {
 			const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 			const isPublicRoute = !restrictedRoutes.some(
 				(route) =>
-					nextUrl.pathname == route || nextUrl.pathname.startsWith(`${route}/`),
+					nextUrl.pathname === route ||
+					nextUrl.pathname.startsWith(`${route}/`),
 			);
 
 			if (isAuthRoute) {

@@ -1,5 +1,5 @@
-import axios from "axios";
 import { getMyFilesResponseSchema } from "@/_types/api/getMyFiles";
+import axios from "axios";
 
 export const getMyFiles = async () => {
 	const _data = await axios.get("/api/my/files");

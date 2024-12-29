@@ -1,5 +1,5 @@
-import { ComponentProps, FC } from "react";
-import { StepProps, Steps } from "antd";
+import { type StepProps, Steps } from "antd";
+import type { ComponentProps, FC } from "react";
 
 const items: StepProps[] = [
 	{

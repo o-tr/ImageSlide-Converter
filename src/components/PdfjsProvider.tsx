@@ -4,8 +4,9 @@ import * as pdfjs from "pdfjs-dist";
 if (typeof Promise.withResolvers === "undefined") {
 	if (window)
 		// @ts-expect-error This does not exist outside of polyfill which this is doing
-		window.Promise.withResolvers = function () {
-			let resolve, reject;
+		window.Promise.withResolvers = () => {
+			let resolve: (value?: unknown) => void = () => {};
+			let reject: (reason?: unknown) => void = () => {};
 			const promise = new Promise((res, rej) => {
 				resolve = res;
 				reject = rej;
@@ -14,8 +15,9 @@ if (typeof Promise.withResolvers === "undefined") {
 		};
 	if (globalThis) {
 		// @ts-expect-error This does not exist outside of polyfill which this is doing
-		globalThis.Promise.withResolvers = function () {
-			let resolve, reject;
+		globalThis.Promise.withResolvers = () => {
+			let resolve: (value?: unknown) => void = () => {};
+			let reject: (reason?: unknown) => void = () => {};
 			const promise = new Promise((res, rej) => {
 				resolve = res;
 				reject = rej;
@@ -25,8 +27,9 @@ if (typeof Promise.withResolvers === "undefined") {
 	}
 	if (global) {
 		// @ts-expect-error This does not exist outside of polyfill which this is doing
-		global.Promise.withResolvers = function () {
-			let resolve, reject;
+		global.Promise.withResolvers = () => {
+			let resolve: (value?: unknown) => void = () => {};
+			let reject: (reason?: unknown) => void = () => {};
 			const promise = new Promise((res, rej) => {
 				resolve = res;
 				reject = rej;

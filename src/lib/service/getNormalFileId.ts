@@ -1,5 +1,5 @@
-import axios from "axios";
 import { getNormalFileIdResponseSchema } from "@/_types/api/getNormalFileId";
+import axios from "axios";
 
 export const getNormalFileId = async (): Promise<string> => {
 	const _response = await axios.post("/api/upload/normal/init");

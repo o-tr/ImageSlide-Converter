@@ -1,5 +1,5 @@
-import { SelectedFile } from "@/_types/file-picker";
-import { TTextureFormat } from "@/_types/text-zip/formats";
+import type { SelectedFile } from "@/_types/file-picker";
+import type { TTextureFormat } from "@/_types/text-zip/formats";
 import { convert2v0 } from "@/lib/text-zip/v0/convert";
 import { convert2v1 } from "@/lib/text-zip/v1/convert";
 

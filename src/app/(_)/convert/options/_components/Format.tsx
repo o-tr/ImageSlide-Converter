@@ -1,12 +1,12 @@
-import { FC, useEffect, useMemo } from "react";
-import { useAtom, useAtomValue } from "jotai";
+import type { FormatItemType } from "@/_types/text-zip/formats";
 import { ConvertFormatAtom, UsingVersionAtom } from "@/atoms/convert";
-import { Flex, Radio, Tooltip } from "antd";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
 import { FileSizeLimit } from "@/const/convert";
 import { estimateFileSize } from "@/utils/estimateFileSize";
-import { FormatItemType } from "@/_types/text-zip/formats";
 import { getAvailableFormats } from "@/utils/getAvailableFormats";
+import { Flex, Radio, Tooltip } from "antd";
+import { useAtom, useAtomValue } from "jotai";
+import { type FC, useEffect, useMemo } from "react";
 
 export const Format: FC = () => {
 	const [format, setFormat] = useAtom(ConvertFormatAtom);

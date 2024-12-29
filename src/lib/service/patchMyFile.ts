@@ -1,4 +1,4 @@
-import { PatchRequest } from "@/app/api/my/files/[fileId]/route";
+import type { PatchRequest } from "@/app/api/my/files/[fileId]/route";
 import axios from "axios";
 
 export const patchMyFile = async (fileId: string, data: PatchRequest) => {

@@ -1,12 +1,12 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import type { FileItem } from "@/_types/api/getMyFiles";
+import { S3_HA_PUBLIC_BASE_URL, S3_NORMAL_PUBLIC_BASE_URL } from "@/const/env";
+import { getFile } from "@/lib/service/getFile";
 import { Alert, Button, Flex, Input, Result, Spin } from "antd";
 import Compact from "antd/es/space/Compact";
-import { TbCheck, TbCopy } from "react-icons/tb";
-import { getFile } from "@/lib/service/getFile";
-import { S3_HA_PUBLIC_BASE_URL, S3_NORMAL_PUBLIC_BASE_URL } from "@/const/env";
 import Link from "next/link";
-import { FileItem } from "@/_types/api/getMyFiles";
+import { type FC, useEffect, useState } from "react";
+import { TbCheck, TbCopy } from "react-icons/tb";
 
 export const URLDisplay: FC<{ fileId: string }> = ({ fileId }) => {
 	const [urls, setUrls] = useState<string[] | undefined>(undefined);
@@ -50,7 +50,7 @@ export const URLDisplay: FC<{ fileId: string }> = ({ fileId }) => {
 			<h2 className={"text-xl"}>{file?.name}</h2>
 			<Flex vertical>
 				{urls?.map((url, i) => (
-					<URLDisplayItem key={i} url={url} />
+					<URLDisplayItem key={url} url={url} />
 				))}
 				{!urls && (
 					<Flex gap={"middle"} align={"center"}>

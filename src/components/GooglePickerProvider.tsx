@@ -1,9 +1,9 @@
 "use client";
-import { FC, useEffect, useState } from "react";
-import Script from "next/script";
-import { useSetAtom } from "jotai";
 import { IsGooglePickerReadyAtom } from "@/atoms/google-picker";
 import { GOOGLE_API_KEY } from "@/const/env";
+import { useSetAtom } from "jotai";
+import Script from "next/script";
+import { type FC, useEffect, useState } from "react";
 
 declare global {
 	namespace google {

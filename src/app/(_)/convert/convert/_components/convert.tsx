@@ -1,17 +1,17 @@
 "use client";
-import { FC, useEffect, useMemo, useRef } from "react";
-import { useAtomValue, useSetAtom } from "jotai";
+import type { TTextureFormat } from "@/_types/text-zip/formats";
 import {
 	ConvertFormatAtom,
 	ResultAtom,
 	UsingVersionAtom,
 } from "@/atoms/convert";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { getAvailableFormats } from "@/utils/getAvailableFormats";
-import { TTextureFormat } from "@/_types/text-zip/formats";
-import { useRouter } from "next/navigation";
-import { postCompress } from "@/lib/workerService/postCompress";
 import { FileSizeLimit, TargetVersions } from "@/const/convert";
+import { postCompress } from "@/lib/workerService/postCompress";
+import { getAvailableFormats } from "@/utils/getAvailableFormats";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
+import { type FC, useEffect, useMemo, useRef } from "react";
 
 export const Convert: FC = () => {
 	const imageSlideVersion = useAtomValue(UsingVersionAtom);

@@ -1,6 +1,6 @@
-import { getIronSession, SessionOptions } from "iron-session";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { IRON_SESSION_COOKIE_NAME, IRON_SESSION_PASSWORD } from "@/const/env";
+import { type SessionOptions, getIronSession } from "iron-session";
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
 export const sessionOptions: SessionOptions = {
 	password: IRON_SESSION_PASSWORD,

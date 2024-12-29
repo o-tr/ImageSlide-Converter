@@ -1,7 +1,7 @@
 "use client";
 import { Spin } from "antd";
-import { Redirect } from "./_components/Redirect";
 import { Suspense } from "react";
+import { Redirect } from "./_components/Redirect";
 
 export default function Page() {
 	return (

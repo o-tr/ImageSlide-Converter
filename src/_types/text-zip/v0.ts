@@ -1,4 +1,4 @@
-import { Rect } from "@/_types/text-zip";
+import type { Rect } from "@/_types/text-zip";
 
 export type RawImageObj = {
 	index: number;

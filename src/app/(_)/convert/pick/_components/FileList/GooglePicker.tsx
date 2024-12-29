@@ -1,21 +1,22 @@
-import { Button, Flex, Spin } from "antd";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { TbBrandGoogleDrive } from "react-icons/tb";
+import type { GetSlideResponse } from "@/_types/google-slides-api";
+import type { GoogleFilePickerCallbackData } from "@/_types/lib/google/filePicker";
+import { SelectedFilesAtom } from "@/atoms/file-drop";
 import {
 	GooglePickerTokenAtom,
 	IsGooglePickerReadyAtom,
 } from "@/atoms/google-picker";
-import { useState } from "react";
-import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { pdf2canvases } from "@/lib/file2canvas/pdf2canvases";
-import { GetSlideResponse } from "@/_types/google-slides-api";
-import { fetchFileBuffer } from "@/lib/gapi/fetchFile";
 import { AntContent } from "@/components/AntContent";
-import { files2canvases } from "@/lib/file2canvas";
 import { canvas2selectedFile } from "@/lib/canvas2selected-files";
-import { LoadingOutlined } from "@ant-design/icons";
+import { files2canvases } from "@/lib/file2canvas";
+import { pdf2canvases } from "@/lib/file2canvas/pdf2canvases";
+import { fetchFileBuffer } from "@/lib/gapi/fetchFile";
 import { requestTokenPromise } from "@/lib/google/requestToken";
 import { showFilePicker } from "@/lib/google/showFilePicker";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Button, Flex, Spin } from "antd";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useState } from "react";
+import { TbBrandGoogleDrive } from "react-icons/tb";
 
 export const GooglePicker = () => {
 	const [token, setToken] = useAtom(GooglePickerTokenAtom);
@@ -56,7 +57,7 @@ export const GooglePicker = () => {
 		void showFilePicker(_token, onFilePicked);
 	};
 
-	const onFilePicked = async (data: { action: string; docs?: any[] }) => {
+	const onFilePicked = async (data: GoogleFilePickerCallbackData) => {
 		if (data.action !== "picked" || !data.docs) return;
 		const file = data.docs[0];
 		setIsLoading(true);
@@ -78,9 +79,9 @@ export const GooglePicker = () => {
 			}));
 			setFiles((pv) => [...pv, ...files]);
 		}
-		if (file.mimeType.startsWith("image/")) {
+		if (file.mimeType?.startsWith("image/")) {
 			const buffer = await fetchFileBuffer(file.id);
-			const fileObject = new File([buffer], file.name, {
+			const fileObject = new File([buffer], file.name ?? "unknown file", {
 				type: file.mimeType,
 			});
 			const canvas = (await files2canvases([fileObject])).map(

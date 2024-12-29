@@ -1,4 +1,4 @@
-import { SelectedFile } from "@/_types/file-picker";
+import type { SelectedFile } from "@/_types/file-picker";
 import { canvas2rawImage } from "@/lib/canvas2rawImage";
 import { compressFile } from "./compress";
 

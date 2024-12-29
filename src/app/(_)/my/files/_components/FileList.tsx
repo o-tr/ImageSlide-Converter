@@ -1,27 +1,34 @@
 "use client";
-import { FC, useEffect, useMemo, useState } from "react";
-import { FileItem } from "@/_types/api/getMyFiles";
-import { getMyFiles } from "@/lib/service/getMyFiles";
-import { Flex, Modal, Spin, SpinProps, Table, TableColumnsType } from "antd";
+import type { FileItem } from "@/_types/api/getMyFiles";
+import type { PatchRequest } from "@/app/api/my/files/[fileId]/route";
 import { deleteRegisteredFile } from "@/lib/service/deleteRegisteredFile";
-import { signIn } from "next-auth/react";
-import { postMigrateHA } from "@/lib/service/postMigrateHA";
-import { PatchRequest } from "@/app/api/my/files/[fileId]/route";
+import { getMyFiles } from "@/lib/service/getMyFiles";
 import { patchMyFile } from "@/lib/service/patchMyFile";
-import { MigrateHAButton } from "./MigrateHAButton";
+import { postMigrateHA } from "@/lib/service/postMigrateHA";
+import {
+	Flex,
+	Modal,
+	Spin,
+	type SpinProps,
+	Table,
+	type TableColumnsType,
+} from "antd";
+import { signIn } from "next-auth/react";
+import { type FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Actions } from "./Actions";
+import { MigrateHAButton } from "./MigrateHAButton";
 
 export const FileList: FC = () => {
 	const [files, setFiles] = useState<FileItem[]>([]);
 	const [loading, setLoading] = useState<boolean | SpinProps>(true);
 	const [migrateProgress, setMigrateProgress] = useState<number>(-1);
 
-	const loadFiles = async () => {
+	const loadFiles = useCallback(async () => {
 		const files = await getMyFiles();
 		setFiles(files);
 		setMigrateProgress(-1);
 		setLoading(false);
-	};
+	}, []);
 
 	const deleteFile = useMemo(
 		() => async (fileId: string) => {
@@ -29,7 +36,7 @@ export const FileList: FC = () => {
 			await deleteRegisteredFile(fileId);
 			await loadFiles();
 		},
-		[],
+		[loadFiles],
 	);
 
 	const updateFile = useMemo(
@@ -38,14 +45,14 @@ export const FileList: FC = () => {
 			await patchMyFile(fileId, data);
 			await loadFiles();
 		},
-		[],
+		[loadFiles],
 	);
 
 	useEffect(() => {
 		void loadFiles().catch((e) => {
 			void signIn("discord", { callbackUrl: "/my/files" });
 		});
-	}, []);
+	}, [loadFiles]);
 
 	const columns: TableColumnsType<FileItem> = useMemo(
 		() => [
@@ -100,7 +107,7 @@ export const FileList: FC = () => {
 				),
 			},
 		],
-		[deleteFile, updateFile],
+		[deleteFile, updateFile, loadFiles],
 	);
 
 	return (

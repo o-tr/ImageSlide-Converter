@@ -1,10 +1,10 @@
-import JSZip from "jszip";
-import {
+import type {
 	ManifestV1,
 	ManifestV1Item,
 	RawImageObjV1,
 } from "@/_types/text-zip/v1";
 import { FileSizeLimit } from "@/const/convert";
+import JSZip from "jszip";
 
 export const compressFile = async (
 	data: RawImageObjV1[],

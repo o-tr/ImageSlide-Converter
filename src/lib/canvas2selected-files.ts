@@ -1,4 +1,4 @@
-import { SelectedFile } from "@/_types/file-picker";
+import type { SelectedFile } from "@/_types/file-picker";
 
 export const canvas2selectedFile = (
 	fileName: string,

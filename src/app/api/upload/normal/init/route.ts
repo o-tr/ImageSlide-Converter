@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/iron-session";
-import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
 export const POST = async () => {
 	try {

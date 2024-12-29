@@ -1,5 +1,5 @@
-import { SelectedFile } from "@/_types/file-picker";
-import { TTextureFormat } from "@/_types/text-zip/formats";
+import type { SelectedFile } from "@/_types/file-picker";
+import type { TTextureFormat } from "@/_types/text-zip/formats";
 
 export type WorkerMessage = {
 	type: "compress";

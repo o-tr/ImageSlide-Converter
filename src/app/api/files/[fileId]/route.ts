@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
 import { addDay, format } from "@formkit/tempo";
+import { NextResponse } from "next/server";
 
 export const GET = async (
 	request: Request,

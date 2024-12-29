@@ -1,7 +1,7 @@
-import { FC } from "react";
-import Image from "next/image";
 import { Button, Flex } from "antd";
+import Image from "next/image";
 import Link from "next/link";
+import type { FC } from "react";
 
 export const HeaderLogo: FC = () => {
 	return (

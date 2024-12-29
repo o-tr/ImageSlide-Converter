@@ -1,5 +1,5 @@
-import { FC } from "react";
 import { Button, Popconfirm, Tooltip } from "antd";
+import type { FC } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 type Props = Readonly<{

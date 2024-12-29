@@ -1,6 +1,6 @@
-import { SelectedFile } from "@/_types/file-picker";
+import type { SelectedFile } from "@/_types/file-picker";
+import type { TTextureFormat } from "@/_types/text-zip/formats";
 import { canvas2rawImage } from "@/lib/canvas2rawImage";
-import { TTextureFormat } from "@/_types/text-zip/formats";
 import { compressFile } from "./compress";
 
 export const convert2v1 = async (

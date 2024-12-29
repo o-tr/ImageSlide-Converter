@@ -1,10 +1,10 @@
 "use client";
-import { FC, useEffect } from "react";
-import { useAtom, useSetAtom } from "jotai";
 import { IsDragOverAtom, SelectedFilesAtom } from "@/atoms/file-drop";
-import { files2canvases } from "@/lib/file2canvas";
 import { canvas2selectedFile } from "@/lib/canvas2selected-files";
+import { files2canvases } from "@/lib/file2canvas";
 import { Flex } from "antd";
+import { useAtom, useSetAtom } from "jotai";
+import { type FC, useEffect } from "react";
 import { TbDragDrop } from "react-icons/tb";
 
 export const DragWatcher: FC = () => {
@@ -22,7 +22,7 @@ export const DragWatcher: FC = () => {
 		const onDrop = async (e: DragEvent) => {
 			e.preventDefault();
 			const transfer = e.dataTransfer;
-			if (transfer && transfer.files) {
+			if (transfer?.files) {
 				const files = (await files2canvases(transfer.files)).map(
 					({ canvas, fileName }) => canvas2selectedFile(fileName, canvas),
 				);

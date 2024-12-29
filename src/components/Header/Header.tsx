@@ -1,7 +1,7 @@
-import { Flex } from "antd";
-import { FC } from "react";
-import { ToggleThemeButton } from "./ToggleThemeButton";
 import { UserControl } from "@/components/Header/UserControl";
+import { Flex } from "antd";
+import type { FC } from "react";
+import { ToggleThemeButton } from "./ToggleThemeButton";
 
 export const Header: FC = () => {
 	return (
