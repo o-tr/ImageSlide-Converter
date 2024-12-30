@@ -6,7 +6,7 @@ import type {
 import { FileSizeLimit } from "@/const/convert";
 import JSZip from "jszip";
 
-export const compressFile = async (
+export const compressFileV1 = async (
 	data: RawImageObjV1[],
 	count = 1,
 ): Promise<string[]> => {
@@ -45,7 +45,7 @@ export const compressFile = async (
 			type: "base64",
 		});
 		if (base64.length > FileSizeLimit) {
-			return compressFile(data, count + 1);
+			return compressFileV1(data, count + 1);
 		}
 		result.push(base64);
 	}

@@ -1,16 +1,19 @@
 import type {
 	TypedWorkerClientMessage,
-	TypedWorkerClientMethod,
+	TypedWorkerClientMethodMap,
 	TypedWorkerClientResponseExecute,
 	TypedWorkerWorker,
 	TypedWorkerWorkerResponse,
-} from "@/_types/lib/worker/typedWorker";
+} from "@/_types/lib/worker";
 
-const worker = self as unknown as TypedWorkerWorker;
+const worker = this as unknown as TypedWorkerWorker;
 
-export const executeClientTask = async (
-	task: TypedWorkerClientMethod,
-): Promise<TypedWorkerWorkerResponse> => {
+export const executeClientTask = async <
+	T extends keyof TypedWorkerClientMethodMap,
+>(
+	message: TypedWorkerClientMethodMap[T]["request"],
+	transfer?: Transferable[],
+): Promise<TypedWorkerClientMethodMap[T]["response"]> => {
 	let resolve: (value: TypedWorkerWorkerResponse) => void;
 	const executeTaskId = crypto.randomUUID();
 	const promise = new Promise<TypedWorkerWorkerResponse>((_resolve) => {
@@ -26,10 +29,14 @@ export const executeClientTask = async (
 		resolve(data.result);
 	};
 	worker.addEventListener("message", onMessage);
-	worker.postMessage({
-		type: "execute",
-		task,
-		requestId: executeTaskId,
-	});
+	worker.postMessage(
+		{
+			type: "execute",
+			task: message,
+			requestId: executeTaskId,
+			transfer,
+		},
+		transfer,
+	);
 	return promise;
 };

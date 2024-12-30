@@ -1,5 +1,5 @@
 import type { SelectedFile } from "@/_types/file-picker";
-import type { TTextureFormat } from "@/_types/text-zip/formats";
+import type { TTextureConverterFormat } from "@/_types/text-zip/formats";
 import type { WorkerMessage, WorkerResponse } from "@/_types/worker";
 
 const worker = (
@@ -10,10 +10,11 @@ const worker = (
 
 export const postCompress = (
 	files: SelectedFile[],
-	format: TTextureFormat,
+	format: TTextureConverterFormat,
 	version: number,
 	scale: number,
 ): Promise<string[]> => {
+	console.log("postCompress");
 	const message: WorkerMessage = {
 		type: "compress",
 		data: {
@@ -27,6 +28,7 @@ export const postCompress = (
 			})),
 		},
 	};
+	console.log("postCompress", message);
 	return new Promise<string[]>((resolve) => {
 		worker.addEventListener(
 			"message",

@@ -1,20 +1,31 @@
 import type {
-	TypedWorkerClientMethod,
+	TypedWorkerClientMethodMap,
 	TypedWorkerTaskItem,
 	TypedWorkerWorkerMessage,
 	TypedWorkerWorkerResponse,
-} from "@/_types/lib/worker/typedWorker";
+} from "@/_types/lib/worker";
 import { getAvailableThread } from "@/lib/worker/threads";
+import { getCurrentPlatform } from "@/utils/getCurrentPlatform";
+import { executeClientTask } from "@/worker/utils";
 
 const tasks: TypedWorkerTaskItem[] = [];
 
 let isLaunching = false;
 
-export const executeTask = async (message: TypedWorkerClientMethod) => {
-	console.log("executeTask", message);
+const isInWorker = getCurrentPlatform() === "worker";
+
+export const executeTask = async <T extends keyof TypedWorkerClientMethodMap>(
+	message: TypedWorkerClientMethodMap[T]["request"],
+	transfer?: Transferable[],
+): Promise<TypedWorkerClientMethodMap[T]["response"]> => {
+	if (isInWorker) {
+		return await executeClientTask(message, transfer);
+	}
+
 	const task: Partial<TypedWorkerTaskItem> = {
 		message,
 		resolve: () => {},
+		transfer,
 	};
 	task.promise = new Promise<TypedWorkerWorkerResponse>((resolve) => {
 		task.resolve = resolve;
@@ -47,8 +58,10 @@ export const executeNextTask = async () => {
 	}
 	isLaunching = true;
 
-	console.log(`execute task ${task.message.type} on thread ${thread.id}`);
-	thread.worker.postMessage(task.message);
+	console.log(
+		`execute task ${task.message.type} (taskID: ${task.message.requestId}) in thread ${thread.id}`,
+	);
+	thread.worker.postMessage(task.message, task.transfer);
 	const onMessage = ({ data }: MessageEvent<TypedWorkerWorkerMessage>) => {
 		if (
 			!((data: TypedWorkerWorkerMessage): data is TypedWorkerWorkerResponse =>
@@ -57,6 +70,9 @@ export const executeNextTask = async () => {
 			return;
 		task.resolve(data);
 		thread.worker.removeEventListener("message", onMessage);
+		console.log(
+			`finish task ${task.message.type} (taskID: ${task.message.requestId}) in thread ${thread.id}`,
+		);
 		thread.isBusy = false;
 	};
 	thread.worker.addEventListener("message", onMessage);

@@ -1,5 +1,8 @@
 import type { Rect } from "@/_types/text-zip";
-import type { TTextureFormat } from "@/_types/text-zip/formats";
+import {
+	TTextureConverterFormat,
+	type TTextureFormat,
+} from "@/_types/text-zip/formats";
 
 export type ManifestV1Item = {
 	path: string;

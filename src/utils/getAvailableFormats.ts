@@ -7,7 +7,7 @@ export const getAvailableFormats = (version: string, files: SelectedFile[]) => {
 	if (!supported) {
 		return [];
 	}
-	return TargetFormats.filter((v) => supported.includes(v.label)).map(
+	return TargetFormats.filter((v) => supported.includes(v.id)).map(
 		(format) => ({
 			...format,
 			fileSize: estimateFileSize(files, format.bytePerPixel),

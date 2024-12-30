@@ -82,7 +82,7 @@ export const FormatItem: FC<{ item: FormatItemType }> = ({ item }) => {
 	return (
 		<Radio.Button
 			key={item.label}
-			value={item.label}
+			value={item.id}
 			className={"w-[256px] !h-[76px]"}
 		>
 			<Flex vertical className={"p-2 text-center"}>
