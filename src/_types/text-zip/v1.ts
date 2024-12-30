@@ -25,3 +25,19 @@ export type RawImageObjV1 = {
 	buffer: Buffer;
 	note?: string;
 };
+
+export type RawImageObjV1Cropped = RawImageObjV1 & {
+	cropped?: {
+		rects: RawImageObjV1CroppedPart[];
+		merged: Buffer;
+	};
+};
+
+export type RawImageObjV1CroppedPart = {
+	index: number;
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	buffer: Buffer;
+};
