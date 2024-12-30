@@ -1,20 +1,29 @@
-export const img2canvas = (
+import type { SelectedFile } from "@/_types/file-picker";
+
+export const img2selectedFiles = async (
 	file: File,
-	resize = true,
+): Promise<[SelectedFile]> => {
+	const canvas = await imgFile2offscreenCanvas(file);
+	return [
+		{
+			id: crypto.randomUUID(),
+			fileName: file.name,
+			canvas,
+			metadata: {
+				fileType: "image",
+			},
+		},
+	];
+};
+
+const imgFile2offscreenCanvas = async (
+	file: File,
 ): Promise<OffscreenCanvas> => {
 	return new Promise<OffscreenCanvas>((resolve) => {
 		const img = new Image();
 		img.src = URL.createObjectURL(file);
 		img.onload = () => {
-			const { width, height } = (() => {
-				if (resize) {
-					const scale = Math.min(1, 1024 / img.width, 1024 / img.height);
-					const width = Math.floor(img.width * scale);
-					const height = Math.floor(img.height * scale);
-					return { width, height };
-				}
-				return { width: img.width, height: img.height };
-			})();
+			const { width, height } = { width: img.width, height: img.height };
 			const canvas = new OffscreenCanvas(width, height);
 			const context = canvas.getContext("2d");
 			if (!context) throw new Error("Canvas not found");

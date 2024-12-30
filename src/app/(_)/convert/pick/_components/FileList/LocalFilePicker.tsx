@@ -1,6 +1,5 @@
 import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { canvas2selectedFile } from "@/lib/canvas2selected-files";
-import { files2canvases } from "@/lib/file2canvas";
+import { files2selectedFiles } from "@/lib/file2selectedFiles";
 import { Button } from "antd";
 import { useSetAtom } from "jotai";
 import { type ChangeEvent, useRef } from "react";
@@ -18,9 +17,7 @@ export const LocalFilePicker = () => {
 		e.preventDefault();
 		const files = e.target.files;
 		if (!files) return;
-		const processed = (await files2canvases(files)).map(
-			({ canvas, fileName }) => canvas2selectedFile(fileName, canvas),
-		);
+		const processed = await files2selectedFiles(files);
 		setFiles((pv) => [...pv, ...processed]);
 	};
 

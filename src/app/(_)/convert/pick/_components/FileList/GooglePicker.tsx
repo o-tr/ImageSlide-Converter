@@ -1,4 +1,4 @@
-import type { GetSlideResponse } from "@/_types/google-slides-api";
+import type { SelectedFile } from "@/_types/file-picker";
 import type { GoogleFilePickerCallbackData } from "@/_types/lib/google/filePicker";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
 import {
@@ -6,12 +6,14 @@ import {
 	IsGooglePickerReadyAtom,
 } from "@/atoms/google-picker";
 import { AntContent } from "@/components/AntContent";
-import { canvas2selectedFile } from "@/lib/canvas2selected-files";
-import { files2canvases } from "@/lib/file2canvas";
-import { pdf2canvases } from "@/lib/file2canvas/pdf2canvases";
+import { file2selectedFiles, pdf2canvases } from "@/lib/file2selectedFiles";
 import { fetchFileBuffer } from "@/lib/gapi/fetchFile";
-import { requestTokenPromise } from "@/lib/google/requestToken";
-import { showFilePicker } from "@/lib/google/showFilePicker";
+import {
+	fetchSlideAsPdf,
+	fetchSlideMetadata,
+	requestTokenPromise,
+	showFilePicker,
+} from "@/lib/google";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Button, Flex, Spin } from "antd";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -62,21 +64,18 @@ export const GooglePicker = () => {
 		const file = data.docs[0];
 		setIsLoading(true);
 		if (file.mimeType === "application/pdf") {
-			const canvases = await pdf2canvases(await fetchFileBuffer(file.id));
-			const files = canvases.map((canvas, index) => ({
-				id: `${index}-${crypto.randomUUID()}`,
-				fileName: `${file.name}-${index + 1}`,
-				canvas: canvas,
-			}));
-			setFiles((pv) => [...pv, ...files]);
+			const fileObj = new File(
+				[await fetchFileBuffer(file.id)],
+				file.name ?? "unknown file",
+				{
+					type: "application/pdf",
+				},
+			);
+			const selectedFiles = await file2selectedFiles(fileObj);
+			setFiles((pv) => [...pv, ...selectedFiles]);
 		}
 		if (file.mimeType === "application/vnd.google-apps.presentation") {
-			const { slides, title } = await slide2canvas(file.id);
-			const files = slides.map((slide, index) => ({
-				id: `${index}-${crypto.randomUUID()}`,
-				fileName: `${title}-${index + 1}`,
-				...slide,
-			}));
+			const files = await slide2canvas(file.id);
 			setFiles((pv) => [...pv, ...files]);
 		}
 		if (file.mimeType?.startsWith("image/")) {
@@ -84,9 +83,7 @@ export const GooglePicker = () => {
 			const fileObject = new File([buffer], file.name ?? "unknown file", {
 				type: file.mimeType,
 			});
-			const canvas = (await files2canvases([fileObject])).map(
-				({ canvas, fileName }) => canvas2selectedFile(fileName, canvas),
-			);
+			const canvas = await file2selectedFiles(fileObject);
 			setFiles((pv) => [...pv, ...canvas]);
 		}
 		setIsLoading(false);
@@ -130,51 +127,32 @@ export const GooglePicker = () => {
 	);
 };
 
-const slide2canvas = async (
-	slideId: string,
-): Promise<{
-	slides: { note: string; canvas: OffscreenCanvas }[];
-	title: string;
-}> => {
-	const pdfFile = (await gapi.client.drive.files.export({
-		fileId: slideId,
-		mimeType: "application/pdf",
-	})) as { body: string };
+const slide2canvas = async (slideId: string): Promise<SelectedFile[]> => {
+	const [{ canvases, buffer }, metadata] = await Promise.all([
+		(async () => {
+			const buffer = await fetchSlideAsPdf(slideId);
+			return {
+				canvases: await pdf2canvases(buffer),
+				buffer,
+			};
+		})(),
+		fetchSlideMetadata(slideId),
+	]);
 
-	const uint8Array = new Uint8Array(
-		pdfFile.body.split("").map((char) => char.charCodeAt(0)),
-	);
-	const pdfBlob = new Blob([uint8Array], { type: "application/pdf" });
-	const buffer = await pdfBlob.arrayBuffer();
-	const canvases = await pdf2canvases(buffer);
+	const file = new File([buffer], metadata.title, {
+		type: "application/pdf",
+	});
 
-	const response: GetSlideResponse = await gapi.client.slides.presentations.get(
-		{
-			presentationId: slideId,
+	return canvases.map((canvas, index) => ({
+		id: crypto.randomUUID(),
+		fileName: `${metadata.title}-${index + 1}`,
+		canvas,
+		note: metadata.items[index].speakerNote,
+		metadata: {
+			fileType: "pdf",
+			file,
+			index,
+			scale: 1,
 		},
-	);
-	const slides = response.result.slides
-		.filter((slide) => !slide.slideProperties.isSkipped)
-		.map<string>((slide) => {
-			return slide.slideProperties.notesPage.pageElements
-				.filter((element) => element.shape.shapeType === "TEXT_BOX")
-				.map((element) => {
-					if (
-						!element.shape.text ||
-						element.shape.text.textElements.length === 0
-					)
-						return "";
-					return element.shape.text.textElements
-						.map((textElement) => textElement.textRun?.content)
-						.join("");
-				})
-				.join("\n");
-		});
-
-	const result = slides.map((note, index) => ({
-		note,
-		canvas: canvases[index],
 	}));
-
-	return { slides: result, title: response.result.title };
 };
