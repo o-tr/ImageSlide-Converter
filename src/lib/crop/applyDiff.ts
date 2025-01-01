@@ -10,8 +10,7 @@ export const applyDiff = (
 	diff: RawImageObjV1CroppedPart[],
 ): Buffer => {
 	const width = output.rect.width;
-	const height = output.rect.height;
-	const result: Buffer = Buffer.alloc(width * height * 3);
+	const result: Buffer = Buffer.alloc(output.buffer.length);
 
 	const sourceBuffer = source.cropped?.merged ?? source.buffer;
 
@@ -29,11 +28,11 @@ export const applyDiff = (
 
 	// copy diff to result
 	for (const rect of diff) {
-		const { x, y, width, height, buffer } = rect;
+		const { x, y, width: rectWidth, height, buffer } = rect;
 		for (let j = 0; j < height; j++) {
-			const srcStart = j * width * 3;
+			const srcStart = j * rectWidth * 3;
 			const destStart = ((y + j) * width + x) * 3;
-			buffer.copy(result, destStart, srcStart, srcStart + width * 3);
+			buffer.copy(result, destStart, srcStart, srcStart + rectWidth * 3);
 		}
 	}
 

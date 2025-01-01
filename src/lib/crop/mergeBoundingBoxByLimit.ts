@@ -5,10 +5,6 @@ export const mergeBoundingBoxByLimit = (
 	_boxes: BoundingBox[],
 	limit: number,
 ): BoundingBox[] => {
-	console.info(
-		`mergeBoundingBoxByLimit: limit=${limit}, _boxes.length=${_boxes.length}`,
-	);
-	console.time("mergeBoundingBoxByLimit");
 	const boxes = structuredClone(_boxes); // 副作用を避けるためにクローンを作成
 
 	while (boxes.length > limit) {
@@ -46,6 +42,5 @@ export const mergeBoundingBoxByLimit = (
 			break; // 統合できる組み合わせがない場合は終了
 		}
 	}
-	console.timeEnd("mergeBoundingBoxByLimit");
 	return boxes;
 };

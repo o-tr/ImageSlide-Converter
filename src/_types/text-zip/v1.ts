@@ -1,14 +1,28 @@
 import type { Rect } from "@/_types/text-zip";
-import {
-	TTextureConverterFormat,
-	type TTextureFormat,
-} from "@/_types/text-zip/formats";
+import type { TTextureFormat } from "@/_types/text-zip/formats";
 
 export type ManifestV1Item = {
 	path: string;
 	format: TTextureFormat;
 	rect: Rect;
-	extensions?: { [ext_name: string]: string };
+	extensions?: ManifestV1Extension;
+};
+
+export type ManifestV1Extension = {
+	note?: string;
+	cropped?: ManifestV1ExtensionCropped;
+};
+
+export type ManifestV1ExtensionCropped = {
+	basePath: string;
+	rects: {
+		index: number;
+		x: number;
+		y: number;
+		width: number;
+		height: number;
+		path: string;
+	}[];
 };
 
 export type ManifestV1 = {

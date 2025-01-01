@@ -4,79 +4,74 @@ export const diff2boundingBox = (
 	maskArray: Uint8Array,
 	width: number,
 	height: number,
+	padding = 0, // append padding to the bounding box
 ): BoundingBox[] => {
-	const visited = new Uint8Array(width * height); // 探索したかどうか
 	const boxes: BoundingBox[] = [];
+	const visited = new Uint8Array(maskArray.length);
+	const queue: [number, number][] = [];
+	const dx = [0, 1, 0, -1];
+	const dy = [-1, 0, 1, 0];
 
-	for (let idx = 0; idx < width * height; idx++) {
-		if (maskArray[idx] === 1 && visited[idx] === 0) {
-			// 新しい連結成分を見つけた => BFS or DFSで探索
-			const stack = [idx];
-			visited[idx] = 1;
+	const isInside = (x: number, y: number) =>
+		x >= 0 && x < width && y >= 0 && y < height;
+	const index = (x: number, y: number) => y * width + x;
+	const pushQueue = (x: number, y: number) => {
+		visited[index(x, y)] = 1;
+		queue.push([x, y]);
+	};
 
-			// バウンディングボックスの初期値 (xMin,xMax,yMin,yMax)
-			let xMin = width;
-			let xMax = 0;
-			let yMin = height;
-			let yMax = 0;
-
-			while (stack.length > 0) {
-				const current = stack.pop();
-				if (current === undefined) {
-					throw new Error("unknown error");
-				}
-				const cx = current % width;
-				const cy = Math.floor(current / width);
-
-				// バウンディングボックス更新
-				if (cx < xMin) xMin = cx;
-				if (cx > xMax) xMax = cx;
-				if (cy < yMin) yMin = cy;
-				if (cy > yMax) yMax = cy;
-
-				// 近傍ピクセルを探索(上下左右4近傍)
-				const neighbors = [
-					current - width, // up
-					current + width, // down
-					current - 1, // left
-					current + 1, // right
-				];
-
-				for (const nb of neighbors) {
-					if (nb < 0 || nb >= width * height) {
-						continue; // 範囲外
-					}
-					const nx = nb % width;
-					const ny = Math.floor(nb / width);
-
-					// 左右端で折り返さないようにする
-					if (Math.abs(nx - cx) + Math.abs(ny - cy) > 1) {
+	for (let y = 0; y < height; y++) {
+		for (let x = 0; x < width; x++) {
+			if (maskArray[index(x, y)] === 0 || visited[index(x, y)]) {
+				continue;
+			}
+			const box: BoundingBox = {
+				x1: x,
+				y1: y,
+				x2: x,
+				y2: y,
+				width: 1,
+				height: 1,
+				area: 1,
+			};
+			pushQueue(x, y);
+			while (queue.length > 0) {
+				const [x, y] =
+					queue.pop() ||
+					(() => {
+						throw new Error("queue is empty");
+					})();
+				for (let i = 0; i < 4; i++) {
+					const nx = x + dx[i];
+					const ny = y + dy[i];
+					if (
+						!isInside(nx, ny) ||
+						visited[index(nx, ny)] ||
+						maskArray[index(nx, ny)] === 0
+					) {
 						continue;
 					}
-
-					if (maskArray[nb] === 1 && visited[nb] === 0) {
-						visited[nb] = 1;
-						stack.push(nb);
-					}
+					visited[index(nx, ny)] = 1;
+					queue.push([nx, ny]);
+					box.x1 = Math.min(box.x1, nx);
+					box.y1 = Math.min(box.y1, ny);
+					box.x2 = Math.max(box.x2, nx);
+					box.y2 = Math.max(box.y2, ny);
+					box.width = box.x2 - box.x1 + 1;
+					box.height = box.y2 - box.y1 + 1;
+					box.area = box.width * box.height;
 				}
 			}
-
-			// 連結成分のバウンディングボックスを格納
-			const boxWidth = yMax - yMin + 1;
-			const boxHeight = yMax - yMin + 1;
-			boxes.push({
-				x1: xMin,
-				y1: yMin,
-				x2: xMax,
-				y2: yMax,
-				width: boxWidth,
-				height: boxHeight,
-				area: boxWidth * boxHeight,
-			});
+			box.x1 = Math.max(0, box.x1 - padding);
+			box.y1 = Math.max(0, box.y1 - padding);
+			box.x2 = Math.min(width - 1, box.x2 + padding);
+			box.y2 = Math.min(height - 1, box.y2 + padding);
+			box.width = box.x2 - box.x1 + 1;
+			box.height = box.y2 - box.y1 + 1;
+			box.area = box.width * box.height;
+			boxes.push(box);
 		}
 	}
 
-	// バウンディングボックスを大きい順にソート
-	boxes.sort((a, b) => b.area - a.area);
 	return boxes;
 };

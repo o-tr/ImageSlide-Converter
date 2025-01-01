@@ -1,3 +1,5 @@
+import { SelectedFile } from "@/_types/file-picker";
+import { TTextureConverterFormat } from "@/_types/text-zip/formats";
 import type { WorkerMessage, WorkerResponse } from "@/_types/worker";
 import { TargetFormats } from "@/const/convert";
 import { initPromise } from "@/lib/basis";
