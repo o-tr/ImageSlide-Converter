@@ -33,7 +33,7 @@ export const compressFileV1 = async (
 					);
 				}
 				ext.cropped = {
-					basePath: `${item.index}.`,
+					basePath: `${item.cropped.baseIndex}.rawimage`,
 					rects: item.cropped.rects.map((rect) => ({
 						x: rect.x,
 						y: rect.y,

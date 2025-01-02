@@ -91,6 +91,7 @@ const processImages = (rawImages: RawImageObjV1[]): RawImageObjV1Cropped[] => {
 		const croppedImage: RawImageObjV1Cropped = {
 			...currentImage,
 			cropped: {
+				baseIndex: lastImage.index,
 				rects,
 				merged,
 			},

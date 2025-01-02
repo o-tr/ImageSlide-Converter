@@ -42,6 +42,7 @@ export type RawImageObjV1 = {
 
 export type RawImageObjV1Cropped = RawImageObjV1 & {
 	cropped?: {
+		baseIndex: number;
 		rects: RawImageObjV1CroppedPart[];
 		merged: Buffer;
 	};
