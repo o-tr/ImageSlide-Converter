@@ -5,12 +5,12 @@ import { Flex } from "antd";
 type Props = Readonly<{ params: { fileId: string } }>;
 
 export default function Page({ params }: Props) {
-	return (
-		<div className={"flex-1 grid place-items-center"}>
-			<Flex vertical gap={"middle"} className={"w-3/4"}>
-				<URLDisplay fileId={params.fileId} />
-			</Flex>
-			<Reset />
-		</div>
-	);
+  return (
+    <div className={"flex-1 grid place-items-center"}>
+      <Flex vertical gap={"middle"} className={"w-3/4"}>
+        <URLDisplay fileId={params.fileId} />
+      </Flex>
+      <Reset />
+    </div>
+  );
 }

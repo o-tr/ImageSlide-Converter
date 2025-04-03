@@ -1,56 +1,56 @@
 export interface TypedWorkerClientMethodMap {
-	init: {
-		request: TypedWorkerClientMethodInit;
-		response: TypedWorkerWorkerResponseInit;
-	};
-	ping: {
-		request: TypedWorkerClientMethodPing;
-		response: TypedWorkerWorkerResponsePing;
-	};
-	"convert-dxt1": {
-		request: TypedWorkerClientMethodConvertDXT1;
-		response: TypedWorkerWorkerResponseConvertDXT1;
-	};
+  init: {
+    request: TypedWorkerClientMethodInit;
+    response: TypedWorkerWorkerResponseInit;
+  };
+  ping: {
+    request: TypedWorkerClientMethodPing;
+    response: TypedWorkerWorkerResponsePing;
+  };
+  "convert-dxt1": {
+    request: TypedWorkerClientMethodConvertDXT1;
+    response: TypedWorkerWorkerResponseConvertDXT1;
+  };
 }
 export type TypedWorkerClientMethod =
-	TypedWorkerClientMethodMap[keyof TypedWorkerClientMethodMap]["request"];
+  TypedWorkerClientMethodMap[keyof TypedWorkerClientMethodMap]["request"];
 export type TypedWorkerWorkerResponse =
-	TypedWorkerClientMethodMap[keyof TypedWorkerClientMethodMap]["response"];
+  TypedWorkerClientMethodMap[keyof TypedWorkerClientMethodMap]["response"];
 
 export type TypedWorkerClientMethodInit = {
-	type: "init";
-	threadId: number;
-	requestId: string;
+  type: "init";
+  threadId: number;
+  requestId: string;
 };
 
 export type TypedWorkerWorkerResponseInit = {
-	type: "init";
-	requestId: string;
-	transfer?: Transferable[];
+  type: "init";
+  requestId: string;
+  transfer?: Transferable[];
 };
 
 export type TypedWorkerClientMethodPing = {
-	type: "ping";
-	requestId: string;
+  type: "ping";
+  requestId: string;
 };
 
 export type TypedWorkerWorkerResponsePing = {
-	type: "ping";
-	requestId: string;
-	transfer?: Transferable[];
+  type: "ping";
+  requestId: string;
+  transfer?: Transferable[];
 };
 
 export type TypedWorkerClientMethodConvertDXT1 = {
-	type: "convert-dxt1";
-	requestId: string;
-	bitmap: ImageBitmap;
+  type: "convert-dxt1";
+  requestId: string;
+  bitmap: ImageBitmap;
 };
 
 export type TypedWorkerWorkerResponseConvertDXT1 = {
-	type: "convert-dxt1";
-	requestId: string;
-	buffer: ArrayBuffer;
-	width: number;
-	height: number;
-	transfer?: Transferable[];
+  type: "convert-dxt1";
+  requestId: string;
+  buffer: ArrayBuffer;
+  width: number;
+  height: number;
+  transfer?: Transferable[];
 };

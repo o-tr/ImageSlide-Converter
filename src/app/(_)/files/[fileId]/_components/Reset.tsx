@@ -5,12 +5,12 @@ import { useSetAtom } from "jotai/index";
 import { type FC, useEffect } from "react";
 
 export const Reset: FC = () => {
-	const setResult = useSetAtom(ResultAtom);
-	const setFiles = useSetAtom(SelectedFilesAtom);
+  const setResult = useSetAtom(ResultAtom);
+  const setFiles = useSetAtom(SelectedFilesAtom);
 
-	useEffect(() => {
-		setResult(undefined);
-		setFiles([]);
-	}, [setResult, setFiles]);
-	return <></>;
+  useEffect(() => {
+    setResult(undefined);
+    setFiles([]);
+  }, [setResult, setFiles]);
+  return <></>;
 };

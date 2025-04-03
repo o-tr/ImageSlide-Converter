@@ -4,5 +4,5 @@ import { redirect } from "next/navigation";
 type Props = Readonly<{ params: { fileId: string; server: string } }>;
 
 export default function Page({ params }: Props) {
-	redirect(`/files/${params.server}`);
+  redirect(`/files/${params.server}`);
 }

@@ -7,21 +7,21 @@ import { MdOutlineOpenInNew } from "react-icons/md";
 import { RenameButton } from "./RenameButton";
 
 export const Actions: FC<{
-	file: FileItem;
-	updateFile: (fileId: string, data: PatchRequest) => Promise<void>;
-	deleteFile: (fileId: string) => Promise<void>;
+  file: FileItem;
+  updateFile: (fileId: string, data: PatchRequest) => Promise<void>;
+  deleteFile: (fileId: string) => Promise<void>;
 }> = ({ file, updateFile, deleteFile }) => {
-	return (
-		<Flex gap={"middle"} wrap={true}>
-			<RenameButton file={file} updateFile={updateFile} />
-			<Tooltip placement={"top"} title={"開く"}>
-				<Button
-					icon={<MdOutlineOpenInNew />}
-					target={"_blank"}
-					href={`/files/${file.fileId}`}
-				/>
-			</Tooltip>
-			<DeleteButton onDelete={() => deleteFile(file.fileId)} />
-		</Flex>
-	);
+  return (
+    <Flex gap={"middle"} wrap={true}>
+      <RenameButton file={file} updateFile={updateFile} />
+      <Tooltip placement={"top"} title={"開く"}>
+        <Button
+          icon={<MdOutlineOpenInNew />}
+          target={"_blank"}
+          href={`/files/${file.fileId}`}
+        />
+      </Tooltip>
+      <DeleteButton onDelete={() => deleteFile(file.fileId)} />
+    </Flex>
+  );
 };
