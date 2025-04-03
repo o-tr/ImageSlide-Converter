@@ -27,7 +27,7 @@ export default function Page() {
         <Link href={"./pick"}>
           <Button>Prev</Button>
         </Link>
-        {version ? (
+        {version !== "" ? (
           <Link href={"./convert"}>
             <Button type={"primary"}>Next</Button>
           </Link>

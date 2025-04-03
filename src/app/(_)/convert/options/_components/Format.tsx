@@ -67,7 +67,7 @@ export const Format: FC = () => {
           </Tooltip>
         )}
         {availableFormats.map((v) => (
-          <FormatItem key={v.label} item={v} />
+          <FormatItem key={v.id} item={v} />
         ))}
       </Radio.Group>
     </Flex>
@@ -80,11 +80,7 @@ export const FormatItem: FC<{ item: FormatItemType }> = ({ item }) => {
     return toLabel(estimateFileSize(files, item.bytePerPixel));
   }, [item.bytePerPixel, files]);
   return (
-    <Radio.Button
-      key={item.label}
-      value={item.id}
-      className={"w-[256px] !h-[76px]"}
-    >
+    <Radio.Button value={item.id} className={"w-[256px] !h-[76px]"}>
       <Flex vertical className={"p-2 text-center"}>
         <p>{item.label}</p>
         <p>{label}</p>
