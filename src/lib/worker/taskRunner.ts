@@ -75,7 +75,10 @@ export const executeNextTask = async () => {
         `finish task ${task.message.type} (taskID: ${task.message.requestId}) in thread ${thread.id}`,
       );
     } catch (error) {
-      console.error(`Error processing task ${task.message.type} (taskID: ${task.message.requestId}) in thread ${thread.id}:`, error);
+      console.error(
+        `Error processing task ${task.message.type} (taskID: ${task.message.requestId}) in thread ${thread.id}:`,
+        error,
+      );
       // Optionally, you might want to reject the task or take other error handling steps here
     } finally {
       thread.isBusy = false;

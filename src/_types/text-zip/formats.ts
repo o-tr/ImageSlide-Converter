@@ -1,5 +1,7 @@
 import type { SelectedFile } from "@/_types/file-picker";
 
+export const ContainerFormat = ["text-zip-v0", "text-zip-v1", "eti-v1"];
+
 export const TextureFormat = [
   "RGBA32",
   "RGB24",
@@ -7,15 +9,18 @@ export const TextureFormat = [
   "RGB24-cropped",
 ] as const;
 
-export const TextureConverterFormat = [
-  "v0-RGBA32",
-  "v1-RGB24",
-  "v1-RGBA32",
-  "v1-DXT1",
-  "v1-RGB24-cropped",
-] as const satisfies `v${number}-${(typeof TextureFormat)[number]}`[];
-
 export type TTextureFormat = (typeof TextureFormat)[number];
+export type TContainerFormat = (typeof ContainerFormat)[number];
+
+export const TextureConverterFormat = [
+  "text-zip-v0-RGBA32",
+  "text-zip-v1-RGB24",
+  "text-zip-v1-RGBA32",
+  "text-zip-v1-DXT1",
+  "text-zip-v1-RGB24-cropped",
+  "eti-v1-RGB24-cropped",
+] as const satisfies `${TContainerFormat}-${TTextureFormat}`[];
+
 export type TTextureConverterFormat = (typeof TextureConverterFormat)[number];
 
 export type FormatItemType = {
@@ -24,5 +29,8 @@ export type FormatItemType = {
   description?: string;
   bytePerPixel: number;
   priority: number;
+  container: TContainerFormat;
+  format: TTextureFormat;
+  estimatedCompressionRatio?: number;
   converter: (selectedFiles: SelectedFile[]) => Promise<string[]>;
 };
