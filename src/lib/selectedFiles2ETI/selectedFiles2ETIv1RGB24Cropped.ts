@@ -4,6 +4,8 @@ import { canvas2rgb24 } from "@/lib/canvas2rawImage/canvas2rgb24";
 import { compressETIv1 } from "@/lib/eti/compressETIv1";
 import { cropImages } from "../crop/cropImages";
 
+const keyframeInterval = 10;
+
 export const selectedFiles2ETIv1RGB24Cropped = async (
   selectedFiles: SelectedFile[],
 ): Promise<string[]> => {
@@ -21,10 +23,10 @@ export const selectedFiles2ETIv1RGB24Cropped = async (
     `before compress size: ${rawImages.reduce((acc, cur) => acc + cur.buffer.length, 0)}`,
   );
 
-  const croppedImages = cropImages(rawImages, { keyframeInterval: 10 });
+  const croppedImages = cropImages(rawImages, { keyframeInterval });
   console.log(
     `after compress size: ${croppedImages.reduce((acc, cur) => acc + (cur.cropped ? cur.cropped.rects.reduce((acc, cur) => acc + cur.buffer.length, 0) : cur.buffer.length), 0)}`,
   );
 
-  return await compressETIv1(croppedImages);
+  return await compressETIv1(croppedImages, 1, keyframeInterval);
 };

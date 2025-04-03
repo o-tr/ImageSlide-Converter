@@ -10,8 +10,9 @@ import { encode } from "@/lib/base64-rle-csv/encode";
 export const compressETIv1 = async (
   data: RawImageObjV1Cropped[],
   count = 1,
+  stepSize = 10,
 ): Promise<string[]> => {
-  const partCount = Math.ceil(data.length / (count * 10)) * 10;
+  const partCount = Math.ceil(data.length / (count * stepSize)) * stepSize;
   const result: string[] = [];
 
   for (let i = 0; i < count; i++) {
