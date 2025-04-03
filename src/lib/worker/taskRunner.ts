@@ -63,17 +63,23 @@ export const executeNextTask = async () => {
   );
   thread.worker.postMessage(task.message, task.transfer);
   const onMessage = ({ data }: MessageEvent<TypedWorkerWorkerMessage>) => {
-    if (
-      !((data: TypedWorkerWorkerMessage): data is TypedWorkerWorkerResponse =>
-        data.requestId === task.message.requestId)(data)
-    )
-      return;
-    task.resolve(data);
-    thread.worker.removeEventListener("message", onMessage);
-    console.log(
-      `finish task ${task.message.type} (taskID: ${task.message.requestId}) in thread ${thread.id}`,
-    );
-    thread.isBusy = false;
+    try {
+      if (
+        !((data: TypedWorkerWorkerMessage): data is TypedWorkerWorkerResponse =>
+          data.requestId === task.message.requestId)(data)
+      )
+        return;
+      task.resolve(data);
+      thread.worker.removeEventListener("message", onMessage);
+      console.log(
+        `finish task ${task.message.type} (taskID: ${task.message.requestId}) in thread ${thread.id}`,
+      );
+    } catch (error) {
+      console.error(`Error processing task ${task.message.type} (taskID: ${task.message.requestId}) in thread ${thread.id}:`, error);
+      // Optionally, you might want to reject the task or take other error handling steps here
+    } finally {
+      thread.isBusy = false;
+    }
   };
   thread.worker.addEventListener("message", onMessage);
   setTimeout(executeNextTask, 0);
