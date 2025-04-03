@@ -1,11 +1,15 @@
-import { WorkerMessage, WorkerResponse } from "@/_types/worker";
-import { convert2textZip } from "@/lib/text-zip";
+import { SelectedFile } from "@/_types/file-picker";
+import { TTextureConverterFormat } from "@/_types/text-zip/formats";
+import type { WorkerMessage, WorkerResponse } from "@/_types/worker";
+import { TargetFormats } from "@/const/convert";
 import { initPromise } from "@/lib/basis";
 
 const worker = self as unknown as Worker;
+console.log("compress worker start");
 worker.addEventListener(
   "message",
   async (event: MessageEvent<WorkerMessage>) => {
+    console.log("compress start", event.data);
     if (event.data.type !== "compress") return;
     await initPromise;
     const { files: _files, format, version, scale } = event.data.data;
@@ -45,7 +49,10 @@ worker.addEventListener(
         ?.drawImage(file.bitmap, 0, 0, canvas.width, canvas.height);
       return { ...file, canvas };
     });
-    const result = await convert2textZip(files, version, format);
+    console.log("compress", files);
+    const converter = TargetFormats.find((f) => f.id === format)?.converter;
+    if (!converter) throw new Error("converter not found");
+    const result = await converter(files);
     const message: WorkerResponse = {
       type: "compress",
       data: result,
@@ -53,5 +60,3 @@ worker.addEventListener(
     worker.postMessage(message);
   },
 );
-
-export {};

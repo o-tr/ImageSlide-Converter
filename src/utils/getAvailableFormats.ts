@@ -1,13 +1,13 @@
+import type { SelectedFile } from "@/_types/file-picker";
 import { TargetFormats, TargetVersions } from "@/const/convert";
 import { estimateFileSize } from "@/utils/estimateFileSize";
-import { SelectedFile } from "@/_types/file-picker";
 
 export const getAvailableFormats = (version: string, files: SelectedFile[]) => {
   const supported = TargetVersions.find((v) => v.label === version)?.formats;
   if (!supported) {
     return [];
   }
-  return TargetFormats.filter((v) => supported.includes(v.label)).map(
+  return TargetFormats.filter((v) => supported.includes(v.id)).map(
     (format) => ({
       ...format,
       fileSize: estimateFileSize(files, format.bytePerPixel),

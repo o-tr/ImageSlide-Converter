@@ -5,7 +5,24 @@ export type ManifestV1Item = {
   path: string;
   format: TTextureFormat;
   rect: Rect;
-  extensions?: { [ext_name: string]: string };
+  extensions?: ManifestV1Extension;
+};
+
+export type ManifestV1Extension = {
+  note?: string;
+  cropped?: ManifestV1ExtensionCropped;
+};
+
+export type ManifestV1ExtensionCropped = {
+  basePath: string;
+  rects: {
+    index: number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    path: string;
+  }[];
 };
 
 export type ManifestV1 = {
@@ -21,4 +38,21 @@ export type RawImageObjV1 = {
   format: TTextureFormat;
   buffer: Buffer;
   note?: string;
+};
+
+export type RawImageObjV1Cropped = RawImageObjV1 & {
+  cropped?: {
+    baseIndex: number;
+    rects: RawImageObjV1CroppedPart[];
+    merged: Buffer;
+  };
+};
+
+export type RawImageObjV1CroppedPart = {
+  index: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  buffer: Buffer;
 };

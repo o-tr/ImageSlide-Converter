@@ -1,8 +1,8 @@
-import { FC, useState } from "react";
+import type { FileItem } from "@/_types/api/getMyFiles";
+import type { PatchRequest } from "@/app/api/my/files/[fileId]/route";
 import { Button, Input, Modal, Tooltip } from "antd";
+import { type FC, useState } from "react";
 import { TbPencil } from "react-icons/tb";
-import { PatchRequest } from "@/app/api/my/files/[fileId]/route";
-import { FileItem } from "@/_types/api/getMyFiles";
 
 export const RenameButton: FC<{
   file: FileItem;

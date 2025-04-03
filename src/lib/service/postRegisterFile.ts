@@ -1,5 +1,5 @@
-import axios from "axios";
 import { postRegisterFileResponseSchema } from "@/_types/api/postRegisterFile";
+import axios from "axios";
 
 export const postRegisterFile = async (
   fileId: string,

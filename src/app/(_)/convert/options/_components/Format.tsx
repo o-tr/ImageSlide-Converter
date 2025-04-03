@@ -1,12 +1,12 @@
-import { FC, useEffect, useMemo } from "react";
-import { useAtom, useAtomValue } from "jotai";
+import type { FormatItemType } from "@/_types/text-zip/formats";
 import { ConvertFormatAtom, UsingVersionAtom } from "@/atoms/convert";
-import { Flex, Radio, Tooltip } from "antd";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
 import { FileSizeLimit } from "@/const/convert";
 import { estimateFileSize } from "@/utils/estimateFileSize";
-import { FormatItemType } from "@/_types/text-zip/formats";
 import { getAvailableFormats } from "@/utils/getAvailableFormats";
+import { Flex, Radio, Tooltip } from "antd";
+import { useAtom, useAtomValue } from "jotai";
+import { type FC, useEffect, useMemo } from "react";
 
 export const Format: FC = () => {
   const [format, setFormat] = useAtom(ConvertFormatAtom);
@@ -67,7 +67,7 @@ export const Format: FC = () => {
           </Tooltip>
         )}
         {availableFormats.map((v) => (
-          <FormatItem key={v.label} item={v} />
+          <FormatItem key={v.id} item={v} />
         ))}
       </Radio.Group>
     </Flex>
@@ -80,11 +80,7 @@ export const FormatItem: FC<{ item: FormatItemType }> = ({ item }) => {
     return toLabel(estimateFileSize(files, item.bytePerPixel));
   }, [item.bytePerPixel, files]);
   return (
-    <Radio.Button
-      key={item.label}
-      value={item.label}
-      className={"w-[256px] !h-[76px]"}
-    >
+    <Radio.Button value={item.id} className={"w-[256px] !h-[76px]"}>
       <Flex vertical className={"p-2 text-center"}>
         <p>{item.label}</p>
         <p>{label}</p>

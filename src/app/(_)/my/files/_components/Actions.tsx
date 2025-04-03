@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { FileItem } from "@/_types/api/getMyFiles";
-import { PatchRequest } from "@/app/api/my/files/[fileId]/route";
+import type { FileItem } from "@/_types/api/getMyFiles";
+import { DeleteButton } from "@/app/(_)/my/files/_components/DeleteButton";
+import type { PatchRequest } from "@/app/api/my/files/[fileId]/route";
 import { Button, Flex, Tooltip } from "antd";
+import type { FC } from "react";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import { RenameButton } from "./RenameButton";
-import { DeleteButton } from "@/app/(_)/my/files/_components/DeleteButton";
 
 export const Actions: FC<{
   file: FileItem;

@@ -1,15 +1,20 @@
-import { WorkerMessage, WorkerResponse } from "@/_types/worker";
-import { TTextureFormat } from "@/_types/text-zip/formats";
-import { SelectedFile } from "@/_types/file-picker";
+import type { SelectedFile } from "@/_types/file-picker";
+import type { TTextureConverterFormat } from "@/_types/text-zip/formats";
+import type { WorkerMessage, WorkerResponse } from "@/_types/worker";
 
-const worker = (typeof window !== 'undefined' ? new Worker(new URL("../../worker/compress.ts", import.meta.url)) : undefined) as Worker;
+const worker = (
+  typeof window !== "undefined"
+    ? new Worker(new URL("../../worker/compress.ts", import.meta.url))
+    : undefined
+) as Worker;
 
 export const postCompress = (
   files: SelectedFile[],
-  format: TTextureFormat,
+  format: TTextureConverterFormat,
   version: number,
   scale: number,
 ): Promise<string[]> => {
+  console.log("postCompress");
   const message: WorkerMessage = {
     type: "compress",
     data: {
@@ -23,6 +28,7 @@ export const postCompress = (
       })),
     },
   };
+  console.log("postCompress", message);
   return new Promise<string[]>((resolve) => {
     worker.addEventListener(
       "message",

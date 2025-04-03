@@ -1,10 +1,10 @@
 "use client";
-import { FC } from "react";
-import { Flex, Radio } from "antd";
-import Image from "next/image";
-import { useAtom } from "jotai";
 import { UsingVersionAtom } from "@/atoms/convert";
 import { TargetVersions } from "@/const/convert";
+import { Flex, Radio } from "antd";
+import { useAtom } from "jotai";
+import Image from "next/image";
+import type { FC } from "react";
 
 export const Version: FC = () => {
   const [version, setVersion] = useAtom(UsingVersionAtom);

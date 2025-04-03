@@ -1,8 +1,8 @@
+import { TransitionOnDrag } from "@/app/_components/TransitionOnDrag";
+import { AntContent } from "@/components/AntContent";
+import { DragWatcher } from "@/components/DragWatcher";
 import { Button, Flex } from "antd";
 import Image from "next/image";
-import { AntContent } from "@/components/AntContent";
-import { TransitionOnDrag } from "@/app/_components/TransitionOnDrag";
-import { DragWatcher } from "@/components/DragWatcher";
 
 export default function Home() {
   return (

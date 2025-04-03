@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { getAuthorizedUser } from "@/utils/getAuthorizedUser";
 import { addDay, format } from "@formkit/tempo";
+import { NextResponse } from "next/server";
 
 export const GET = async () => {
   const user = await getAuthorizedUser();

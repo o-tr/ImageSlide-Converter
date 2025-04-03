@@ -1,8 +1,8 @@
-import JSZip from "jszip";
-import { ManifestV0, RawImageObj } from "@/_types/text-zip/v0";
+import type { ManifestV0, RawImageObj } from "@/_types/text-zip/v0";
 import { FileSizeLimit } from "@/const/convert";
+import JSZip from "jszip";
 
-export const compressFile = async (
+export const compressFileV0 = async (
   data: RawImageObj[],
   count = 1,
 ): Promise<string[]> => {
@@ -24,7 +24,7 @@ export const compressFile = async (
       type: "base64",
     });
     if (base64.length > FileSizeLimit) {
-      return compressFile(data, count + 1);
+      return compressFileV0(data, count + 1);
     }
     result.push(base64);
   }

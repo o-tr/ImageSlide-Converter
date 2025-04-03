@@ -1,33 +1,34 @@
 "use client";
-import {
-  FC,
-  createContext,
-  CSSProperties,
-  useMemo,
-  useContext,
-  HTMLAttributes,
-  ChangeEvent,
-  useEffect,
-} from "react";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-  useSortable,
-} from "@dnd-kit/sortable";
-import { Table, TableColumnsType, Button, Flex } from "antd";
-import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { SelectedFile } from "@/_types/file-picker";
-import { useAtom, useSetAtom } from "jotai";
+import type { SelectedFile } from "@/_types/file-picker";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { threads } from "@/lib/worker/threads";
 import { HolderOutlined } from "@ant-design/icons";
+import { DndContext, type DragEndEvent } from "@dnd-kit/core";
+import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+  SortableContext,
+  arrayMove,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { Button, Flex, Table, type TableColumnsType } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import { useAtom, useSetAtom } from "jotai";
+import Link from "next/link";
+import {
+  type CSSProperties,
+  type ChangeEvent,
+  type FC,
+  type HTMLAttributes,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { MdDeleteOutline } from "react-icons/md";
-import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { Controls } from "./Controls";
 import { Preview } from "./Preview";
-import Link from "next/link";
-import TextArea from "antd/es/input/TextArea";
 
 interface RowContextProps {
   setActivatorNodeRef?: (element: HTMLElement | null) => void;
@@ -93,6 +94,7 @@ const columns: TableColumnsType<SelectedFile> = [
 export const FileList = () => {
   const [files, setFiles] = useAtom(SelectedFilesAtom);
 
+  console.log(threads);
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id !== over?.id) {
       setFiles((prevState) => {

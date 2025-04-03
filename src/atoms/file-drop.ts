@@ -1,5 +1,5 @@
+import type { SelectedFile } from "@/_types/file-picker";
 import { atom } from "jotai";
-import { SelectedFile } from "@/_types/file-picker";
 
 export const IsDragOverAtom = atom<boolean>(false);
 

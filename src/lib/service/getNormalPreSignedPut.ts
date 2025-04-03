@@ -1,8 +1,8 @@
-import axios from "axios";
 import {
+  type PreSignedPutItem,
   getNormalPreSignedPutResponseSchema,
-  PreSignedPutItem,
 } from "@/_types/api/getNormalPreSignedPut";
+import axios from "axios";
 
 export const getNormalPreSignedPut = async (
   fileId: string,

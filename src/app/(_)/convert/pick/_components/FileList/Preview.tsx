@@ -1,5 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
 import { Spin } from "antd";
+import { type FC, useEffect, useRef, useState } from "react";
 
 export const Preview: FC<{ canvas: OffscreenCanvas }> = ({ canvas }) => {
   const [url, setUrl] = useState<string>();

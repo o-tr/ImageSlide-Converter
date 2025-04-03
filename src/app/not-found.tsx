@@ -1,7 +1,7 @@
 "use client";
+import { AntContent } from "@/components/AntContent";
 import { Button, Result } from "antd";
 import Link from "next/link";
-import { AntContent } from "@/components/AntContent";
 
 export default function Page() {
   return (

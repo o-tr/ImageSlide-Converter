@@ -1,17 +1,17 @@
 "use client";
-import { FC, useEffect, useMemo, useRef } from "react";
-import { useAtomValue, useSetAtom } from "jotai";
+import type { TTextureConverterFormat } from "@/_types/text-zip/formats";
 import {
   ConvertFormatAtom,
   ResultAtom,
   UsingVersionAtom,
 } from "@/atoms/convert";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
-import { getAvailableFormats } from "@/utils/getAvailableFormats";
-import { TTextureFormat } from "@/_types/text-zip/formats";
-import { useRouter } from "next/navigation";
-import { postCompress } from "@/lib/workerService/postCompress";
 import { FileSizeLimit, TargetVersions } from "@/const/convert";
+import { postCompress } from "@/lib/workerService/postCompress";
+import { getAvailableFormats } from "@/utils/getAvailableFormats";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
+import { type FC, useEffect, useMemo, useRef } from "react";
 
 export const Convert: FC = () => {
   const imageSlideVersion = useAtomValue(UsingVersionAtom);
@@ -42,28 +42,38 @@ export const Convert: FC = () => {
     }
     if (initRef.current) return;
     initRef.current = true;
-    const { format, scale } = (() => {
-      if (_format === "auto") return { format: bestFormat.label, scale: 1 };
+    const { id, label, scale } = (() => {
+      if (_format === "auto")
+        return { id: bestFormat.id, label: bestFormat.label, scale: 1 };
       if (_format === "auto-one-file") {
         const scale =
           Math.floor(
             Math.min((FileSizeLimit - 1024 * 1024) / bestFormat.fileSize, 1) *
               100,
           ) / 100;
-        return { format: bestFormat.label, scale };
+        return { id: bestFormat.id, label: bestFormat.label, scale };
       }
-      return { format: _format, scale: 1 };
+      const format = availableFormats.find((v) => v.id === _format);
+      if (!format)
+        return { id: bestFormat.id, label: bestFormat.label, scale: 1 };
+      return { id: format.id, label: format?.label, scale: 1 };
     })();
-    postCompress(_files, format as TTextureFormat, version, scale).then(
-      (result) => {
-        setResults({
-          data: result,
-          format,
-          version,
-        });
-        router.push("./upload");
-      },
-    );
-  }, [version, _format, _files, bestFormat, router, setResults]);
+    postCompress(_files, id, version, scale).then((result) => {
+      setResults({
+        data: result,
+        format: id,
+        version,
+      });
+      router.push("./upload");
+    });
+  }, [
+    version,
+    _format,
+    _files,
+    bestFormat,
+    router,
+    setResults,
+    availableFormats,
+  ]);
   return <></>;
 };
