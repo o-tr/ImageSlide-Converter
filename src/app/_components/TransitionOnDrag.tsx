@@ -5,14 +5,14 @@ import { useRouter } from "next/navigation";
 import { type FC, useEffect } from "react";
 
 export const TransitionOnDrag: FC = () => {
-	const isDragOver = useAtomValue(IsDragOverAtom);
-	const router = useRouter();
+  const isDragOver = useAtomValue(IsDragOverAtom);
+  const router = useRouter();
 
-	useEffect(() => {
-		if (isDragOver) {
-			void router.push("/convert/pick");
-		}
-	}, [isDragOver, router]);
+  useEffect(() => {
+    if (isDragOver) {
+      void router.push("/convert/pick");
+    }
+  }, [isDragOver, router]);
 
-	return <></>;
+  return <></>;
 };

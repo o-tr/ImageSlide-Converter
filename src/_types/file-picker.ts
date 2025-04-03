@@ -1,22 +1,22 @@
 export type SelectedFile = {
-	id: string;
-	fileName: string;
-	note?: string;
-	canvas: OffscreenCanvas;
-	metadata: SelectedFileMetadata;
+  id: string;
+  fileName: string;
+  note?: string;
+  canvas: OffscreenCanvas;
+  metadata: SelectedFileMetadata;
 };
 
 export type SelectedFileMetadataImage = {
-	fileType: "image";
+  fileType: "image";
 };
 
 export type SelectedFileMetadataPdf = {
-	file: File;
-	fileType: "pdf";
-	index: number;
-	scale: number;
+  file: File;
+  fileType: "pdf";
+  index: number;
+  scale: number;
 };
 
 export type SelectedFileMetadata =
-	| SelectedFileMetadataImage
-	| SelectedFileMetadataPdf;
+  | SelectedFileMetadataImage
+  | SelectedFileMetadataPdf;

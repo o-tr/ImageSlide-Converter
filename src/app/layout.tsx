@@ -11,37 +11,37 @@ import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 
 const PdfjsProvider = dynamic(
-	() => import("@/components/PdfjsProvider").then((v) => v.PdfjsProvider),
-	{ ssr: false },
+  () => import("@/components/PdfjsProvider").then((v) => v.PdfjsProvider),
+  { ssr: false },
 );
 
 export const metadata: Metadata = {
-	title: "ImageSlide Converter",
-	description: "convert pdf/images to textzip",
+  title: "ImageSlide Converter",
+  description: "convert pdf/images to textzip",
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: ReactNode;
+  children: ReactNode;
 }>) {
-	return (
-		<html lang="ja">
-			<body>
-				<AntdRegistry>
-					<ThemeProvider>
-						<SessionProvider>
-							<Layout className={"!min-h-screen h-screen"}>
-								<Header />
-								{children}
-								<Footer />
-							</Layout>
-						</SessionProvider>
-					</ThemeProvider>
-					<PdfjsProvider />
-					<GooglePickerProvider />
-				</AntdRegistry>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="ja">
+      <body>
+        <AntdRegistry>
+          <ThemeProvider>
+            <SessionProvider>
+              <Layout className={"!min-h-screen h-screen"}>
+                <Header />
+                {children}
+                <Footer />
+              </Layout>
+            </SessionProvider>
+          </ThemeProvider>
+          <PdfjsProvider />
+          <GooglePickerProvider />
+        </AntdRegistry>
+      </body>
+    </html>
+  );
 }
