@@ -10,7 +10,9 @@ export const getAvailableFormats = (version: string, files: SelectedFile[]) => {
 	return TargetFormats.filter((v) => supported.includes(v.id)).map(
 		(format) => ({
 			...format,
-			fileSize: estimateFileSize(files, format.bytePerPixel),
+			fileSize:
+				estimateFileSize(files, format.bytePerPixel) *
+				(format.estimatedCompressionRatio ?? 1),
 		}),
 	);
 };

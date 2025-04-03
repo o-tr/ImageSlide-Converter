@@ -1,8 +1,10 @@
-import type { FormatItemType } from "@/_types/text-zip/formats";
+import {
+	type FormatItemType,
+	TContainerFormat,
+} from "@/_types/text-zip/formats";
 import { ConvertFormatAtom, UsingVersionAtom } from "@/atoms/convert";
 import { SelectedFilesAtom } from "@/atoms/file-drop";
 import { FileSizeLimit } from "@/const/convert";
-import { estimateFileSize } from "@/utils/estimateFileSize";
 import { getAvailableFormats } from "@/utils/getAvailableFormats";
 import { Flex, Radio, Tooltip } from "antd";
 import { useAtom, useAtomValue } from "jotai";
@@ -13,7 +15,7 @@ export const Format: FC = () => {
 	const imageSlideVersion = useAtomValue(UsingVersionAtom);
 	const files = useAtomValue(SelectedFilesAtom);
 
-	const availableFormats = useMemo(
+	const availableFormats: (FormatItemType & { fileSize: number })[] = useMemo(
 		() => getAvailableFormats(imageSlideVersion, files),
 		[files, imageSlideVersion],
 	);
@@ -41,7 +43,7 @@ export const Format: FC = () => {
 							align={"center"}
 						>
 							<p>自動 ({bestFormat.label})</p>
-							<p>{toLabel(bestFormat.fileSize)}</p>
+							<p>{toLabel(bestFormat)}</p>
 						</Flex>
 					</Radio.Button>
 				)}
@@ -74,11 +76,12 @@ export const Format: FC = () => {
 	);
 };
 
-export const FormatItem: FC<{ item: FormatItemType }> = ({ item }) => {
-	const files = useAtomValue(SelectedFilesAtom);
+export const FormatItem: FC<{
+	item: FormatItemType & { fileSize: number };
+}> = ({ item }) => {
 	const label = useMemo(() => {
-		return toLabel(estimateFileSize(files, item.bytePerPixel));
-	}, [item.bytePerPixel, files]);
+		return toLabel(item);
+	}, [item]);
 	return (
 		<Radio.Button
 			key={item.label}
@@ -94,12 +97,12 @@ export const FormatItem: FC<{ item: FormatItemType }> = ({ item }) => {
 };
 
 const unit = ["B", "KB", "MB", "GB", "TB"] as const;
-const toLabel = (input: number) => {
-	let size = input;
+const toLabel = (input: FormatItemType & { fileSize: number }) => {
+	let size = input.fileSize;
 	let i = 0;
 	while (size >= 1000) {
 		size /= 1000;
 		i++;
 	}
-	return `${size.toFixed(2)}${unit[i]} / ${Math.ceil(input / FileSizeLimit)}file(s)`;
+	return `${input.estimatedCompressionRatio !== undefined ? "~" : ""}${size.toFixed(2)}${unit[i]} / ${Math.ceil(input.fileSize / FileSizeLimit)}file(s)`;
 };
