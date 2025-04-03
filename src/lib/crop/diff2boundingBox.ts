@@ -39,7 +39,7 @@ export const diff2boundingBox = (
         const [x, y] =
           queue.pop() ||
           (() => {
-            throw new Error("queue is empty");
+            throw new Error("queue is empty, which should not happen in normal circumstances.  Check the maskArray for unexpected values.");
           })();
         for (let i = 0; i < 4; i++) {
           const nx = x + dx[i];
