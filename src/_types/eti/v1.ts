@@ -35,6 +35,7 @@ export type ETIFileV1Master = ETIFileV1Base & {
 
 export type ETIFileV1Cropped = ETIFileV1Base & {
   t: "c"; //type: cropped
+  b: string; // base file name
   r: ETIFileV1CroppedPart[]; //rects
 };
 
