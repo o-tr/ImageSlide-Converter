@@ -24,13 +24,13 @@ type ETIFileV1Base = {
   f: TTextureFormat; //format
   w: number; //width
   h: number; //height
+  s: number; //start
+  l: number; //length
   e?: ETIExtensionObject; //extensions
 };
 
 export type ETIFileV1Master = ETIFileV1Base & {
   t: "m"; //type: master
-  s: number; //start
-  l: number; //length
 };
 
 export type ETIFileV1Cropped = ETIFileV1Base & {
@@ -44,6 +44,6 @@ export type ETIFileV1CroppedPart = {
   y: number;
   w: number; //width
   h: number; //height
-  s: number; //start
+  s: number; //start (in file)
   l: number; //length
 };

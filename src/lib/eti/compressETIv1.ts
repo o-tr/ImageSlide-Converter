@@ -53,22 +53,28 @@ const compressETIv1Part = async (data: RawImageObjV1Cropped[]) => {
       bufferLength += base64.length;
       continue;
     }
+    let fileBufferLength = 0;
+    const fileBuffer: Buffer[] = [];
     const parts: ETIFileV1CroppedPart[] = [];
 
     for (const rect of image.cropped.rects) {
-      const base64 = encode(rect.buffer.toString("base64"));
-      buffer.push(base64);
+      fileBuffer.push(rect.buffer);
       usedFormats.add(image.format);
       parts.push({
         x: rect.x,
         y: rect.y,
         w: rect.width,
         h: rect.height,
-        s: bufferLength,
-        l: base64.length,
+        s: fileBufferLength,
+        l: rect.buffer.length,
       });
-      bufferLength += base64.length;
+      fileBufferLength += rect.buffer.length;
     }
+    
+    const mergedBuffer = Buffer.concat(fileBuffer);
+    const base64 = encode(mergedBuffer.toString("base64"));
+    buffer.push(base64);
+    
     files.push({
       t: "c",
       b: `${image.cropped.baseIndex}`,
@@ -76,9 +82,12 @@ const compressETIv1Part = async (data: RawImageObjV1Cropped[]) => {
       f: image.format,
       w: image.rect.width,
       h: image.rect.height,
+      s: bufferLength,
+      l: base64.length,
       e: image.note ? { note: image.note } : undefined,
       r: parts,
     });
+    bufferLength += base64.length;
   }
 
   const manifest: ETIManifestV1 = {
