@@ -9,10 +9,10 @@ export const expandBoundingBoxes = (
   return box.map((b) => {
     const x1 = Math.max(b.x1 - padding, 0);
     const y1 = Math.max(b.y1 - padding, 0);
-    const x2 = Math.min(b.x2 + padding, rect.width);
-    const y2 = Math.min(b.y2 + padding, rect.height);
-    const width = x2 - x1;
-    const height = y2 - y1;
+    const x2 = Math.min(b.x2 + padding, rect.width - 1);
+    const y2 = Math.min(b.y2 + padding, rect.height - 1);
+    const width = x2 - x1 + 1;
+    const height = y2 - y1 + 1;
     return {
       x1,
       y1,

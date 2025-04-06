@@ -18,7 +18,16 @@ export const mergeOverlapBoundingBox = (
       }
     }
   }
-  return boxes;
+  return boxes.map((box)=>{
+    const width = box.x2 - box.x1 + 1;
+    const height = box.y2 - box.y1 + 1;
+    return {
+      ...box,
+      width,
+      height,
+      area: width * height,
+    };
+  });
 };
 
 const areOverlap = (r1: BoundingBox, r2: BoundingBox) => {
