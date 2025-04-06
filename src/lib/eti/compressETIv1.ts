@@ -71,6 +71,7 @@ const compressETIv1Part = async (data: RawImageObjV1Cropped[]) => {
     }
     files.push({
       t: "c",
+      b: `${image.cropped.baseIndex}`,
       n: `${image.index}`,
       f: image.format,
       w: image.rect.width,
