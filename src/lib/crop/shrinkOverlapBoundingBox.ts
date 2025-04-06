@@ -74,7 +74,16 @@ export const shrinkOverlapBoundingBox = (
       }
     }
   }
-  return boxes;
+  return boxes.map((box =>{
+    const width = box.x2 - box.x1 + 1;
+    const height = box.y2 - box.y1 + 1;
+    return {
+      ...box,
+      width: Math.max(0, width),
+      height: Math.max(0, height),
+      area: Math.max(0, width * height),
+    };
+  }));
 };
 
 const isInside = (box: BoundingBox, x: number, y: number) => {
