@@ -13,7 +13,7 @@ export const postCompress = (
   format: TTextureConverterFormat,
   version: number,
   scale: number,
-): Promise<string[]> => {
+): Promise<string[]|Buffer[]> => {
   console.log("postCompress");
   const message: WorkerMessage = {
     type: "compress",
@@ -29,7 +29,7 @@ export const postCompress = (
     },
   };
   console.log("postCompress", message);
-  return new Promise<string[]>((resolve) => {
+  return new Promise<string[]|Buffer[]>((resolve) => {
     worker.addEventListener(
       "message",
       (event: MessageEvent<WorkerResponse>) => {

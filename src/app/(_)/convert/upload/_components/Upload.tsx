@@ -29,7 +29,9 @@ export const Upload: FC = () => {
     void (async () => {
       const data = result.data.map<{ fileSize: number; file: File }>(
         (input) => {
-          const file = new File([input], "file.txt");
+          const file = new File([input], typeof input === "string" ? "file.txt" : "file.bin", {
+            type: typeof input === "string" ? "text/plain" : "application/octet-stream",
+          });
           return { fileSize: input.length, file };
         },
       );
@@ -48,7 +50,7 @@ export const Upload: FC = () => {
           };
           await axios.put(val.url, file, {
             headers: {
-              "Content-Type": "text/plain",
+              "Content-Type": file.type || "application/octet-stream",
             },
             onUploadProgress: onProgress,
           });

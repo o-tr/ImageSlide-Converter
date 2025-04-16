@@ -1,14 +1,14 @@
 import type { SelectedFile } from "@/_types/file-picker";
 import type { RawImageObjV1 } from "@/_types/text-zip/v1";
 import { canvas2rgb24 } from "@/lib/canvas2rawImage/canvas2rgb24";
-import { compressETIv1 } from "@/lib/eti/compressETIv1";
+import { compressEIAv1 } from "@/lib/eia/compressEIAv1";
 import { cropImages } from "../crop/cropImages";
 
 const keyframeInterval = 10;
 
-export const selectedFiles2ETIv1RGB24Cropped = async (
+export const selectedFiles2EIAv1RGB24Cropped = async (
   selectedFiles: SelectedFile[],
-): Promise<string[]> => {
+): Promise<Buffer[]> => {
   const rawImages = selectedFiles.map<RawImageObjV1>((file, index) => ({
     index,
     rect: {
@@ -28,5 +28,5 @@ export const selectedFiles2ETIv1RGB24Cropped = async (
     `after compress size: ${croppedImages.reduce((acc, cur) => acc + (cur.cropped ? cur.cropped.rects.reduce((acc, cur) => acc + cur.buffer.length, 0) : cur.buffer.length), 0)}`,
   );
 
-  return await compressETIv1(croppedImages, 1, keyframeInterval);
+  return await compressEIAv1(croppedImages, 1, keyframeInterval);
 };

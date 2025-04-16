@@ -1,26 +1,26 @@
 import type {
-  ETIFileV1,
-  ETIFileV1CroppedPart,
-  ETIManifestV1,
-} from "@/_types/eti/v1";
+  EIAFileV1,
+  EIAFileV1CroppedPart as EIAFileV1CroppedPart,
+  EIAManifestV1 as EIAManifestV1,
+} from "@/_types/eia/v1";
 import type { RawImageObjV1Cropped } from "@/_types/text-zip/v1";
 import { FileSizeLimit } from "@/const/convert";
-import { encode } from "@/lib/base64-rle-csv/encode";
+import { LZW } from "@/lib/lzw";
 
-export const compressETIv1 = async (
+export const compressEIAv1 = async (
   data: RawImageObjV1Cropped[],
   count = 1,
   stepSize = 10,
-): Promise<string[]> => {
+): Promise<Buffer[]> => {
   const partCount = Math.ceil(data.length / (count * stepSize)) * stepSize;
-  const result: string[] = [];
+  const result: Buffer[] = [];
 
   for (let i = 0; i < count; i++) {
     const part = data.slice(i * partCount, (i + 1) * partCount);
-    const compressedPart = await compressETIv1Part(part);
+    const compressedPart = await compressEIAv1Part(part);
 
     if (compressedPart.length > FileSizeLimit) {
-      return compressETIv1(data, count + 1);
+      return compressEIAv1(data, count + 1);
     }
 
     result.push(compressedPart);
@@ -29,16 +29,16 @@ export const compressETIv1 = async (
   return result;
 };
 
-const compressETIv1Part = async (data: RawImageObjV1Cropped[]) => {
+const compressEIAv1Part = async (data: RawImageObjV1Cropped[]) => {
   const usedFormats = new Set<string>();
-  const files: ETIFileV1[] = [];
-  const buffer: string[] = [];
+  const files: EIAFileV1[] = [];
+  const buffer: Buffer[] = [];
   let bufferLength = 0;
 
   for (const image of data) {
     if (!image.cropped) {
-      const base64 = encode(image.buffer.toString("base64"));
-      buffer.push(base64);
+      const compressed = Buffer.from(LZW.compress(image.buffer));
+      buffer.push(compressed);
       usedFormats.add(image.format);
       files.push({
         t: "m",
@@ -48,14 +48,14 @@ const compressETIv1Part = async (data: RawImageObjV1Cropped[]) => {
         h: image.rect.height,
         e: image.note ? { note: image.note } : undefined,
         s: bufferLength,
-        l: base64.length,
+        l: compressed.length,
       });
-      bufferLength += base64.length;
+      bufferLength += compressed.length;
       continue;
     }
     let fileBufferLength = 0;
     const fileBuffer: Buffer[] = [];
-    const parts: ETIFileV1CroppedPart[] = [];
+    const parts: EIAFileV1CroppedPart[] = [];
 
     for (const rect of image.cropped.rects) {
       fileBuffer.push(rect.buffer);
@@ -72,8 +72,8 @@ const compressETIv1Part = async (data: RawImageObjV1Cropped[]) => {
     }
     
     const mergedBuffer = Buffer.concat(fileBuffer);
-    const base64 = encode(mergedBuffer.toString("base64"));
-    buffer.push(base64);
+    const compressed = Buffer.from(LZW.compress(mergedBuffer));
+    buffer.push(compressed);
     
     files.push({
       t: "c",
@@ -83,21 +83,23 @@ const compressETIv1Part = async (data: RawImageObjV1Cropped[]) => {
       w: image.rect.width,
       h: image.rect.height,
       s: bufferLength,
-      l: base64.length,
+      l: compressed.length,
       e: image.note ? { note: image.note } : undefined,
       r: parts,
     });
-    bufferLength += base64.length;
+    bufferLength += compressed.length;
   }
 
-  const manifest: ETIManifestV1 = {
-    t: "eti",
-    c: "base64-rle-csv",
+  const manifest: EIAManifestV1 = {
+    t: "eia",
+    c: "lzw",
     v: 1,
     f: Array.from(usedFormats).map((format) => `Format:${format}`),
     e: ["note"],
     i: files,
   };
 
-  return `ETI^${JSON.stringify(manifest)}$${buffer.join("")}`;
+  const encodedBuffer = Buffer.concat([Buffer.from(`EIA^${JSON.stringify(manifest)}$`),...buffer,]);
+  
+  return encodedBuffer;
 };

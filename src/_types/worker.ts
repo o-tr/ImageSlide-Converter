@@ -13,5 +13,5 @@ export type WorkerMessage = {
 
 export type WorkerResponse = {
   type: "compress";
-  data: string[];
+  data: string[]|Buffer[];
 };
