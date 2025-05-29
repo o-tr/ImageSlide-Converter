@@ -16,6 +16,7 @@ FROM node:$NODE_VERSION AS runner
 
 
 WORKDIR /app
+RUN ln -s /usr/lib/libssl.so.3 /lib/libssl.so.3
 
 COPY --from=builder /app ./
 
