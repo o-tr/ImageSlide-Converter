@@ -26,10 +26,13 @@ RUN npx prisma generate
 RUN npm run build
 
 COPY ./docker/env-replacer.sh ./
+COPY ./init.sh ./
 
-RUN sed -i 's/\r$//' ./env-replacer.sh > ./env-replacer.sh.tmp && mv ./env-replacer.sh.tmp ./env-replacer.sh
-RUN chmod +x ./env-replacer.sh
-RUN chmod +x ./init.sh
+# Convert Windows line endings to Unix and set executable permissions
+RUN sed -i 's/\r$//' ./env-replacer.sh && \
+    sed -i 's/\r$//' ./init.sh && \
+    chmod +x ./env-replacer.sh && \
+    chmod +x ./init.sh
 ENTRYPOINT [ "/app/env-replacer.sh" ]
 
 # Copy artifacts
