@@ -64,7 +64,7 @@ EIA v1エンコーダーとデコーダーの実装に関する実践的なガ�
 | エンコーダー | `src/lib/eia/compressEIAv1.ts` | ✅ 完了 |
 | 型定義 | `src/_types/eia/v1.ts` | ✅ 完了 |
 | クロップロジック | `src/lib/crop/cropImages.ts` | ✅ 完了 |
-| 統合 | `src/lib/selectedFiles2EIA/` | ✅ 完了 |
+| 統合 | `src/lib/selectedFiles2EIA/selectedFiles2EIAv1RGB24Cropped.ts` | ✅ 完了 |
 | デコーダー | - | ⏳ 予定 |
 
 ### 互換性マトリックス

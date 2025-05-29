@@ -59,7 +59,9 @@ export const compressEIAv1 = async (
   stepSize = 10,
 ): Promise<Buffer[]> => {
   // Adaptive splitting based on compressed size
+  // `compressedPart` would be the result of compressing a slice of data, e.g., from `await compressEIAv1Part(dataSlice);`
   if (compressedPart.length > FileSizeLimit) {
+    // This implies retrying the compression for the whole dataset with more, smaller parts.
     return compressEIAv1(data, count + 1);
   }
 }

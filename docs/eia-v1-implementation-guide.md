@@ -59,7 +59,9 @@ export const compressEIAv1 = async (
   stepSize = 10,
 ): Promise<Buffer[]> => {
   // 圧縮サイズに基づく適応分割
+  // `compressedPart` は、データの一部（例: dataSlice）を `compressEIAv1Part(dataSlice)` で圧縮した結果とします。
   if (compressedPart.length > FileSizeLimit) {
+    // データ全体をより多くの部分に分割して再試行することを意図しています。
     return compressEIAv1(data, count + 1);
   }
 }

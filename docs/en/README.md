@@ -68,7 +68,7 @@ The reference implementation is available in this codebase:
 | Encoder | `src/lib/eia/compressEIAv1.ts` | ✅ Complete |
 | Type Definitions | `src/_types/eia/v1.ts` | ✅ Complete |
 | Cropping Logic | `src/lib/crop/cropImages.ts` | ✅ Complete |
-| Integration | `src/lib/selectedFiles2EIA/` | ✅ Complete |
+| Integration | `src/lib/selectedFiles2EIA/selectedFiles2EIAv1RGB24Cropped.ts` | ✅ Complete |
 | Decoder | - | ⏳ Planned |
 
 ### Compatibility Matrix
