@@ -77,7 +77,7 @@ The reference implementation is available in this codebase:
 |----------|---------|---------|-------|
 | Node.js | ✅ | ⏳ | Reference implementation |
 | Browser | ✅ | ⏳ | Via web workers |
-| Mobile | ⏳ | ⏳ | Future consideration |
+| VRChat | ⏳ | ✅ | https://github.com/o-tr/jp.ootr.ImageDeviceController |
 
 ## Getting Started
 

@@ -230,8 +230,6 @@ Track key metrics:
 
 ### 9.1 Potential Extensions
 
-- **Multi-resolution**: Support for different quality levels
-- **Audio sync**: Timing information for presentations
 - **Metadata**: Extended annotation support
 - **Encryption**: Optional data protection
 
