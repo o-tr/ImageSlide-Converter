@@ -4,23 +4,32 @@ ARG NODE_VERSION=22-alpine
 FROM node:$NODE_VERSION AS builder
 WORKDIR /app
 
-RUN npm install -g pnpm
-
 COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm@9
 RUN pnpm install --frozen-lockfile
 
 # Prepare node_modules
 COPY ./ ./
-RUN pnpm prisma generate
-
-RUN chmod +x ./init.sh
 
 # Run phase
 FROM node:$NODE_VERSION AS runner
+
 
 WORKDIR /app
 
 COPY --from=builder /app ./
 
+COPY ./docker/.env.placeholder ./.env
+
+RUN npx prisma generate
+RUN npm run build
+
+COPY ./docker/env-replacer.sh ./
+
+RUN sed -i 's/\r$//' ./env-replacer.sh > ./env-replacer.sh.tmp && mv ./env-replacer.sh.tmp ./env-replacer.sh
+RUN chmod +x ./env-replacer.sh
+RUN chmod +x ./init.sh
+ENTRYPOINT [ "/app/env-replacer.sh" ]
+
 # Copy artifacts
-CMD ./init.sh
+CMD ["./init.sh"]
