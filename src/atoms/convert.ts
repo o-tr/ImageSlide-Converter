@@ -8,7 +8,7 @@ export const ConvertFormatAtom = atomWithStorage<string>(
 );
 
 export const ResultAtom = atom<{
-  data: string[];
+  data: string[]|Buffer[];
   format: string;
   version: number;
 }>();

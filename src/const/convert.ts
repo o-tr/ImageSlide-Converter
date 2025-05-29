@@ -2,7 +2,7 @@ import type {
   FormatItemType,
   TTextureConverterFormat,
 } from "@/_types/text-zip/formats";
-import { selectedFiles2ETIv1RGB24Cropped } from "@/lib/selectedFiles2ETI/selectedFiles2ETIv1RGB24Cropped";
+import { selectedFiles2EIAv1RGB24Cropped } from "@/lib/selectedFiles2EIA/selectedFiles2EIAv1RGB24Cropped";
 import {
   selectedFiles2v0RGBA32,
   selectedFiles2v1DXT1,
@@ -42,7 +42,7 @@ export const TargetVersions: {
     label: "v0.3.x",
     image: "/image-slide/v0.1.x.png",
     value: 1,
-    formats: ["text-zip-v1-RGB24-cropped", "eti-v1-RGB24-cropped"],
+    formats: ["text-zip-v1-RGB24-cropped", "eia-v1-RGB24-cropped"],
   },
 ];
 
@@ -94,13 +94,13 @@ export const TargetFormats: FormatItemType[] = [
     converter: selectedFiles2v1RGB24Cropped,
   },
   {
-    id: "eti-v1-RGB24-cropped",
-    label: "ETI v1 RGB24 (cropped)",
+    id: "eia-v1-RGB24-cropped",
+    label: "EIA v1 RGB24 (cropped)",
     bytePerPixel: 3,
     priority: 4,
-    container: "eti-v1",
+    container: "eia-v1",
     format: "RGB24-cropped",
     estimatedCompressionRatio: 0.2,
-    converter: selectedFiles2ETIv1RGB24Cropped,
+    converter: selectedFiles2EIAv1RGB24Cropped,
   },
 ];
