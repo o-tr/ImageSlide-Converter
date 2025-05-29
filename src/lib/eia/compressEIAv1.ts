@@ -5,7 +5,7 @@ import type {
 } from "@/_types/eia/v1";
 import type { RawImageObjV1Cropped } from "@/_types/text-zip/v1";
 import { FileSizeLimit } from "@/const/convert";
-import { LZW } from "@/lib/lzw";
+import lz4 from "lz4js";
 
 export const compressEIAv1 = async (
   data: RawImageObjV1Cropped[],
@@ -37,7 +37,7 @@ const compressEIAv1Part = async (data: RawImageObjV1Cropped[]) => {
 
   for (const image of data) {
     if (!image.cropped) {
-      const compressed = Buffer.from(LZW.compress(image.buffer));
+      const compressed = Buffer.from(lz4.compress(image.buffer));
       buffer.push(compressed);
       usedFormats.add(image.format);
       files.push({
@@ -49,6 +49,7 @@ const compressEIAv1Part = async (data: RawImageObjV1Cropped[]) => {
         e: image.note ? { note: image.note } : undefined,
         s: bufferLength,
         l: compressed.length,
+        u: image.buffer.length,
       });
       bufferLength += compressed.length;
       continue;
@@ -72,7 +73,7 @@ const compressEIAv1Part = async (data: RawImageObjV1Cropped[]) => {
     }
     
     const mergedBuffer = Buffer.concat(fileBuffer);
-    const compressed = Buffer.from(LZW.compress(mergedBuffer));
+    const compressed = Buffer.from(lz4.compress(mergedBuffer));
     buffer.push(compressed);
     
     files.push({
@@ -84,6 +85,7 @@ const compressEIAv1Part = async (data: RawImageObjV1Cropped[]) => {
       h: image.rect.height,
       s: bufferLength,
       l: compressed.length,
+      u: mergedBuffer.length,
       e: image.note ? { note: image.note } : undefined,
       r: parts,
     });
@@ -92,7 +94,7 @@ const compressEIAv1Part = async (data: RawImageObjV1Cropped[]) => {
 
   const manifest: EIAManifestV1 = {
     t: "eia",
-    c: "lzw",
+    c: "lz4",
     v: 1,
     f: Array.from(usedFormats).map((format) => `Format:${format}`),
     e: ["note"],

@@ -10,7 +10,7 @@ export type EIAExtensionObject = {
 
 export type EIAManifestV1 = {
   t: "eia"; //type
-  c: "lzw"; //compressor
+  c: "lz4"; //compressor
   v: 1; //version
   f: string[]; //features
   e: EIAExtension[]; //extensions
@@ -26,6 +26,7 @@ type EIAFileV1Base = {
   h: number; //height
   s: number; //start
   l: number; //length
+  u: number; //uncompressed size
   e?: EIAExtensionObject; //extensions
 };
 
