@@ -4,7 +4,7 @@ This directory contains the complete documentation for the EIA (Efficient Image 
 
 **言語 / Languages:**
 - [English](./README.md) (Current)
-- [日本語](./ja/README.md)
+- [日本語](../README.md)
 
 ## Documents
 
