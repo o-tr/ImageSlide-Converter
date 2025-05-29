@@ -28,8 +28,8 @@ COPY ./docker/env-replacer.sh ./
 
 RUN sed -i 's/\r$//' ./env-replacer.sh > ./env-replacer.sh.tmp && mv ./env-replacer.sh.tmp ./env-replacer.sh
 RUN chmod +x ./env-replacer.sh
-RUN chmod +x ./start.sh
+RUN chmod +x ./init.sh
 ENTRYPOINT [ "/app/env-replacer.sh" ]
 
 # Copy artifacts
-CMD ["./start.sh"]
+CMD ["./init.sh"]
