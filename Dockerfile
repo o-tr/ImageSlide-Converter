@@ -14,9 +14,9 @@ COPY ./ ./
 # Run phase
 FROM node:$NODE_VERSION AS runner
 
-
 WORKDIR /app
-RUN ln -s /usr/lib/libssl.so.3 /lib/libssl.so.3
+
+RUN apk add --no-cache openssl
 
 COPY --from=builder /app ./
 
@@ -27,11 +27,9 @@ RUN npm run build
 
 COPY ./docker/env-replacer.sh ./
 
-RUN sed -i 's/\r$//' ./env-replacer.sh > ./env-replacer.sh.tmp && mv ./env-replacer.sh.tmp ./env-replacer.sh
 RUN chmod +x ./env-replacer.sh
-RUN chmod +x ./init.sh
-
-ENTRYPOINT ["/bin/sh","/app/env-replacer.sh" ]
+RUN chmod +x ./start.sh
+ENTRYPOINT [ "/app/env-replacer.sh" ]
 
 # Copy artifacts
-CMD ["./init.sh"]
+CMD ["./start.sh"]
