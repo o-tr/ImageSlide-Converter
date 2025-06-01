@@ -42,7 +42,7 @@ export const TargetVersions: {
     label: "v0.3.x",
     image: "/image-slide/v0.1.x.png",
     value: 1,
-    formats: ["text-zip-v1-RGB24-cropped", "eia-v1-RGB24-cropped"],
+    formats: ["eia-v1-RGB24-cropped"],
   },
 ];
 
